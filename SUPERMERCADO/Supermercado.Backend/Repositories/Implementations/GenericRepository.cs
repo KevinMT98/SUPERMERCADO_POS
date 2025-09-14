@@ -9,11 +9,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
     private readonly DataContext _context;
     private readonly DbSet<T> _entity;
+    
     public GenericRepository(DataContext context)
     {
         _context = context;
-        _entity  = context.Set<T>();
+        _entity = context.Set<T>();
     }
+
     public virtual async Task<ActionResponse<T>> AddAsync(T entity)
     {
         _context.Add(entity);
@@ -23,7 +25,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
             return new ActionResponse<T>
             {
                 WasSuccess = true,
-
                 Result = entity
             };
         }
@@ -37,66 +38,59 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         }
     }
 
-
     public virtual async Task<ActionResponse<T>> DeleteAsync(int id)
     {
+        var row = await _entity.FindAsync(id);
+        if (row == null)
         {
-            var row = await _entity.FindAsync(id);
-            if (row == null)
+            return new ActionResponse<T>
             {
-                return new ActionResponse<T>
-                {
-                    Message = "El registro no existe."
-                };
-            }
-            _entity.Remove(row);
+                Message = "El registro no existe."
+            };
+        }
+        
+        _entity.Remove(row);
 
-            try
+        try
+        {
+            await _context.SaveChangesAsync();
+            return new ActionResponse<T>
             {
-                await _context.SaveChangesAsync();
-                return new ActionResponse<T>
-                {
-                    WasSuccess = true
-                };
-
-            }
-            catch 
+                WasSuccess = true
+            };
+        }
+        catch 
+        {
+            return new ActionResponse<T>
             {
-                return new ActionResponse<T>
-                {
-                    Message = "No se puede eliminar el registro porque tiene relaciones con otros registros."
-                };
-            }
-
+                Message = "No se puede eliminar el registro porque tiene relaciones con otros registros."
+            };
         }
     }
 
     public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync() => new ActionResponse<IEnumerable<T>>
-        {
-            WasSuccess = true,
-            Result = await _entity.ToListAsync()
-        };
+    {
+        WasSuccess = true,
+        Result = await _entity.ToListAsync()
+    };
 
     public virtual async Task<ActionResponse<T>> GetAsync(int id)
     {
+        var row = await _entity.FindAsync(id);
+        if (row == null)
         {
-            var row = await _entity.FindAsync(id);
-            if (row == null)
-            {
-                return new ActionResponse<T>
-                {
-                    Message = "El registro no existe."
-                };
-            }
             return new ActionResponse<T>
             {
-                WasSuccess = true,
-                Result = row
+                Message = "El registro no existe."
             };
         }
-
+        
+        return new ActionResponse<T>
+        {
+            WasSuccess = true,
+            Result = row
+        };
     }
-
 
     public virtual async Task<ActionResponse<T>> UpdateAsync(T entity)
     {
@@ -120,17 +114,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         }
     }
 
-
     private ActionResponse<T> ExceptionActionRespose(Exception exception) => new ActionResponse<T>
-        {
-            Message = exception.Message,
-        };
-
+    {
+        Message = exception.Message,
+    };
 
     private ActionResponse<T> DbUpdateExceptionActionResponse() => new ActionResponse<T>
-        {
-            Message = "Ya existe el registro.",
-        };
-
-
+    {
+        Message = "Ya existe el registro.",
+    };
 }

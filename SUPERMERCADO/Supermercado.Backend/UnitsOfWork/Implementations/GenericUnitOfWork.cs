@@ -1,9 +1,8 @@
-﻿using Supermercado.Backend.Repositories.Implementations;
-using Supermercado.Backend.Repositories.Interfaces;
+﻿using Supermercado.Backend.Repositories.Interfaces;
 using Supermercado.Backend.UnitsOfWork.Interfaces;
 using Supermercado.Shared.Responses;
 
-namespace Supermercado.Backend.UinitsOfWork.Implementations;
+namespace Supermercado.Backend.UnitsOfWork.Implementations;
 
 public class GenericUnitOfWork<T> : IGenericUnitOfWork<T> where T : class
 {
@@ -13,6 +12,7 @@ public class GenericUnitOfWork<T> : IGenericUnitOfWork<T> where T : class
     {
         _repository = repository;
     }
+
     public virtual async Task<ActionResponse<T>> AddAsync(T entity) => await _repository.AddAsync(entity);
 
     public virtual async Task<ActionResponse<T>> DeleteAsync(int id) => await _repository.DeleteAsync(id);
