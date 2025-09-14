@@ -8,9 +8,9 @@ namespace Supermercado.Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class RolsController : GenericController<Rol>
+public class Categoria_ProductoController : GenericController<Categoria_Producto>
 {
-    public RolsController(IGenericUnitOfWork<Rol> unitOfWork) : base(unitOfWork)
+    public Categoria_ProductoController(IGenericUnitOfWork<Categoria_Producto> unitOfWork) : base(unitOfWork)
     {
 
     }
