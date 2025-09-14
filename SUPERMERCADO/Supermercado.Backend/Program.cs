@@ -39,7 +39,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 // Construir la aplicación con todas las configuraciones anteriores
 var app = builder.Build();
 
-// Ejecutar el proceso de población de datos iniciales al iniciar la aplicación
+// Ejecutar el proceso de población de datos iniciales al iniciar la aplicación y crecion de base de datos
 SeedData(app);
 
 /// <summary>

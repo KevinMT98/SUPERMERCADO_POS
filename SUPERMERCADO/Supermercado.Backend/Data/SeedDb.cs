@@ -1,7 +1,7 @@
 ﻿using Supermercado.Shared.Entities;
 
 namespace Supermercado.Backend.Data;
-
+//clase para creacion de base de datos y datos iniciales
 public class SeedDb
 {
     private readonly DataContext _context;
