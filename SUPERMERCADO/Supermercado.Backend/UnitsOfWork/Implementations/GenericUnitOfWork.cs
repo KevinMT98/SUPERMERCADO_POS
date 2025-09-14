@@ -1,6 +1,6 @@
 ﻿using Supermercado.Backend.Repositories.Implementations;
 using Supermercado.Backend.Repositories.Interfaces;
-using Supermercado.Backend.UinitsOfWork.Interfaces;
+using Supermercado.Backend.UnitsOfWork.Interfaces;
 using Supermercado.Shared.Responses;
 
 namespace Supermercado.Backend.UinitsOfWork.Implementations;

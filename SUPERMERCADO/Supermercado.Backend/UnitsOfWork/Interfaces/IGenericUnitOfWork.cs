@@ -1,6 +1,6 @@
 ﻿using Supermercado.Shared.Responses;
 
-namespace Supermercado.Backend.UinitsOfWork.Interfaces;
+namespace Supermercado.Backend.UnitsOfWork.Interfaces;
 
 public interface IGenericUnitOfWork<T> where T : class
 {

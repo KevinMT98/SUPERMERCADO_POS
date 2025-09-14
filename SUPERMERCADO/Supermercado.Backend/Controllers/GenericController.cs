@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Supermercado.Backend.UinitsOfWork.Interfaces;
+using Supermercado.Backend.UnitsOfWork.Interfaces;
 
 namespace Supermercado.Backend.Controllers;
 

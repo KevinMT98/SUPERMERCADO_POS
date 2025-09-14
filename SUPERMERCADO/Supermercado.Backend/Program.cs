@@ -3,7 +3,7 @@ using Supermercado.Backend.Data;
 using Supermercado.Backend.Repositories.Implementations;
 using Supermercado.Backend.Repositories.Interfaces;
 using Supermercado.Backend.UinitsOfWork.Implementations;
-using Supermercado.Backend.UinitsOfWork.Interfaces;
+using Supermercado.Backend.UnitsOfWork.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

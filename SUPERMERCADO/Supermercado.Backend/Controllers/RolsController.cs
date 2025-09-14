@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Supermercado.Backend.Data;
-using Supermercado.Backend.UinitsOfWork.Interfaces;
+using Supermercado.Backend.UnitsOfWork.Interfaces;
 using Supermercado.Shared.Entities;
 
 namespace Supermercado.Backend.Controllers;
