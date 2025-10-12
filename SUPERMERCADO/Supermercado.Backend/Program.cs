@@ -152,9 +152,13 @@ builder.Services.AddScoped<ICategoriaProductoUnitOfWork, CategoriaProductoUnitOf
 builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IRolUnitOfWork, RolUnitOfWork>();
 
-// Repositorios y Units of Work específicos para Autenticación/Usuario
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+// Repositorios y Units of Work específicos para Autenticación
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthUnitOfWork, AuthUnitOfWork>();
+
+// Repositorios y Units of Work específicos para Maestro de Usuarios
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioUnitOfWork, UsuarioUnitOfWork>();
 
 // Construir la aplicación con todas las configuraciones anteriores
 var app = builder.Build();

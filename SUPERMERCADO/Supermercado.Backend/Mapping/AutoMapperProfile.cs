@@ -18,6 +18,7 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.Porcentaje, opt => opt.MapFrom(src => src.porcentaje))
             .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.estado));
 
+
         // Mapeo de DTO de creación a Entidad
         CreateMap<TarifaIvaCreateDto, Tarifa_IVA>()
             .ForMember(dest => dest.codigo_Iva, opt => opt.MapFrom(src => src.CodigoIva))
@@ -84,5 +85,46 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.Activo))
             .ForMember(dest => dest.Categoria, opt => opt.Ignore()) // Propiedades de navegación
             .ForMember(dest => dest.TarifaIVA, opt => opt.Ignore());
+
+        //  ===== MAPEOS PARA USUARIOS =====
+
+        // Mapeo de Entidad a DTO de lectura
+
+        CreateMap<Usuario, UsuarioDto>()
+            .ForMember(dest => dest.UsuarioId, opt => opt.MapFrom(src => src.usuario_id))
+            .ForMember(dest => dest.NombreUsuario, opt => opt.MapFrom(src => src.nombre_usuario))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.email))
+            .ForMember(dest => dest.Rol, opt => opt.MapFrom(src => src.FK_rol_id))
+            .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => src.activo));
+        //.ForMember(dest => dest.Rol, opt => opt.MapFrom(src => src.Rol != null ? src.Rol.nombre : string.Empty));
+
+        // Mapeo de DTO de creación a Entidad
+        CreateMap<UsuarioCreateDto, Usuario>()
+            .ForMember(dest => dest.nombre_usuario, opt => opt.MapFrom(src => src.NombreUsuario))
+            .ForMember(dest => dest.password_hash, opt => opt.MapFrom(src => src.Password))
+            .ForMember(dest => dest.nombre, opt => opt.MapFrom(src => src.Nombre))
+            .ForMember(dest => dest.apellido, opt => opt.MapFrom(src => src.Apellido))
+            .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.FK_rol_id, opt => opt.MapFrom(src => src.Rol))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.Activo))
+            .ForMember(dest => dest.fecha_creacion, opt => opt.MapFrom(_ => DateTime.Now))
+            .ForMember(dest => dest.fecha_modificacion, opt => opt.Ignore())
+            .ForMember(dest => dest.usuario_id, opt => opt.Ignore())
+            .ForMember(dest => dest.Rol, opt => opt.Ignore());
+
+        // Mapeo de DTO de actualización a Entidad
+
+        CreateMap<UsuarioUpdateDto, Usuario>()
+            .ForMember(dest => dest.usuario_id, opt => opt.MapFrom(src => src.UsuarioId))
+            .ForMember(dest => dest.nombre_usuario, opt => opt.MapFrom(src => src.NombreUsuario))
+            .ForMember(dest => dest.password_hash, opt => opt.MapFrom(src => src.Password))
+            .ForMember(dest => dest.nombre, opt => opt.MapFrom(src => src.Nombre))
+            .ForMember(dest => dest.apellido, opt => opt.MapFrom(src => src.Apellido))
+            .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.FK_rol_id, opt => opt.MapFrom(src => src.Rol))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.Activo))
+            .ForMember(dest => dest.fecha_creacion, opt => opt.Ignore())
+            .ForMember(dest => dest.fecha_modificacion, opt => opt.Ignore())
+            .ForMember(dest => dest.Rol, opt => opt.Ignore());
     }
 }

@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Supermercado.Backend.Repositories.Implementations;
 
-public class UserRepository : IUserRepository
+public class AuthRepository : IAuthRepository
 {
     private readonly DataContext _context;
-    public UserRepository(DataContext context)
+    public AuthRepository(DataContext context)
     {
         _context = context;
     }
@@ -17,7 +17,10 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.email == email);
+            var user = await _context.Usuarios
+                .Include(u => u.Rol) // IMPORTANTE: Cargar el rol para el token
+                .FirstOrDefaultAsync(u => u.email == email);
+                
             if (user == null)
             {
                 return new ActionResponse<Usuario>

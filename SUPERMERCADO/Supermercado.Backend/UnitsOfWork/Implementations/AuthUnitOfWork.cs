@@ -14,10 +14,10 @@ namespace Supermercado.Backend.UnitsOfWork.Implementations;
 /// </summary>
 public class AuthUnitOfWork : IAuthUnitOfWork
 {
-    private readonly IUserRepository _usuarioRepository;
+    private readonly IAuthRepository _usuarioRepository;
     private readonly IConfiguration _configuration;
 
-    public AuthUnitOfWork(IUserRepository usuarioRepository, IConfiguration configuration)
+    public AuthUnitOfWork(IAuthRepository usuarioRepository, IConfiguration configuration)
     {
         _usuarioRepository = usuarioRepository;
         _configuration = configuration;

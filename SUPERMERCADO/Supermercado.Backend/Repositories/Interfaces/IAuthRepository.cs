@@ -3,7 +3,7 @@ using Supermercado.Shared.Entities;
 
 namespace Supermercado.Backend.Repositories.Interfaces;
 
-public interface IUserRepository
+public interface IAuthRepository
 {
     Task<ActionResponse<Usuario>> GetByEmailAsync(string email);
     Task<ActionResponse<Usuario>> CreateUserAsync(Usuario user);
