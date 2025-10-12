@@ -1,85 +1,209 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Supermercado.Backend.Data;
+using Supermercado.Backend.Mapping;
 using Supermercado.Backend.Repositories.Implementations;
 using Supermercado.Backend.Repositories.Interfaces;
 using Supermercado.Backend.UnitsOfWork.Implementations;
 using Supermercado.Backend.UnitsOfWork.Interfaces;
+using System.Text;
 
-// Crear el builder para configurar la aplicaci髇 web
+// Crear el builder para configurar la aplicaci贸n web
 var builder = WebApplication.CreateBuilder(args);
 
-// ===== CONFIGURACI覰 DE SERVICIOS =====
+// ===== CONFIGURACI脫N DE SERVICIOS =====
 
 // Registrar los controladores de API para manejar las peticiones HTTP
 builder.Services.AddControllers();
 
-// Habilitar la exploraci髇 de endpoints para Swagger
+// Habilitar la exploraci贸n de endpoints para Swagger
 builder.Services.AddEndpointsApiExplorer();
 
-// Configurar Swagger para documentaci髇 autom醫ica de la API
-builder.Services.AddSwaggerGen();
+// Configurar Swagger para documentaci贸n autom谩tica de la API
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Supermercado API",
+        Version = "v1",
+        Description = "API para gesti贸n de supermercado"
+    });
+
+
+
+// Configurar JWT en Swagger
+options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+{
+    Description = "JWT Authorization header. Puede enviar: \"Bearer {token}\" o solo \"{token}\"",
+    Name = "Authorization",
+    In = ParameterLocation.Header,
+    Type = SecuritySchemeType.ApiKey,
+    Scheme = "Bearer"
+});
+
+options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 // Configurar Entity Framework con SQL Server
-// Utiliza la cadena de conexi髇 "DefaultConnection" del archivo appsettings.json
+// Utiliza la cadena de conexi贸n "DefaultConnection" del archivo appsettings.json
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configurar autenticaci贸n JWT
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "SuperSecretKey_ChangeInProduction_MinLength32Characters!";
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "SupermercadoAPI";
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "SupermercadoClient";
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtAudience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var authHeader = context.Request.Headers["Authorization"].ToString();
+            if (!string.IsNullOrEmpty(authHeader))
+            {
+                if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Token = authHeader.Substring("Bearer ".Length).Trim();
+                }
+                else
+                {
+                    context.Token = authHeader.Trim();
+                }
+            }
+            return Task.CompletedTask;
+        }
+    };
+});
+
+builder.Services.AddAuthorization();
+
+// Configurar CORS para permitir consumo desde diferentes clientes
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .WithExposedHeaders("X-Total-Count");
+    });
+});
 
 // Registrar el servicio para poblar datos iniciales en la base de datos
 builder.Services.AddTransient<SeedDb>();
 
-// ===== INYECCI覰 DE DEPENDENCIAS =====
-// Implementaci髇 del patr髇 Repository y Unit of Work para separar la l骻ica de acceso a datos
+// ===== REGISTRAR AUTOMAPPER =====
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
-// Registrar la unidad de trabajo gen閞ica - coordina transacciones y operaciones sobre m鷏tiples repositorios
+// ===== INYECCI脫N DE DEPENDENCIAS =====
+// Implementaci贸n del patr贸n Repository y Unit of Work para separar la l贸gica de acceso a datos
+
+// Repositorios y Units of Work gen茅ricos (para entidades simples sin l贸gica adicional)
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
-
-// Registrar el repositorio gen閞ico - permite operaciones CRUD reutilizables para cualquier entidad
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-// Construir la aplicaci髇 con todas las configuraciones anteriores
+// Repositorios y Units of Work espec铆ficos para Producto
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IProductoUnitOfWork, ProductoUnitOfWork>();
+
+// Repositorios y Units of Work espec铆ficos para Tarifa_IVA
+builder.Services.AddScoped<ITarifaIvaRepository, TarifaIvaRepository>();
+builder.Services.AddScoped<ITarifaIvaUnitOfWork, TarifaIvaUnitOfWork>();
+
+// Repositorios y Units of Work espec铆ficos para Categoria_Producto
+builder.Services.AddScoped<ICategoriaProductoRepository, CategoriaProductoRepository>();
+builder.Services.AddScoped<ICategoriaProductoUnitOfWork, CategoriaProductoUnitOfWork>();
+
+// Repositorios y Units of Work espec铆ficos para Rol
+builder.Services.AddScoped<IRolRepository, RolRepository>();
+builder.Services.AddScoped<IRolUnitOfWork, RolUnitOfWork>();
+
+// Repositorios y Units of Work espec铆ficos para Autenticaci贸n/Usuario
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthUnitOfWork, AuthUnitOfWork>();
+
+// Construir la aplicaci贸n con todas las configuraciones anteriores
 var app = builder.Build();
 
-// Ejecutar el proceso de poblaci髇 de datos iniciales al iniciar la aplicaci髇 y crecion de base de datos
+// Ejecutar el proceso de poblaci贸n de datos iniciales al iniciar la aplicaci贸n y creaci贸n de base de datos
 SeedData(app);
 
 /// <summary>
-/// M閠odo para poblar la base de datos con datos iniciales
-/// Se ejecuta al iniciar la aplicaci髇 para asegurar que existan datos de prueba
+/// M茅todo para poblar la base de datos con datos iniciales
+/// Se ejecuta al iniciar la aplicaci贸n para asegurar que existan datos de prueba
 /// </summary>
-/// <param name="app">La aplicaci髇 web construida</param>
+/// <param name="app">La aplicaci贸n web construida</param>
 void SeedData(WebApplication app)
 {
     // Obtener el factory para crear scopes de servicios
     var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
 
     // Crear un scope para resolver dependencias de forma controlada
-    using var scope = scopeFactory.CreateScope();
+    using var scope = scopeFactory!.CreateScope();
     
     // Obtener el servicio SeedDb para poblar datos
     var service = scope.ServiceProvider.GetRequiredService<SeedDb>();
     
-    // Ejecutar la poblaci髇 de datos de forma s韓crona
+    // Ejecutar la poblaci贸n de datos de forma s铆ncrona
     service!.SeedAsync().Wait();
 }
 
-// ===== CONFIGURACI覰 DEL PIPELINE DE MIDDLEWARE =====
+// ===== CONFIGURACI脫N DEL PIPELINE DE MIDDLEWARE =====
 
 // Solo habilitar Swagger en ambiente de desarrollo por seguridad
 if (app.Environment.IsDevelopment())
 {
-    // Habilitar Swagger para generar la documentaci髇 JSON de la API
+    // Habilitar Swagger para generar la documentaci贸n JSON de la API
     app.UseSwagger();
     
     // Habilitar Swagger UI para la interfaz web interactiva de la API
     app.UseSwaggerUI();
 }
 
-// Comentados por ahora - se pueden habilitar seg鷑 las necesidades de seguridad
-//app.UseHttpsRedirection(); // Forzar redirecci髇 HTTPS
-//app.UseAuthorization();    // Habilitar autorizaci髇
+// ===== CONFIGURAR MIDDLEWARE PIPELINE =====
+// Configurar CORS para permitir peticiones desde el frontend
+app.UseCors("AllowAll");
+
+// Agregar middleware de autenticaci贸n y autorizaci贸n (ORDEN IMPORTANTE)
+app.UseAuthentication(); // Debe ir antes de UseAuthorization
+app.UseAuthorization();
 
 // Mapear los controladores para que respondan a las rutas configuradas
 app.MapControllers();
 
-// Iniciar la aplicaci髇 y comenzar a escuchar peticiones
+// Iniciar la aplicaci贸n y comenzar a escuchar peticiones
 app.Run();

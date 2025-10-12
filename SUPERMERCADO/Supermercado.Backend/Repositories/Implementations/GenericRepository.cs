@@ -123,4 +123,15 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         Message = "Ya existe el registro.",
     };
+
+    public async Task<bool> ExistsByCodigoProductoAsync(string codigoProducto)
+    {
+        return await _context.Productos.AnyAsync(p => p.codigo_producto == codigoProducto);
+    }
+
+    public async Task<bool> ExistsByCodigoBarrasAsync(string codigoBarras)
+    {
+        return await _context.Productos.AnyAsync(p => p.codigo_barras == codigoBarras);
+    }
+
 }
