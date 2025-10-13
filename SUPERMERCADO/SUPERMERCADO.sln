@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36401.2 d17.14
+VisualStudioVersion = 17.14.36401.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supermercado.Backend", "Supermercado.Backend\Supermercado.Backend.csproj", "{12FA7134-3043-4823-A19E-96021CED9AA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supermercado.Shared", "Supermercado.Shared\Supermercado.Shared.csproj", "{E206364F-2BB6-487C-B14A-AE2058967D2D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supermercado.Frontend", "Supermercado.Frontend\Supermercado.Frontend.csproj", "{303F3400-CBB7-5831-7FCD-E5606A3F00B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{E206364F-2BB6-487C-B14A-AE2058967D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E206364F-2BB6-487C-B14A-AE2058967D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E206364F-2BB6-487C-B14A-AE2058967D2D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{303F3400-CBB7-5831-7FCD-E5606A3F00B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{303F3400-CBB7-5831-7FCD-E5606A3F00B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{303F3400-CBB7-5831-7FCD-E5606A3F00B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{303F3400-CBB7-5831-7FCD-E5606A3F00B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

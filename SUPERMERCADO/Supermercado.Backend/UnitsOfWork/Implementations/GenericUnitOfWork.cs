@@ -25,19 +25,4 @@ public class GenericUnitOfWork<T> : IGenericUnitOfWork<T> where T : class
 
     public virtual async Task<ActionResponse<T>> UpdateAsync(T entity) => await _repository.UpdateAsync(entity);
 
-
-    public async Task<bool> ExistsByCodigoProductoAsync(string codigoProducto)
-    {
-        // Solo tiene sentido para Producto, puedes lanzar excepción para otros tipos
-        if (_repository is GenericRepository<Producto> productoRepo)
-            return await productoRepo.ExistsByCodigoProductoAsync(codigoProducto);
-        throw new NotSupportedException("Este método solo es válido para Producto.");
-    }
-
-    public async Task<bool> ExistsByCodigoBarrasAsync(string codigoBarras)
-    {
-        if (_repository is GenericRepository<Producto> productoRepo)
-            return await productoRepo.ExistsByCodigoBarrasAsync(codigoBarras);
-        throw new NotSupportedException("Este método solo es válido para Producto.");
-    }
 }
