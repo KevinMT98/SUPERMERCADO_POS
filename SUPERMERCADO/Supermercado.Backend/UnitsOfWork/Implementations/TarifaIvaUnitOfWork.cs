@@ -1,3 +1,4 @@
+using Supermercado.Backend.Repositories.Implementations;
 using Supermercado.Backend.Repositories.Interfaces;
 using Supermercado.Backend.UnitsOfWork.Interfaces;
 using Supermercado.Shared.Entities;
@@ -26,4 +27,42 @@ public class TarifaIvaUnitOfWork : GenericUnitOfWork<Tarifa_IVA>, ITarifaIvaUnit
 
     public async Task<ActionResponse<Tarifa_IVA>> GetByCodigoIvaAsync(string codigoIva)
         => await _tarifaIvaRepository.GetByCodigoIvaAsync(codigoIva);
+
+    public async Task<bool> TieneProductosAsociadosAsync(int tarifaIvaId)
+        => await _tarifaIvaRepository.TieneProductosAsociadosAsync(tarifaIvaId);
+
+    /// <summary>
+    /// Elimina una tarifa IVA validando que no tenga productos asociados
+    /// </summary>
+    /// <param name="id">ID de la tarifa IVA a eliminar</param>
+    /// <returns>ActionResponse indicando el resultado de la operación</returns>
+    public override async Task<ActionResponse<Tarifa_IVA>> DeleteAsync(int id)
+    {
+        // Verificar si la tarifa IVA existe
+        var tarifaExistente = await _tarifaIvaRepository.GetAsync(id);
+        if (!tarifaExistente.WasSuccess)
+        {
+            return new ActionResponse<Tarifa_IVA>
+            {
+                WasSuccess = false,
+                Message = "La tarifa IVA no existe."
+            };
+        }
+
+        // Verificar si tiene productos asociados
+        var tieneProductos = await _tarifaIvaRepository.TieneProductosAsociadosAsync(id);
+        if (tieneProductos)
+        {
+            return new ActionResponse<Tarifa_IVA>
+            {
+                WasSuccess = false,
+                Message = "No se puede eliminar la tarifa IVA porque tiene productos asociados."
+            };
+        }
+
+        // Si no tiene productos, proceder con la eliminación
+        return await base.DeleteAsync(id);
+    }
+
+
 }

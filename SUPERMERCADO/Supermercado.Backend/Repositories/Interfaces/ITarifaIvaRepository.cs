@@ -28,4 +28,11 @@ public interface ITarifaIvaRepository : IGenericRepository<Tarifa_IVA>
     /// <param name="codigoIva">Código IVA a buscar</param>
     /// <returns>Tarifa IVA encontrada</returns>
     Task<ActionResponse<Tarifa_IVA>> GetByCodigoIvaAsync(string codigoIva);
+
+    /// <summary>
+    /// Verifica si una tarifa IVA tiene productos asociados
+    /// </summary>
+    /// <param name="tarifaIvaId">ID de la tarifa IVA a verificar</param>
+    /// <returns>True si tiene productos asociados, False si no tiene</returns>
+    Task<bool> TieneProductosAsociadosAsync(int tarifaIvaId);
 }

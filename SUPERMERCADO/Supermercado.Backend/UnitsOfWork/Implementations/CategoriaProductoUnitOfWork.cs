@@ -27,4 +27,43 @@ public class CategoriaProductoUnitOfWork : GenericUnitOfWork<Categoria_Producto>
 
     public async Task<ActionResponse<IEnumerable<Categoria_Producto>>> GetCategoriasConProductosAsync()
         => await _categoriaProductoRepository.GetCategoriasConProductosAsync();
+
+    public async Task<bool> TieneProductosAsociadosAsync(int categoriaId)
+        => await _categoriaProductoRepository.TieneProductosAsociadosAsync(categoriaId);
+
+    public async Task<ActionResponse<IEnumerable<Categoria_Producto>>> GetCategoriasActivasAsync()
+        => await _categoriaProductoRepository.GetCategoriasActivasAsync();
+
+    /// <summary>
+    /// Elimina una categoría validando que no tenga productos asociados
+    /// </summary>
+    /// <param name="id">ID de la categoría a eliminar</param>
+    /// <returns>ActionResponse indicando el resultado de la operación</returns>
+    public override async Task<ActionResponse<Categoria_Producto>> DeleteAsync(int id)
+    {
+        // Verificar si la categoría existe
+        var categoriaExistente = await _categoriaProductoRepository.GetAsync(id);
+        if (!categoriaExistente.WasSuccess)
+        {
+            return new ActionResponse<Categoria_Producto>
+            {
+                WasSuccess = false,
+                Message = "La categoría no existe."
+            };
+        }
+
+        // Verificar si tiene productos asociados
+        var tieneProductos = await _categoriaProductoRepository.TieneProductosAsociadosAsync(id);
+        if (tieneProductos)
+        {
+            return new ActionResponse<Categoria_Producto>
+            {
+                WasSuccess = false,
+                Message = "No se puede eliminar la categoría porque tiene productos asociados."
+            };
+        }
+
+        // Si no tiene productos, proceder con la eliminación
+        return await base.DeleteAsync(id);
+    }
 }

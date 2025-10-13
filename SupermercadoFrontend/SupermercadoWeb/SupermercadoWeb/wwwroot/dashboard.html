@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú Principal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <style>
+        :root {
+            --color-azul-kevan: #1a237e;
+            --color-amarillo-kevan: #ffc627;
+            --color-azul-claro-kevan: #1976d2;
+        }
+
+        /* ===== WELCOME SPLASH ===== */
+        #welcomeSplash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        #welcomeSplash.fade-out {
+            opacity: 0;
+            transform: scale(1.1);
+        }
+
+        .welcome-content {
+            text-align: center;
+            animation: fadeInScale 0.8s ease;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .welcome-icon {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        .welcome-icon i {
+            font-size: 60px;
+            color: #1a237e;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4); }
+        }
+
+        .welcome-title {
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: slideInDown 0.8s ease;
+        }
+
+        .welcome-user {
+            color: var(--color-amarillo-kevan);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            animation: slideInUp 0.8s ease 0.2s backwards;
+        }
+
+        .welcome-message {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            animation: fadeIn 1s ease 0.4s backwards;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== DASHBOARD ANIMATIONS ===== */
+        .dashboard-container {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .dashboard-container.show {
+            opacity: 1;
+        }
+
+        .navbar {
+            animation: slideDown 0.6s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sidebar {
+            animation: slideInLeft 0.8s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .col-md-10.p-4 {
+            animation: fadeInContent 1s ease 0.3s backwards;
+        }
+
+        @keyframes fadeInContent {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* KPIs con animación escalonada */
+        .card-kpi {
+            animation: bounceIn 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        .card-kpi:nth-child(1) { animation-delay: 0.5s; }
+        .card-kpi:nth-child(2) { animation-delay: 0.6s; }
+        .card-kpi:nth-child(3) { animation-delay: 0.7s; }
+        .card-kpi:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(-50px);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* HEADER */
+        .navbar {
+            background: var(--color-azul-kevan);
+            padding: 12px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #fff !important;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            margin-right: 12px;
+            transition: color 0.2s;
+        }
+
+            .navbar-nav .nav-link:hover,
+            .navbar-nav .nav-link.active {
+                color: var(--color-amarillo-kevan) !important;
+                font-weight: bold;
+            }
+
+        /* AVATAR */
+        .avatar-grande {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        .avatar-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-azul-claro-kevan), var(--color-azul-kevan));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .avatar-name {
+            margin-top: 6px;
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        /* LAYOUT */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f7f9fc;
+        }
+
+        .sidebar {
+            background: #fff;
+            height: 100vh;
+            padding-top: 20px;
+            border-right: 1px solid #ddd;
+        }
+
+            .sidebar a {
+                display: block;
+                padding: 12px 20px;
+                color: var(--color-azul-kevan);
+                text-decoration: none;
+                transition: background 0.2s, padding-left 0.2s, color 0.2s;
+                font-weight: 500;
+            }
+
+                .sidebar a:hover {
+                    background: var(--color-azul-kevan);
+                    color: #fff;
+                    border-radius: 8px;
+                    padding-left: 25px;
+                }
+        /* KPIs con colores suaves */
+        .kpi-ventas {
+            background: linear-gradient(135deg, #e3f2fd 60%, #bbdefb 100%);
+            color: #1976d2;
+        }
+
+        .kpi-stock {
+            background: linear-gradient(135deg, #fffde7 60%, #ffe082 100%);
+            color: #ff9800;
+        }
+
+        .kpi-clientes {
+            background: linear-gradient(135deg, #e8f5e9 60%, #b2dfdb 100%);
+            color: #43a047;
+        }
+
+        .kpi-compras {
+            background: linear-gradient(135deg, #ffebee 60%, #ffe0b2 100%);
+            color: #e53935;
+        }
+
+        .card-kpi {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            margin-bottom: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+            .card-kpi:hover {
+                transform: translateY(-4px) scale(1.03);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            }
+
+            .card-kpi h6 {
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: inherit;
+            }
+
+            .card-kpi span {
+                font-size: 2rem;
+                font-weight: bold;
+                color: inherit;
+            }
+
+        /* CARDS */
+        .card-custom {
+            border: 2px solid var(--color-azul-kevan);
+            border-radius: 14px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 1.5rem;
+        }
+
+            .card-custom:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+                border-color: var(--color-amarillo-kevan);
+            }
+
+            .card-custom h5 {
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: var(--color-azul-kevan);
+            }
+
+            .card-custom a {
+                text-decoration: none;
+                color: var(--color-azul-claro-kevan);
+                font-weight: 500;
+            }
+
+                .card-custom a:hover {
+                    text-decoration: underline;
+                    color: var(--color-amarillo-kevan);
+                }
+
+        /* Carrusel */
+        .carousel-inner {
+            background: var(--color-azul-kevan) !important;
+            min-height: 300px;
+        }
+
+        /* Footer ejemplo */
+        .footer-kevan {
+            background: var(--color-azul-kevan);
+            color: #fff;
+            padding: 18px 0 8px 0;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+            .footer-kevan a {
+                color: var(--color-amarillo-kevan);
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+                .footer-kevan a:hover {
+                    text-decoration: underline;
+                }
+
+        .img-carrusel {
+            height: 180px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Splash Screen -->
+    <div id="welcomeSplash">
+        <div class="welcome-content">
+            <div class="welcome-icon">
+                <i class="bi bi-person-check-fill"></i>
+            </div>
+            <h1 class="welcome-title">¡Bienvenido!</h1>
+            <p class="welcome-user" id="welcomeUserName">Usuario</p>
+            <p class="welcome-message">Cargando tu panel de control...</p>
+        </div>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+    <!-- HEADER -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">
+            Sistema POS
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="frmFactura.html">📄 Facturas</a></li>
+                <li class="nav-item"><a class="nav-link" href="frmCompra.html">🛒 Compras</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarM" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        📂 Maestros
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarM">
+                        <li><a class="dropdown-item" href="frmTercero.html">Tercero</a></li>
+                        <li><a class="dropdown-item" href="frmTipoIdentificacion.html">Tipo de Identificación</a></li>
+                        <li><a class="dropdown-item" href="frmTipoDocumento.html">Tipo de Documento</a></li>
+                        <li><a class="dropdown-item" href="frmProducto.html"><i class="bi bi-box-seam"></i> Productos</a></li>
+                        <li><a class="dropdown-item" href="frmCategoriaProducto.html">Categoria Producto</a></li>
+                        <li><a class="dropdown-item" href="frmTarifaIVA.html">Tarifa de IVA</a></li>
+                        <li><a class="dropdown-item" href="frmConsecutivo.html">Consecutivo</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="frmInventario.html">📋 Inventario</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarReportes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        📊 Reportes
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarReportes">
+                        <li><a class="dropdown-item" href="frmReporteVentas.html">Reporte de Ventas</a></li>
+                        <li><a class="dropdown-item" href="frmReporteCompras.html">Reporte de Compras</a></li>
+                        <li><a class="dropdown-item" href="frmDescuentosAplicados.html">Descuentos</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarConfig" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ⚙ Configuración
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarConfig">
+                        <li><a class="dropdown-item" href="frmUsuario.html">Usuarios</a></li>
+                        <li><a class="dropdown-item" href="frmRol.html">Tipos de Rol</a></li>
+                        <li><a class="dropdown-item" href="frmConfigEmpresa.html">Empresa</a></li>
+                        <li><a class="dropdown-item" href="frmConfigPermisos.html">Permisos</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- AVATAR MODERNO -->
+        <div class="avatar-grande">
+            <div class="avatar-circle" id="userAvatar">👤</div>
+            <span id="nombreUsuarioAvatar" class="avatar-name">Usuario</span>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- SIDEBAR -->
+            <div class="col-md-2 sidebar">
+                <a href="frmNosotros.html">👥 Nosotros</a>
+                <a href="frmServicios.html">💼 Servicios</a>
+                <a href="frmContacto.html">📞 Contacto</a>
+                <a href="frmSoporte.html">🛠 Soporte</a>
+                <a href="#" id="btnCerrarSesion">🚪 Cerrar Sesión</a>
+            </div>
+
+            <!-- CONTENIDO -->
+            <div class="col-md-10 p-4">
+                <h2 class="mb-4" style="color:var(--color-azul-kevan);">Menú Principal</h2>
+                <!-- DASHBOARD DE KPIs -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card-kpi kpi-ventas text-center">
+                            <h6>Ventas Hoy</h6>
+                            <span>$1,250,000</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card-kpi kpi-stock text-center">
+                            <h6>Productos en Stock</h6>
+                            <span>320</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card-kpi kpi-clientes text-center">
+                            <h6>Clientes Activos</h6>
+                            <span>85</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card-kpi kpi-compras text-center">
+                            <h6>Compras Hoy</h6>
+                            <span>$980,000</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- GRÁFICO DE VENTAS (Chart.js) -->
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="card card-custom">
+                            <h6>Ventas Semanales</h6>
+                            <canvas id="graficoVentas" height="120"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Carrusel -->
+        <div>
+            <div class="col-12">
+                <div id="carouselMenuPrincipal" class="carousel slide" data-bs-ride="carousel">
+                    <!-- Indicadores -->
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselMenuPrincipal" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#carouselMenuPrincipal" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#carouselMenuPrincipal" data-bs-slide-to="2"></button>
+                        <button type="button" data-bs-target="#carouselMenuPrincipal" data-bs-slide-to="3"></button>
+                    </div>
+                    <!-- Imágenes -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="d-flex justify-content-center align-items-center" style="height:250px; background: var(--color-azul-kevan);">
+                                <h3 class="text-white">Bienvenido al Sistema POS</h3>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="d-flex justify-content-center align-items-center" style="height:250px; background: var(--color-azul-claro-kevan);">
+                                <h3 class="text-white">Gestión de Inventario</h3>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="d-flex justify-content-center align-items-center" style="height:250px; background: var(--color-amarillo-kevan);">
+                                <h3 class="text-dark">Control de Ventas</h3>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="d-flex justify-content-center align-items-center" style="height:250px; background: #43a047;">
+                                <h3 class="text-white">Reportes en Tiempo Real</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Controles -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselMenuPrincipal" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselMenuPrincipal" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                        <span class="visually-hidden">Siguiente</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer corporativo -->
+    <div class="footer-kevan mt-5">
+        © 2025 Kevan POS | Medellín - Colombia<br>
+        <a href="frmPoliticasyUsos.html">Política de Privacidad</a> | <a href="frmPoliticasyUsos.html">Términos de Uso</a>
+    </div>
+    </div> <!-- Fin dashboard-container -->
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/migration.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/api/apiClient.js"></script>
+    <script src="js/services/authService.js"></script>
+    
+    <script>
+        // Proteger la página - requiere autenticación
+        authService.requireAuth();
+        
+        // Obtener datos del usuario
+        const user = authService.getCurrentUser();
+        let userName = 'Usuario';
+        
+        if (user) {
+            userName = user.email.split('@')[0];
+            document.getElementById('nombreUsuarioAvatar').textContent = userName;
+        }
+        
+        // Control del Welcome Splash Screen
+        window.addEventListener('DOMContentLoaded', () => {
+            const welcomeSplash = document.getElementById('welcomeSplash');
+            const dashboardContainer = document.querySelector('.dashboard-container');
+            const welcomeUserName = document.getElementById('welcomeUserName');
+            
+            // Verificar si ya se mostró el splash en esta sesión de navegación
+            const splashShown = sessionStorage.getItem('welcomeSplashShown');
+            
+            if (splashShown === 'true') {
+                // Si ya se mostró, ocultar splash y mostrar dashboard inmediatamente
+                welcomeSplash.style.display = 'none';
+                dashboardContainer.classList.add('show');
+                return;
+            }
+            
+            // Marcar que se mostró el splash en esta sesión
+            sessionStorage.setItem('welcomeSplashShown', 'true');
+            
+            // Mostrar nombre del usuario en el splash
+            welcomeUserName.textContent = userName.charAt(0).toUpperCase() + userName.slice(1);
+            
+            // Mostrar splash por 2.5 segundos
+            setTimeout(() => {
+                // Fade out del splash
+                welcomeSplash.classList.add('fade-out');
+                
+                // Después de la animación, ocultar splash y mostrar dashboard
+                setTimeout(() => {
+                    welcomeSplash.style.display = 'none';
+                    dashboardContainer.classList.add('show');
+                }, 800);
+            }, 2500);
+        });
+        
+        // Cerrar sesión
+        document.getElementById('btnCerrarSesion').addEventListener('click', async (e) => {
+            e.preventDefault();
+            await authService.logout();
+        });
+        
+        // Gráfico de ventas semanales
+        const ctx = document.getElementById('graficoVentas');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                    datasets: [{
+                        label: 'Ventas',
+                        data: [1200000, 1900000, 1500000, 2100000, 1800000, 2400000, 1250000],
+                        borderColor: '#1a237e',
+                        backgroundColor: 'rgba(26, 35, 126, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

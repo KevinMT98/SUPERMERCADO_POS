@@ -23,4 +23,7 @@ public class RolUnitOfWork : GenericUnitOfWork<Rol>, IRolUnitOfWork
 
     public async Task<ActionResponse<Rol>> GetByNombreAsync(string nombre)
         => await _rolRepository.GetByNombreAsync(nombre);
+
+    public async Task<ActionResponse<IEnumerable<Rol>>> GetRolesActivosAsync()
+        => await _rolRepository.GetRolesActivosAsync();
 }

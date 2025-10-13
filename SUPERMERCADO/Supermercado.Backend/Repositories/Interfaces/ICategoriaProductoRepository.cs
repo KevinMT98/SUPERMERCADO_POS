@@ -28,4 +28,17 @@ public interface ICategoriaProductoRepository : IGenericRepository<Categoria_Pro
     /// </summary>
     /// <returns>Lista de categorías que tienen productos</returns>
     Task<ActionResponse<IEnumerable<Categoria_Producto>>> GetCategoriasConProductosAsync();
+
+    /// <summary>
+    /// Verifica si una categoría tiene productos asociados
+    /// </summary>
+    /// <param name="categoriaId">ID de la categoría a verificar</param>
+    /// <returns>True si tiene productos asociados, False si no tiene</returns>
+    Task<bool> TieneProductosAsociadosAsync(int categoriaId);
+
+    /// <summary>
+    /// Obtiene todas las categorías activas
+    /// </summary>
+    /// <returns>Lista de categorías activas</returns>
+    Task<ActionResponse<IEnumerable<Categoria_Producto>>> GetCategoriasActivasAsync();
 }

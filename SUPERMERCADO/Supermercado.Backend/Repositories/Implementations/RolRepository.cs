@@ -61,4 +61,28 @@ public class RolRepository : GenericRepository<Rol>, IRolRepository
             };
         }
     }
+
+    public async Task<ActionResponse<IEnumerable<Rol>>> GetRolesActivosAsync()
+    {
+        try
+        {
+            var roles = await _context.Rols
+                .Where(r => r.activo)
+                .OrderBy(r => r.nombre)
+                .ToListAsync();
+            return new ActionResponse<IEnumerable<Rol>>
+            {
+                WasSuccess = true,
+                Result = roles
+            };
+        }
+        catch (Exception exception)
+        {
+            return new ActionResponse<IEnumerable<Rol>>
+            {
+                WasSuccess = false,
+                Message = exception.Message
+            };
+        }
+    }
 }

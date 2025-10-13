@@ -23,4 +23,6 @@ public interface IRolUnitOfWork : IGenericUnitOfWork<Rol>
     /// <param name="nombre">Nombre del rol a buscar</param>
     /// <returns>Rol encontrado</returns>
     Task<ActionResponse<Rol>> GetByNombreAsync(string nombre);
+
+    Task<ActionResponse<IEnumerable<Rol>>> GetRolesActivosAsync();
 }

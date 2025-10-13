@@ -10,4 +10,9 @@ public class Categoria_Producto
     [MaxLength(250, ErrorMessage = "El campo {0} no puede tener mas de {1}")]
     [Required(ErrorMessage = "El campo {0} es obligatorio")]
     public string descripcion { get; set; } = null!;
+
+    /// <summary>
+    /// Indica si la categoría está activa o inactiva
+    /// </summary>
+    public bool activo { get; set; } = true;
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermercado POS</title>
+</head>
+<body>
+    <p>Redirigiendo...</p>
+    
+    <!-- Scripts necesarios para verificar autenticación -->
+    <script src="js/config.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/migration.js"></script>
+    
+    <script>
+        // Redirigir según el estado de autenticación
+        if (StorageUtil.getToken()) {
+            window.location.href = '/dashboard.html';
+        } else {
+            window.location.href = '/login.html';
+        }
+    </script>
+</body>
+</html>

@@ -40,6 +40,21 @@ public class TarifaIvaController : ControllerBase
     }
 
     /// <summary>
+    /// Obtiene solo las tarifas de IVA activas
+    /// </summary>
+    /// <returns>Lista de tarifas de IVA activas</returns>
+    [HttpGet("activas")]
+    [ProducesResponseType(typeof(IEnumerable<TarifaIvaDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetTarifasActivasAsync()
+    {
+        var action = await _unitOfWork.GetTarifasActivasAsync();
+        if (!action.WasSuccess) return BadRequest(action.Message);
+        var dtos = _mapper.Map<IEnumerable<TarifaIvaDto>>(action.Result);
+        return Ok(dtos);
+    }
+
+    /// <summary>
     /// Obtiene una tarifa de IVA por su ID
     /// </summary>
     /// <param name="id">ID de la tarifa de IVA</param>

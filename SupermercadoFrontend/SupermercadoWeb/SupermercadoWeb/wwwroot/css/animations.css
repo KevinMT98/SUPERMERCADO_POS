@@ -1,0 +1,629 @@
+/**
+ * SUPERMERCADO POS - Animaciones y Transiciones
+ * Archivo CSS para transiciones fluidas en toda la aplicación
+ */
+
+/* ===== TRANSICIONES GLOBALES ===== */
+* {
+    transition: all 0.3s ease;
+}
+
+/* ===== BOTONES ===== */
+.btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+    transition: all 0.1s ease;
+}
+
+/* Botón Primary */
+.btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Botón Success */
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Botón Danger */
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Botón Secondary */
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+/* Botón Warning */
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+/* Botón Info */
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+
+/* Botones pequeños */
+.btn-sm {
+    transition: all 0.2s ease;
+}
+
+.btn-sm:hover {
+    transform: scale(1.05);
+}
+
+/* ===== CARDS ===== */
+.card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* ===== INPUTS Y SELECTS ===== */
+.form-control,
+.form-select {
+    transition: all 0.3s ease;
+    border: 1px solid #ced4da;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    transform: scale(1.01);
+}
+
+.form-control:hover:not(:focus),
+.form-select:hover:not(:focus) {
+    border-color: #adb5bd;
+}
+
+/* ===== BADGES ===== */
+.badge {
+    transition: all 0.3s ease;
+}
+
+.badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== TABLA ===== */
+.table {
+    transition: all 0.3s ease;
+}
+
+.table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+    transform: scale(1.001);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    transition: all 0.3s ease;
+}
+
+.table thead th:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* ===== MODAL ===== */
+.modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-dialog {
+    transform: none;
+}
+
+.modal-content {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== DROPDOWN ===== */
+.dropdown-menu {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    transform: translateX(5px);
+    padding-left: 1.5rem;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    transition: all 0.3s ease;
+}
+
+.nav-link {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+    width: 80%;
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+}
+
+/* ===== ALERTS ===== */
+.alert {
+    transition: all 0.3s ease;
+    animation: slideInDown 0.5s ease;
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.alert:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== TOAST ===== */
+.toast {
+    animation: slideInRight 0.5s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ===== SPINNER / LOADING ===== */
+.spinner-border {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== FADE IN ===== */
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ===== SLIDE UP ===== */
+.slide-up {
+    animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ===== PAGINATION ===== */
+.pagination .page-link {
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* ===== CHECKBOX Y RADIO ===== */
+.form-check-input {
+    transition: all 0.3s ease;
+}
+
+.form-check-input:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    animation: checkPulse 0.3s ease;
+}
+
+@keyframes checkPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* ===== DATATABLES ===== */
+
+/* Wrapper principal */
+.dataTables_wrapper {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Controles superiores */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    animation: slideInDown 0.4s ease;
+}
+
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #ced4da;
+}
+
+.dataTables_wrapper .dataTables_length select:focus,
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    transform: scale(1.02);
+}
+
+.dataTables_wrapper .dataTables_length select:hover,
+.dataTables_wrapper .dataTables_filter input:hover {
+    border-color: #adb5bd;
+}
+
+/* Tabla */
+.dataTables_wrapper table.dataTable {
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Card que contiene la tabla - transición suave de altura */
+.card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Contenedor de tabla con transición suave */
+.table-responsive {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+/* Filas de la tabla con animación escalonada */
+.dataTables_wrapper table.dataTable tbody tr {
+    animation: fadeInRow 0.4s ease;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeInRow {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animación escalonada para cada fila */
+.dataTables_wrapper table.dataTable tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.dataTables_wrapper table.dataTable tbody tr:nth-child(2) { animation-delay: 0.1s; }
+.dataTables_wrapper table.dataTable tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.dataTables_wrapper table.dataTable tbody tr:nth-child(4) { animation-delay: 0.2s; }
+.dataTables_wrapper table.dataTable tbody tr:nth-child(5) { animation-delay: 0.25s; }
+.dataTables_wrapper table.dataTable tbody tr:nth-child(6) { animation-delay: 0.3s; }
+.dataTables_wrapper table.dataTable tbody tr:nth-child(7) { animation-delay: 0.35s; }
+.dataTables_wrapper table.dataTable tbody tr:nth-child(8) { animation-delay: 0.4s; }
+.dataTables_wrapper table.dataTable tbody tr:nth-child(9) { animation-delay: 0.45s; }
+.dataTables_wrapper table.dataTable tbody tr:nth-child(10) { animation-delay: 0.5s; }
+
+/* Hover en filas */
+.dataTables_wrapper table.dataTable tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+    transform: scale(1.002);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Celdas */
+.dataTables_wrapper table.dataTable tbody td {
+    transition: all 0.3s ease;
+}
+
+/* Headers ordenables */
+.dataTables_wrapper table.dataTable thead th {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.dataTables_wrapper table.dataTable thead th:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+    cursor: pointer;
+}
+
+.dataTables_wrapper table.dataTable thead th.sorting:hover,
+.dataTables_wrapper table.dataTable thead th.sorting_asc:hover,
+.dataTables_wrapper table.dataTable thead th.sorting_desc:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Iconos de ordenamiento */
+.dataTables_wrapper table.dataTable thead .sorting:after,
+.dataTables_wrapper table.dataTable thead .sorting_asc:after,
+.dataTables_wrapper table.dataTable thead .sorting_desc:after {
+    transition: all 0.3s ease;
+}
+
+/* Paginación */
+.dataTables_wrapper .dataTables_paginate {
+    animation: slideInUp 0.4s ease;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px;
+    margin: 0 2px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+    border-color: #aaa;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: linear-gradient(to bottom, #007bff 0%, #0056b3 100%);
+    border-color: #0056b3;
+    color: white !important;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: linear-gradient(to bottom, #0056b3 0%, #004085 100%);
+    transform: translateY(-2px) scale(1.1);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Info */
+.dataTables_wrapper .dataTables_info {
+    animation: fadeIn 0.5s ease;
+    transition: all 0.3s ease;
+}
+
+/* Processing */
+.dataTables_wrapper .dataTables_processing {
+    animation: pulse 1.5s ease infinite;
+    background: linear-gradient(to right, rgba(0, 123, 255, 0.1), rgba(0, 123, 255, 0.3), rgba(0, 123, 255, 0.1));
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Empty table */
+.dataTables_wrapper .dataTables_empty {
+    animation: fadeIn 0.5s ease;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Scroll */
+.dataTables_wrapper .dataTables_scroll {
+    transition: all 0.3s ease;
+}
+
+.dataTables_wrapper .dataTables_scrollBody {
+    transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media screen and (max-width: 767px) {
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        text-align: center;
+        animation: fadeIn 0.5s ease;
+    }
+}
+
+/* Loading skeleton */
+.dataTables_wrapper.loading tbody tr {
+    animation: pulse 1.5s ease infinite;
+}
+
+/* Animación al cambiar de página */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== ICONOS ===== */
+i, .bi {
+    transition: all 0.3s ease;
+}
+
+i:hover, .bi:hover {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* ===== LINKS ===== */
+a {
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+/* ===== SMOOTH SCROLL ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===== FOCUS VISIBLE ===== */
+*:focus-visible {
+    outline: 2px solid #80bdff;
+    outline-offset: 2px;
+    transition: outline 0.2s ease;
+}
+
+/* ===== DESACTIVAR TRANSICIONES EN ELEMENTOS ESPECÍFICOS ===== */
+.no-transition,
+.no-transition * {
+    transition: none !important;
+}
+
+/* ===== LOADING STATE ===== */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* ===== DISABLED STATE ===== */
+:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transition: opacity 0.3s ease;
+}
+
+/* ===== HOVER LIFT EFFECT ===== */
+.hover-lift {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== PULSE ANIMATION ===== */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ===== BOUNCE ANIMATION ===== */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.bounce {
+    animation: bounce 1s ease infinite;
+}
+
+/* ===== SHAKE ANIMATION (para errores) ===== */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease;
+}
+
+/* ===== REDUCIR MOVIMIENTO PARA ACCESIBILIDAD ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

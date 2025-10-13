@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías - Supermercado POS</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/site.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/dashboard.html">🛒 Supermercado POS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/productos.html">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/categorias.html">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/tarifas-iva.html">Tarifas IVA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuarios.html">Usuarios</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <span class="text-white me-3" id="userInfo"></span>
+                    <button class="btn btn-outline-light btn-sm" id="btnLogout">Cerrar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-4">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h2>Gestión de Categorías</h2>
+            </div>
+            <div class="col-md-6 text-end">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoriaModal" onclick="openCreateModal()">
+                    ➕ Nueva Categoría
+                </button>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="searchInput" placeholder="🔍 Buscar categoría...">
+            </div>
+        </div>
+
+        <!-- Categories Table -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Descripción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoriasTableBody">
+                            <tr>
+                                <td colspan="3" class="text-center py-4">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Cargando...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Categoria -->
+    <div class="modal fade" id="categoriaModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Nueva Categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="categoriaForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="categoriaId">
+                        
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción *</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" required maxlength="200">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/validators.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/api/apiClient.js"></script>
+    <script src="js/services/authService.js"></script>
+    <script src="js/services/categoriaService.js"></script>
+    
+    <script>
+        // Variables globales
+        let categorias = [];
+        let currentCategoriaId = null;
+
+        // Proteger la página
+        authService.requireAuth();
+
+        // Mostrar información del usuario
+        const user = authService.getCurrentUser();
+        if (user) {
+            document.getElementById('userInfo').textContent = `👤 ${user.nombreUsuario}`;
+        }
+
+        // Cerrar sesión
+        document.getElementById('btnLogout').addEventListener('click', async () => {
+            await authService.logout();
+        });
+
+        // Cargar categorías
+        async function loadCategorias() {
+            try {
+                categorias = await categoriaService.getAll();
+                renderCategorias(categorias);
+            } catch (error) {
+                console.error('Error al cargar categorías:', error);
+                Helpers.showToast('Error al cargar categorías', 'error');
+            }
+        }
+
+        // Renderizar tabla
+        function renderCategorias(data) {
+            const tbody = document.getElementById('categoriasTableBody');
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-4">
+                            No se encontraron categorías
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = data.map(cat => `
+                <tr>
+                    <td>${cat.categoria_Producto_Id}</td>
+                    <td>${cat.descripcion}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="openEditModal(${cat.categoria_Producto_Id})">
+                            ✏️
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteCategoria(${cat.categoria_Producto_Id})">
+                            🗑️
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Búsqueda
+        document.getElementById('searchInput').addEventListener('input', Helpers.debounce((e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            if (!searchTerm) {
+                renderCategorias(categorias);
+                return;
+            }
+            
+            const filtered = categorias.filter(c => 
+                c.descripcion.toLowerCase().includes(searchTerm)
+            );
+            renderCategorias(filtered);
+        }, 300));
+
+        // Abrir modal crear
+        function openCreateModal() {
+            currentCategoriaId = null;
+            document.getElementById('modalTitle').textContent = 'Nueva Categoría';
+            document.getElementById('categoriaForm').reset();
+        }
+
+        // Abrir modal editar
+        async function openEditModal(id) {
+            try {
+                currentCategoriaId = id;
+                document.getElementById('modalTitle').textContent = 'Editar Categoría';
+                
+                const categoria = await categoriaService.getById(id);
+                document.getElementById('categoriaId').value = categoria.categoria_Producto_Id;
+                document.getElementById('descripcion').value = categoria.descripcion;
+                
+                const modal = new bootstrap.Modal(document.getElementById('categoriaModal'));
+                modal.show();
+            } catch (error) {
+                console.error('Error al cargar categoría:', error);
+                Helpers.showToast('Error al cargar categoría', 'error');
+            }
+        }
+
+        // Submit formulario
+        document.getElementById('categoriaForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const validation = Validators.validateForm(e.target);
+            if (!validation.isValid) {
+                Validators.showFormErrors(e.target, validation.errors);
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            const categoria = {
+                descripcion: formData.get('descripcion')
+            };
+            
+            if (currentCategoriaId) {
+                categoria.categoria_Producto_Id = currentCategoriaId;
+            }
+            
+            try {
+                Helpers.showLoading(true);
+                
+                if (currentCategoriaId) {
+                    await categoriaService.update(categoria);
+                    Helpers.showToast(AppConfig.MESSAGES.SUCCESS.UPDATE, 'success');
+                } else {
+                    await categoriaService.create(categoria);
+                    Helpers.showToast(AppConfig.MESSAGES.SUCCESS.SAVE, 'success');
+                }
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('categoriaModal'));
+                modal.hide();
+                await loadCategorias();
+                
+            } catch (error) {
+                console.error('Error al guardar categoría:', error);
+                Helpers.showToast(error.message || 'Error al guardar categoría', 'error');
+            } finally {
+                Helpers.showLoading(false);
+            }
+        });
+
+        // Eliminar categoría
+        async function deleteCategoria(id) {
+            Helpers.showConfirmModal(
+                'Confirmar eliminación',
+                '¿Está seguro de que desea eliminar esta categoría?',
+                async () => {
+                    try {
+                        Helpers.showLoading(true);
+                        await categoriaService.delete(id);
+                        Helpers.showToast(AppConfig.MESSAGES.SUCCESS.DELETE, 'success');
+                        await loadCategorias();
+                    } catch (error) {
+                        console.error('Error al eliminar categoría:', error);
+                        Helpers.showToast(error.message || 'Error al eliminar categoría', 'error');
+                    } finally {
+                        Helpers.showLoading(false);
+                    }
+                }
+            );
+        }
+
+        // Inicializar
+        loadCategorias();
+    </script>
+</body>
+</html>

@@ -12,8 +12,8 @@ using Supermercado.Backend.Data;
 namespace Supermercado.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251012070501_adduserentity")]
-    partial class adduserentity
+    [Migration("20251013162445_ModRol_activo")]
+    partial class ModRol_activo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace Supermercado.Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("categoriaId"));
+
+                    b.Property<bool>("activo")
+                        .HasColumnType("bit");
 
                     b.Property<string>("descripcion")
                         .IsRequired()
@@ -116,6 +119,9 @@ namespace Supermercado.Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("rol_id"));
+
+                    b.Property<bool>("activo")
+                        .HasColumnType("bit");
 
                     b.Property<string>("nombre")
                         .IsRequired()
@@ -230,7 +236,7 @@ namespace Supermercado.Backend.Migrations
                     b.HasIndex("nombre_usuario")
                         .IsUnique();
 
-                    b.ToTable("usuarios");
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("Supermercado.Shared.Entities.Producto", b =>

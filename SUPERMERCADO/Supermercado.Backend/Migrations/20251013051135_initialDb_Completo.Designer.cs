@@ -12,8 +12,8 @@ using Supermercado.Backend.Data;
 namespace Supermercado.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251012052448_InitialDb")]
-    partial class InitialDb
+    [Migration("20251013051135_initialDb_Completo")]
+    partial class initialDb_Completo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace Supermercado.Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("categoriaId"));
+
+                    b.Property<bool>("activo")
+                        .HasColumnType("bit");
 
                     b.Property<string>("descripcion")
                         .IsRequired()
@@ -230,7 +233,7 @@ namespace Supermercado.Backend.Migrations
                     b.HasIndex("nombre_usuario")
                         .IsUnique();
 
-                    b.ToTable("usuarios");
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("Supermercado.Shared.Entities.Producto", b =>

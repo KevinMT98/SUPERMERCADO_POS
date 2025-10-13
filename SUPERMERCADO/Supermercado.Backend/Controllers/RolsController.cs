@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Supermercado.Backend.UnitsOfWork.Interfaces;
+using Supermercado.Shared.DTOs;
 using Supermercado.Shared.Entities;
 
 namespace Supermercado.Backend.Controllers;
@@ -46,6 +47,17 @@ public class RolsController : ControllerBase
     {
         var action = await _unitOfWork.GetAsync(id);
         if (!action.WasSuccess) return NotFound(action.Message);
+        return Ok(action.Result);
+    }
+
+    [HttpGet("activos")]
+    [ProducesResponseType(typeof(IEnumerable<Rol>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetRolesActivosAsync()
+    {
+        var action = await _unitOfWork.GetRolesActivosAsync();
+        if (!action.WasSuccess) return BadRequest(action.Message);
+ 
         return Ok(action.Result);
     }
 

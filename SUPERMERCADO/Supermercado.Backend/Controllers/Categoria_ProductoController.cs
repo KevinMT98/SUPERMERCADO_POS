@@ -127,4 +127,18 @@ public class Categoria_ProductoController : ControllerBase
         if (!action.WasSuccess) return BadRequest(action.Message);
         return Ok(action.Result);
     }
+
+    /// <summary>
+    /// Obtiene solo las categorías activas
+    /// </summary>
+    /// <returns>Lista de categorías activas</returns>
+    [HttpGet("activas")]
+    [ProducesResponseType(typeof(IEnumerable<Categoria_Producto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetCategoriasActivasAsync()
+    {
+        var action = await _unitOfWork.GetCategoriasActivasAsync();
+        if (!action.WasSuccess) return BadRequest(action.Message);
+        return Ok(action.Result);
+    }
 }

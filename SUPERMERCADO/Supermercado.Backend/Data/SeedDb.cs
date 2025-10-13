@@ -34,10 +34,10 @@ public class SeedDb
     {
         if (!_context.Categoria_Productos.Any())
         {
-            _context.Categoria_Productos.Add(new Categoria_Producto { descripcion = "Bebidas" });
-            _context.Categoria_Productos.Add(new Categoria_Producto { descripcion = "Lacteos" });
-            _context.Categoria_Productos.Add(new Categoria_Producto { descripcion = "Aseo" });
-            _context.Categoria_Productos.Add(new Categoria_Producto { descripcion = "Comida" });
+            _context.Categoria_Productos.Add(new Categoria_Producto { descripcion = "Bebidas", activo = true });
+            _context.Categoria_Productos.Add(new Categoria_Producto { descripcion = "Lacteos", activo = true });
+            _context.Categoria_Productos.Add(new Categoria_Producto { descripcion = "Aseo", activo = true });
+            _context.Categoria_Productos.Add(new Categoria_Producto { descripcion = "Comida", activo = true });
             await _context.SaveChangesAsync();
         }
     }
@@ -49,8 +49,8 @@ public class SeedDb
     {
         if (!_context.Rols.Any())
         {
-            _context.Rols.Add(new Rol { nombre = "Admin" });
-            _context.Rols.Add(new Rol { nombre = "User" });
+            _context.Rols.Add(new Rol { nombre = "Admin", activo = true});
+            _context.Rols.Add(new Rol { nombre = "User", activo = true });
             await _context.SaveChangesAsync();
         }
     }

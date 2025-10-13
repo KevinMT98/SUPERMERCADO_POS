@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Supermercado.Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDb : Migration
+    public partial class initialDb_Completo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,8 @@ namespace Supermercado.Backend.Migrations
                 {
                     categoriaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    descripcion = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                    descripcion = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +55,7 @@ namespace Supermercado.Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "usuarios",
+                name: "Usuarios",
                 columns: table => new
                 {
                     usuario_id = table.Column<int>(type: "int", nullable: false)
@@ -71,9 +72,9 @@ namespace Supermercado.Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_usuarios", x => x.usuario_id);
+                    table.PrimaryKey("PK_Usuarios", x => x.usuario_id);
                     table.ForeignKey(
-                        name: "FK_usuarios_Rols_FK_rol_id",
+                        name: "FK_Usuarios_Rols_FK_rol_id",
                         column: x => x.FK_rol_id,
                         principalTable: "Rols",
                         principalColumn: "rol_id",
@@ -162,20 +163,20 @@ namespace Supermercado.Backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_usuarios_email",
-                table: "usuarios",
+                name: "IX_Usuarios_email",
+                table: "Usuarios",
                 column: "email",
                 unique: true,
                 filter: "[email] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_usuarios_FK_rol_id",
-                table: "usuarios",
+                name: "IX_Usuarios_FK_rol_id",
+                table: "Usuarios",
                 column: "FK_rol_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_usuarios_nombre_usuario",
-                table: "usuarios",
+                name: "IX_Usuarios_nombre_usuario",
+                table: "Usuarios",
                 column: "nombre_usuario",
                 unique: true);
         }
@@ -187,7 +188,7 @@ namespace Supermercado.Backend.Migrations
                 name: "Productos");
 
             migrationBuilder.DropTable(
-                name: "usuarios");
+                name: "Usuarios");
 
             migrationBuilder.DropTable(
                 name: "Categoria_Productos");

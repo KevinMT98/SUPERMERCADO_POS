@@ -86,4 +86,10 @@ public class TarifaIvaRepository : GenericRepository<Tarifa_IVA>, ITarifaIvaRepo
             };
         }
     }
+
+    public async Task<bool> TieneProductosAsociadosAsync(int tarifaIvaId)
+    {
+        return await _context.Productos
+            .AnyAsync(p => p.FK_codigo_iva == tarifaIvaId);
+    }
 }

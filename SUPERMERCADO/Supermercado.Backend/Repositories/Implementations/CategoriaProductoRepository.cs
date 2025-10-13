@@ -86,4 +86,35 @@ public class CategoriaProductoRepository : GenericRepository<Categoria_Producto>
             };
         }
     }
+
+    public async Task<bool> TieneProductosAsociadosAsync(int categoriaId)
+    {
+        return await _context.Productos
+            .AnyAsync(p => p.FK_categoria_id == categoriaId);
+    }
+
+    public async Task<ActionResponse<IEnumerable<Categoria_Producto>>> GetCategoriasActivasAsync()
+    {
+        try
+        {
+            var categorias = await _context.Categoria_Productos
+                .Where(c => c.activo)
+                .OrderBy(c => c.descripcion)
+                .ToListAsync();
+
+            return new ActionResponse<IEnumerable<Categoria_Producto>>
+            {
+                WasSuccess = true,
+                Result = categorias
+            };
+        }
+        catch (Exception exception)
+        {
+            return new ActionResponse<IEnumerable<Categoria_Producto>>
+            {
+                WasSuccess = false,
+                Message = exception.Message
+            };
+        }
+    }
 }
