@@ -1,3 +1,9 @@
+**Universidad:** ITM  
+**Asignatura:** Tecnologia en desarrollo de software
+**Estudiante:** Angel tovar - Kevin Montaño 
+**Fecha:** Octubre 2025  
+**Versión:** 1.0  
+
 # Aplicación de Principios SOLID - Sistema POS Supermercado
 
 ## Historia de Usuario: CRUD - Productos
