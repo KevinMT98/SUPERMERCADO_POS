@@ -25,6 +25,7 @@ public class SeedDb
         await CheckTarifa_IVAsAsync();
         await CheckUsuariosAsync();
         await CheckProductosAsync();
+        await CheckTipoDctoAsync();
     }
 
     /// <summary>
@@ -51,6 +52,18 @@ public class SeedDb
         {
             _context.Rols.Add(new Rol { nombre = "Admin", activo = true});
             _context.Rols.Add(new Rol { nombre = "User", activo = true });
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    private async Task CheckTipoDctoAsync()
+    {
+        if (!_context.tipoDctos.Any())
+        {
+            _context.tipoDctos.Add(new TipoDcto { Codigo = "FA", Descripcion = "Factura Venta"});
+            _context.tipoDctos.Add(new TipoDcto { Codigo = "NC", Descripcion = "Nota Credito" });
+            _context.tipoDctos.Add(new TipoDcto { Codigo = "ND", Descripcion = "Nota Debito"});
+            _context.tipoDctos.Add(new TipoDcto { Codigo = "PD", Descripcion = "Pedidos"});
             await _context.SaveChangesAsync();
         }
     }

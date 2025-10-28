@@ -160,6 +160,18 @@ builder.Services.AddScoped<IAuthUnitOfWork, AuthUnitOfWork>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioUnitOfWork, UsuarioUnitOfWork>();
 
+// Repositorios y Units of Work específicos para maestro tipos de identificacion
+builder.Services.AddScoped<ITiposIdentificacionRepository, TiposIdentificacionRepository>();
+builder.Services.AddScoped<ITiposIdentificacionUnitOfWork, TiposIdentificacionUnitOfWork>();
+
+// Repositorios y units of work específicos para Terceros
+builder.Services.AddScoped<ITerceroRepository, TerceroRepository>();
+builder.Services.AddScoped<ITerceroUnitOfWork, TerceroUnitOfWork>();
+
+// Repositorios y units of work específicos para TipoDctos
+builder.Services.AddScoped<ITipoDctoRepository, TipoDctoRepository>();
+builder.Services.AddScoped<ITipoDctoUnitOfWork, TipoDctoUnitOfWork>();
+
 // Construir la aplicación con todas las configuraciones anteriores
 var app = builder.Build();
 

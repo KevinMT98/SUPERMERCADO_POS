@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Supermercado.Backend.Data;
 
@@ -11,9 +12,11 @@ using Supermercado.Backend.Data;
 namespace Supermercado.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20251026224928_entidad_tipod_identificacion")]
+    partial class entidad_tipod_identificacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,93 +172,6 @@ namespace Supermercado.Backend.Migrations
                     b.ToTable("Tarifa_IVAs");
                 });
 
-            modelBuilder.Entity("Supermercado.Shared.Entities.Tercero", b =>
-                {
-                    b.Property<int>("tercero_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("tercero_id"));
-
-                    b.Property<int>("FK_codigo_ident")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("apellido1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("apellido2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("direccion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("es_cliente")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("es_proveedor")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("nombre2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("numero_identificacion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("telefono")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("tercero_id");
-
-                    b.HasIndex("FK_codigo_ident");
-
-                    b.HasIndex("numero_identificacion")
-                        .IsUnique();
-
-                    b.HasIndex("tercero_id")
-                        .IsUnique();
-
-                    b.ToTable("Terceros");
-                });
-
-            modelBuilder.Entity("Supermercado.Shared.Entities.TipoDcto", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("Codigo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Codigo")
-                        .IsUnique();
-
-                    b.ToTable("tipoDctos");
-                });
-
             modelBuilder.Entity("Supermercado.Shared.Entities.TiposIdentificacion", b =>
                 {
                     b.Property<int>("ID")
@@ -371,17 +287,6 @@ namespace Supermercado.Backend.Migrations
                     b.Navigation("Categoria");
 
                     b.Navigation("TarifaIVA");
-                });
-
-            modelBuilder.Entity("Supermercado.Shared.Entities.Tercero", b =>
-                {
-                    b.HasOne("Supermercado.Shared.Entities.TiposIdentificacion", "ID")
-                        .WithMany()
-                        .HasForeignKey("FK_codigo_ident")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ID");
                 });
 
             modelBuilder.Entity("Supermercado.Shared.Entities.Usuario", b =>

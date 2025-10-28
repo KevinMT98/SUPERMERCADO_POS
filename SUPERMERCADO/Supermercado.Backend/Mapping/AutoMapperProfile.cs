@@ -1,6 +1,7 @@
 using AutoMapper;
-using Supermercado.Shared.Entities;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Supermercado.Shared.DTOs;
+using Supermercado.Shared.Entities;
 
 namespace Supermercado.Backend.Mapping;
 
@@ -126,5 +127,81 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.fecha_creacion, opt => opt.Ignore())
             .ForMember(dest => dest.fecha_modificacion, opt => opt.Ignore())
             .ForMember(dest => dest.Rol, opt => opt.Ignore());
+
+
+
+        // ===== MAPEOS PARA TIPODOS DE IDENTIFICACION =====
+
+        CreateMap<TiposIdentificacion, TiposIdentificacionDTO>()
+            .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.ID))
+            .ForMember(dest => dest.tipoDocumentoID, opt => opt.MapFrom(src => src.tipoDocumentoID))
+            .ForMember(dest => dest.descripcion, opt => opt.MapFrom(src => src.descripcion))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.activo));
+
+        // Mapeo de DTO de creación a Entidad
+        CreateMap<TiposIdentificacionCreateDTO, TiposIdentificacion>()
+            .ForMember(dest => dest.tipoDocumentoID, opt => opt.MapFrom(src => src.tipoDocumentoID))
+            .ForMember(dest => dest.descripcion, opt => opt.MapFrom(src => src.descripcion))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.activo));
+
+        // Mapeo de DTO de actualización a Entidad
+        CreateMap<TiposIdentificacionUpdateDTO, TiposIdentificacion>()
+            .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.ID))
+            .ForMember(dest => dest.tipoDocumentoID, opt => opt.MapFrom(src => src.tipoDocumentoID))
+            .ForMember(dest => dest.descripcion, opt => opt.MapFrom(src => src.descripcion))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.activo));
+
+
+        //  ===== MAPEOS PARA TIPODOS DE IDENTIFICACION =====
+
+        CreateMap<Tercero, TerceroDTO>()
+            .ForMember(dest => dest.tercero_id, opt => opt.MapFrom(src => src.tercero_id))
+            .ForMember(dest => dest.codigo_ident, opt => opt.MapFrom(src => src.FK_codigo_ident))
+            .ForMember(dest => dest.numero_identificacion, opt => opt.MapFrom(src => src.numero_identificacion))
+            .ForMember(dest => dest.nombre, opt => opt.MapFrom(src => src.nombre))
+            .ForMember(dest => dest.nombre2, opt => opt.MapFrom(src => src.nombre2))
+            .ForMember(dest => dest.apellido1, opt => opt.MapFrom(src => src.apellido1))
+            .ForMember(dest => dest.apellido2, opt => opt.MapFrom(src => src.apellido2))
+            .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.email))
+            .ForMember(dest => dest.direccion, opt => opt.MapFrom(src => src.direccion))
+            .ForMember(dest => dest.telefono, opt => opt.MapFrom(src => src.telefono))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.activo))
+            .ForMember(dest => dest.es_cliente, opt => opt.MapFrom(src => src.es_cliente))
+            .ForMember(dest => dest.es_proveedor, opt => opt.MapFrom(src => src.es_proveedor));
+
+        // Mapeo de DTO de creación a Entidad
+
+        CreateMap<TerceroCreateDTO, Tercero>()
+            .ForMember(dest => dest.FK_codigo_ident, opt => opt.MapFrom(src => src.codigo_ident))
+            .ForMember(dest => dest.numero_identificacion, opt => opt.MapFrom(src => src.numero_identificacion))
+            .ForMember(dest => dest.nombre, opt => opt.MapFrom(src => src.nombre))
+            .ForMember(dest => dest.nombre2, opt => opt.MapFrom(src => src.nombre2))
+            .ForMember(dest => dest.apellido1, opt => opt.MapFrom(src => src.apellido1))
+            .ForMember(dest => dest.apellido2, opt => opt.MapFrom(src => src.apellido2))
+            .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.email))
+            .ForMember(dest => dest.direccion, opt => opt.MapFrom(src => src.direccion))
+            .ForMember(dest => dest.telefono, opt => opt.MapFrom(src => src.telefono))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.activo))
+            .ForMember(dest => dest.es_cliente, opt => opt.MapFrom(src => src.es_cliente))
+            .ForMember(dest => dest.es_proveedor, opt => opt.MapFrom(src => src.es_proveedor));
+
+        // Mapeo de DTO de actualización a Entidad
+        CreateMap<TerceroUpdateDTO, Tercero>()
+            .ForMember(dest => dest.tercero_id, opt => opt.MapFrom(src => src.tercero_id))
+            .ForMember(dest => dest.FK_codigo_ident, opt => opt.MapFrom(src => src.codigo_ident))
+            .ForMember(dest => dest.numero_identificacion, opt => opt.MapFrom(src => src.numero_identificacion))
+            .ForMember(dest => dest.nombre, opt => opt.MapFrom(src => src.nombre))
+            .ForMember(dest => dest.nombre2, opt => opt.MapFrom(src => src.nombre2))
+            .ForMember(dest => dest.apellido1, opt => opt.MapFrom(src => src.apellido1))
+            .ForMember(dest => dest.apellido2, opt => opt.MapFrom(src => src.apellido2))
+            .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.email))
+            .ForMember(dest => dest.direccion, opt => opt.MapFrom(src => src.direccion))
+            .ForMember(dest => dest.telefono, opt => opt.MapFrom(src => src.telefono))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.activo))
+            .ForMember(dest => dest.es_cliente, opt => opt.MapFrom(src => src.es_cliente))
+            .ForMember(dest => dest.es_proveedor, opt => opt.MapFrom(src => src.es_proveedor));
+
     }
+
+
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Supermercado.Backend.Data;
 
@@ -11,9 +12,11 @@ using Supermercado.Backend.Data;
 namespace Supermercado.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20251027011244_entidad_Tercero_again")]
+    partial class entidad_Tercero_again
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,30 +233,6 @@ namespace Supermercado.Backend.Migrations
                         .IsUnique();
 
                     b.ToTable("Terceros");
-                });
-
-            modelBuilder.Entity("Supermercado.Shared.Entities.TipoDcto", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("Codigo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("Codigo")
-                        .IsUnique();
-
-                    b.ToTable("tipoDctos");
                 });
 
             modelBuilder.Entity("Supermercado.Shared.Entities.TiposIdentificacion", b =>

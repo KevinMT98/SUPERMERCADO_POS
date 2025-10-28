@@ -14,6 +14,9 @@ public class DataContext : DbContext
     public DbSet<Rol> Rols { get; set; }
     public DbSet<Tarifa_IVA> Tarifa_IVAs { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<TiposIdentificacion> TiposIdentificacions { get; set; }
+    public DbSet<Tercero> Terceros { get; set; }
+    public DbSet<TipoDcto> tipoDctos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,9 +29,11 @@ public class DataContext : DbContext
         modelBuilder.Entity<Tarifa_IVA>().HasIndex(x => x.codigo_Iva).IsUnique();
         modelBuilder.Entity<Usuario>().HasIndex(x => x.nombre_usuario).IsUnique();
         modelBuilder.Entity<Usuario>().HasIndex(x => x.email).IsUnique();
-
-        // Configurar propiedades adicionales si es necesario
-
+        modelBuilder.Entity<TiposIdentificacion>().HasIndex(x => x.ID).IsUnique();
+        modelBuilder.Entity<TiposIdentificacion>().HasIndex(x => x.tipoDocumentoID).IsUnique();
         modelBuilder.Entity<Tarifa_IVA>().Property(t => t.porcentaje).HasPrecision(5, 2);
+        modelBuilder.Entity<Tercero>().HasIndex(x => x.tercero_id).IsUnique();
+        modelBuilder.Entity<Tercero>().HasIndex(x => x.numero_identificacion).IsUnique();
+        modelBuilder.Entity<TipoDcto>().HasIndex(x => x.Codigo).IsUnique();
     }
 }
