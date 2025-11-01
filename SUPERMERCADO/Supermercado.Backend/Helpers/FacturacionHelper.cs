@@ -8,6 +8,50 @@ namespace Supermercado.Backend.Helpers;
 public static class FacturacionHelper
 {
     /// <summary>
+    /// Calcula todos los valores de un detalle de factura incluyendo descuentos e IVA
+    /// </summary>
+    /// <param name="cantidad">Cantidad del producto</param>
+    /// <param name="precioUnitario">Precio unitario del producto</param>
+    /// <param name="descuentoPorcentaje">Porcentaje de descuento</param>
+    /// <param name="descuentoValor">Valor del descuento (si se proporciona directamente)</param>
+    /// <param name="porcentajeIva">Porcentaje de IVA del producto</param>
+    /// <returns>Tupla con los valores calculados</returns>
+    public static (decimal SubtotalBruto, decimal DescuentoValor, decimal BaseGravable, decimal ValorIva, decimal Subtotal) 
+        CalcularValoresDetalle(
+            int cantidad,
+            decimal precioUnitario,
+            decimal descuentoPorcentaje = 0,
+            decimal descuentoValor = 0,
+            decimal porcentajeIva = 0)
+    {
+        // 1. Calcular subtotal bruto (sin descuentos ni impuestos)
+        var subtotalBruto = cantidad * precioUnitario;
+
+        // 2. Calcular el descuento_valor si solo se proporcionó el porcentaje
+        if (descuentoValor == 0 && descuentoPorcentaje > 0)
+        {
+            descuentoValor = Math.Round(subtotalBruto * (descuentoPorcentaje / 100m), 2);
+        }
+
+        // 3. Calcular base gravable (subtotal bruto - descuentos)
+        var baseGravable = subtotalBruto - descuentoValor;
+
+        // 4. Calcular el valor del IVA sobre la base gravable
+        var valorIva = Math.Round(baseGravable * (porcentajeIva / 100m), 2);
+
+        // 5. Calcular subtotal final (base gravable + IVA)
+        var subtotal = baseGravable + valorIva;
+
+        return (
+            Math.Round(subtotalBruto, 2),
+            Math.Round(descuentoValor, 2),
+            Math.Round(baseGravable, 2),
+            Math.Round(valorIva, 2),
+            Math.Round(subtotal, 2)
+        );
+    }
+
+    /// <summary>
     /// Calcula el subtotal de un detalle de factura
     /// </summary>
     /// <param name="cantidad">Cantidad del producto</param>
@@ -17,7 +61,7 @@ public static class FacturacionHelper
     public static decimal CalcularSubtotal(int cantidad, decimal precioUnitario, decimal descuentoValor = 0)
     {
         var subtotalBruto = cantidad * precioUnitario;
-        return Math.Max(0, subtotalBruto - descuentoValor);
+        return Math.Max(0, Math.Round(subtotalBruto - descuentoValor, 2));
     }
 
     /// <summary>
@@ -32,7 +76,19 @@ public static class FacturacionHelper
         if (descuentoPorcentaje <= 0) return 0;
         
         var subtotalBruto = cantidad * precioUnitario;
-        return Math.Round(subtotalBruto * (descuentoPorcentaje / 100), 2);
+        return Math.Round(subtotalBruto * (descuentoPorcentaje / 100m), 2);
+    }
+
+    /// <summary>
+    /// Calcula el valor del IVA
+    /// </summary>
+    /// <param name="baseGravable">Base gravable (después de descuentos)</param>
+    /// <param name="porcentajeIva">Porcentaje de IVA</param>
+    /// <returns>Valor del IVA</returns>
+    public static decimal CalcularIVA(decimal baseGravable, decimal porcentajeIva)
+    {
+        if (porcentajeIva <= 0) return 0;
+        return Math.Round(baseGravable * (porcentajeIva / 100m), 2);
     }
 
     /// <summary>
@@ -147,17 +203,6 @@ public static class FacturacionHelper
     }
 
     /// <summary>
-    /// Calcula el IVA de un producto (si se requiere en el futuro)
-    /// </summary>
-    /// <param name="subtotal">Subtotal del producto</param>
-    /// <param name="porcentajeIva">Porcentaje de IVA</param>
-    /// <returns>Valor del IVA</returns>
-    public static decimal CalcularIVA(decimal subtotal, decimal porcentajeIva)
-    {
-        return Math.Round(subtotal * (porcentajeIva / 100), 2);
-    }
-
-    /// <summary>
     /// Formatea un valor monetario para mostrar
     /// </summary>
     /// <param name="valor">Valor a formatear</param>
@@ -189,6 +234,28 @@ public static class FacturacionHelper
     public static decimal CalcularCambio(decimal totalFactura, decimal totalPagado)
     {
         var cambio = totalPagado - totalFactura;
-        return Math.Max(0, cambio);
+        return Math.Max(0, Math.Round(cambio, 2));
+    }
+
+    /// <summary>
+    /// Valida que una factura cumpla con el monto mínimo requerido
+    /// </summary>
+    /// <param name="totalNeto">Total neto de la factura</param>
+    /// <param name="montoMinimo">Monto mínimo requerido (default: 1000)</param>
+    /// <returns>True si cumple con el monto mínimo</returns>
+    public static bool ValidarMontoMinimo(decimal totalNeto, decimal montoMinimo = 1000m)
+    {
+        return totalNeto >= montoMinimo;
+    }
+
+    /// <summary>
+    /// Valida que no haya productos duplicados en la factura
+    /// </summary>
+    /// <param name="detalles">Lista de detalles de la factura</param>
+    /// <returns>True si no hay duplicados</returns>
+    public static bool ValidarProductosDuplicados(IEnumerable<DetalleFacturaItemDTO> detalles)
+    {
+        var productosIds = detalles.Select(d => d.ProductoId).ToList();
+        return productosIds.Count == productosIds.Distinct().Count();
     }
 }
