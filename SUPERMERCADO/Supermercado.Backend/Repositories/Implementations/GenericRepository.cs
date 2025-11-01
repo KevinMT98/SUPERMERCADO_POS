@@ -124,4 +124,5 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         Message = "Ya existe el registro.",
     };
 
+
 }

@@ -201,6 +201,47 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.es_cliente, opt => opt.MapFrom(src => src.es_cliente))
             .ForMember(dest => dest.es_proveedor, opt => opt.MapFrom(src => src.es_proveedor));
 
+
+
+        // ===== MAPEOS PARA CONSECUTIVO =====
+        // Entidad a DTO de lectura
+        CreateMap<Consecutivo, ConsecutivoDTO>()
+            .ForMember(dest => dest.consecutivo_Id, opt => opt.MapFrom(src => src.consecutivo_Id))
+            .ForMember(dest => dest.cod_consecut, opt => opt.MapFrom(src => src.cod_consecut))
+            .ForMember(dest => dest.tipodcto, opt => opt.MapFrom(src => src.FK_codigo_tipodcto))
+            .ForMember(dest => dest.descripcion, opt => opt.MapFrom(src => src.descripcion))
+            .ForMember(dest => dest.consecutivo_ini, opt => opt.MapFrom(src => src.consecutivo_ini))
+            .ForMember(dest => dest.consecutivo_fin, opt => opt.MapFrom(src => src.consecutivo_fin))
+            .ForMember(dest => dest.consecutivo_actual, opt => opt.MapFrom(src => src.consecutivo_actual))
+            .ForMember(dest => dest.afecta_inv, opt => opt.MapFrom(src => src.afecta_inv))
+            .ForMember(dest => dest.es_entrada, opt => opt.MapFrom(src => src.es_entrada));
+
+        // DTO de creación a entidad
+        CreateMap<ConsecutivoCreateDTO, Consecutivo>()
+            .ForMember(dest => dest.cod_consecut, opt => opt.MapFrom(src => src.cod_consecut))
+            .ForMember(dest => dest.FK_codigo_tipodcto, opt => opt.MapFrom(src => src.tipodcto))
+            .ForMember(dest => dest.descripcion, opt => opt.MapFrom(src => src.descripcion))
+            .ForMember(dest => dest.consecutivo_ini, opt => opt.MapFrom(src => src.consecutivo_ini))
+            .ForMember(dest => dest.consecutivo_fin, opt => opt.MapFrom(src => src.consecutivo_fin))
+            .ForMember(dest => dest.consecutivo_actual, opt => opt.MapFrom(src => src.consecutivo_actual))
+            .ForMember(dest => dest.afecta_inv, opt => opt.MapFrom(src => src.afecta_inv))
+            .ForMember(dest => dest.es_entrada, opt => opt.MapFrom(src => src.es_entrada))
+            .ForMember(dest => dest.consecutivo_Id, opt => opt.Ignore()); // El ID se genera automáticamente
+
+        // DTO de actualización a entidad
+        CreateMap<ConsecutivoUpdateDTO, Consecutivo>()
+            .ForMember(dest => dest.consecutivo_Id, opt => opt.MapFrom(src => src.consecutivo_Id))
+            .ForMember(dest => dest.cod_consecut, opt => opt.MapFrom(src => src.cod_consecut))
+            .ForMember(dest => dest.FK_codigo_tipodcto, opt => opt.MapFrom(src => src.tipodcto))
+            .ForMember(dest => dest.descripcion, opt => opt.MapFrom(src => src.descripcion))
+            .ForMember(dest => dest.consecutivo_ini, opt => opt.MapFrom(src => src.consecutivo_ini))
+            .ForMember(dest => dest.consecutivo_fin, opt => opt.MapFrom(src => src.consecutivo_fin))
+            .ForMember(dest => dest.consecutivo_actual, opt => opt.MapFrom(src => src.consecutivo_actual))
+            .ForMember(dest => dest.afecta_inv, opt => opt.MapFrom(src => src.afecta_inv))
+            .ForMember(dest => dest.es_entrada, opt => opt.MapFrom(src => src.es_entrada));
+
+
+
     }
 
 

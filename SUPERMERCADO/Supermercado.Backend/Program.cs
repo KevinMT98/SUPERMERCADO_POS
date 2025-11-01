@@ -172,6 +172,10 @@ builder.Services.AddScoped<ITerceroUnitOfWork, TerceroUnitOfWork>();
 builder.Services.AddScoped<ITipoDctoRepository, TipoDctoRepository>();
 builder.Services.AddScoped<ITipoDctoUnitOfWork, TipoDctoUnitOfWork>();
 
+// Repositorios y units of work específicos para Consecutivos
+builder.Services.AddScoped<IConsecutivoRepository, ConsecutivoRepository>();
+builder.Services.AddScoped<IConsecutivoUnitOfWork, ConsecutivoUnitOfWork>();
+
 // Construir la aplicación con todas las configuraciones anteriores
 var app = builder.Build();
 

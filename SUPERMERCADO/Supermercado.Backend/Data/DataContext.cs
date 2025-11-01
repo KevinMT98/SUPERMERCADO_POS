@@ -17,6 +17,7 @@ public class DataContext : DbContext
     public DbSet<TiposIdentificacion> TiposIdentificacions { get; set; }
     public DbSet<Tercero> Terceros { get; set; }
     public DbSet<TipoDcto> tipoDctos { get; set; }
+    public DbSet<Consecutivo> consecutivos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,5 +36,6 @@ public class DataContext : DbContext
         modelBuilder.Entity<Tercero>().HasIndex(x => x.tercero_id).IsUnique();
         modelBuilder.Entity<Tercero>().HasIndex(x => x.numero_identificacion).IsUnique();
         modelBuilder.Entity<TipoDcto>().HasIndex(x => x.Codigo).IsUnique();
+        modelBuilder.Entity<Consecutivo>().HasIndex(x => x.cod_consecut).IsUnique();
     }
 }

@@ -26,11 +26,14 @@ public class SeedDb
         await CheckUsuariosAsync();
         await CheckProductosAsync();
         await CheckTipoDctoAsync();
+        await CheckConsecutAsync();
     }
+
 
     /// <summary>
     /// Verifica y crea categorías de productos iniciales
     /// </summary>
+    /// 
     private async Task CheckCategoria_ProductosAsync()
     {
         if (!_context.Categoria_Productos.Any())
@@ -56,6 +59,9 @@ public class SeedDb
         }
     }
 
+    /// <summary>
+    /// Verifica y crea tipos de docuemntos iniciales del sistema
+    /// </summary>
     private async Task CheckTipoDctoAsync()
     {
         if (!_context.tipoDctos.Any())
@@ -64,6 +70,30 @@ public class SeedDb
             _context.tipoDctos.Add(new TipoDcto { Codigo = "NC", Descripcion = "Nota Credito" });
             _context.tipoDctos.Add(new TipoDcto { Codigo = "ND", Descripcion = "Nota Debito"});
             _context.tipoDctos.Add(new TipoDcto { Codigo = "PD", Descripcion = "Pedidos"});
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    /// <summary>
+    /// Verifica y crea consecutivos iniciales del sistema
+    /// </summary>
+
+    private async Task CheckConsecutAsync()
+    {
+        if (!_context.consecutivos.Any())
+        {
+            _context.consecutivos.Add(new Consecutivo
+            {
+                cod_consecut = "FA001",
+                descripcion = "Consecutivo para Facturas de Venta",
+                consecutivo_ini = 1,
+                consecutivo_fin = 100000,
+                consecutivo_actual = 0,
+                FK_codigo_tipodcto = _context.tipoDctos.FirstOrDefault(t => t.Codigo == "FA")!.ID,
+                afecta_inv = true,
+                es_entrada = true,
+
+            });
             await _context.SaveChangesAsync();
         }
     }
