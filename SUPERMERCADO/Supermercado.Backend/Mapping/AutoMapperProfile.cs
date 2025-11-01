@@ -242,6 +242,181 @@ public class AutoMapperProfile : Profile
 
 
 
+        // ===== MAPEOS PARA MOVIMIENTO =====
+        
+        // Entidad a DTO de lectura
+        CreateMap<Movimiento, MovimientoDTO>()
+            .ForMember(dest => dest.movimiento_id, opt => opt.MapFrom(src => src.movimiento_id))
+            .ForMember(dest => dest.codigo_tipodoc, opt => opt.MapFrom(src => src.FK_codigo_tipodoc))
+            .ForMember(dest => dest.consecutivo_id, opt => opt.MapFrom(src => src.FK_consecutivo_id))
+            .ForMember(dest => dest.numero_documento, opt => opt.MapFrom(src => src.numero_documento))
+            .ForMember(dest => dest.fecha, opt => opt.MapFrom(src => src.fecha))
+            .ForMember(dest => dest.usuario_id, opt => opt.MapFrom(src => src.FK_usuario_id))
+            .ForMember(dest => dest.tercero_id, opt => opt.MapFrom(src => src.FK_tercero_id))
+            .ForMember(dest => dest.observaciones, opt => opt.MapFrom(src => src.observaciones));
+
+        // DTO de creación a entidad
+        CreateMap<MovimientoCreateDTO, Movimiento>()
+            .ForMember(dest => dest.FK_codigo_tipodoc, opt => opt.MapFrom(src => src.codigo_tipodoc))
+            .ForMember(dest => dest.FK_consecutivo_id, opt => opt.MapFrom(src => src.consecutivo_id))
+            .ForMember(dest => dest.numero_documento, opt => opt.MapFrom(src => src.numero_documento))
+            .ForMember(dest => dest.fecha, opt => opt.MapFrom(src => src.fecha))
+            .ForMember(dest => dest.FK_usuario_id, opt => opt.MapFrom(src => src.usuario_id))
+            .ForMember(dest => dest.FK_tercero_id, opt => opt.MapFrom(src => src.tercero_id))
+            .ForMember(dest => dest.observaciones, opt => opt.MapFrom(src => src.observaciones))
+            .ForMember(dest => dest.movimiento_id, opt => opt.Ignore()) // El ID se genera automáticamente
+            .ForMember(dest => dest.TipoDcto, opt => opt.Ignore()) // Propiedades de navegación
+            .ForMember(dest => dest.Consecutivo, opt => opt.Ignore())
+            .ForMember(dest => dest.Usuario, opt => opt.Ignore())
+            .ForMember(dest => dest.Tercero, opt => opt.Ignore())
+            .ForMember(dest => dest.Facturas, opt => opt.Ignore());
+
+        // DTO de actualización a entidad
+        CreateMap<MovimientoUpdateDTO, Movimiento>()
+            .ForMember(dest => dest.movimiento_id, opt => opt.MapFrom(src => src.movimiento_id))
+            .ForMember(dest => dest.FK_codigo_tipodoc, opt => opt.MapFrom(src => src.codigo_tipodoc))
+            .ForMember(dest => dest.FK_consecutivo_id, opt => opt.MapFrom(src => src.consecutivo_id))
+            .ForMember(dest => dest.numero_documento, opt => opt.MapFrom(src => src.numero_documento))
+            .ForMember(dest => dest.fecha, opt => opt.MapFrom(src => src.fecha))
+            .ForMember(dest => dest.FK_usuario_id, opt => opt.MapFrom(src => src.usuario_id))
+            .ForMember(dest => dest.FK_tercero_id, opt => opt.MapFrom(src => src.tercero_id))
+            .ForMember(dest => dest.observaciones, opt => opt.MapFrom(src => src.observaciones))
+            .ForMember(dest => dest.TipoDcto, opt => opt.Ignore()) // Propiedades de navegación
+            .ForMember(dest => dest.Consecutivo, opt => opt.Ignore())
+            .ForMember(dest => dest.Usuario, opt => opt.Ignore())
+            .ForMember(dest => dest.Tercero, opt => opt.Ignore())
+            .ForMember(dest => dest.Facturas, opt => opt.Ignore());
+
+
+        // ===== MAPEOS PARA FACTURA =====
+        
+        // Entidad a DTO de lectura
+        CreateMap<Factura, FacturaDTO>()
+            .ForMember(dest => dest.factura_id, opt => opt.MapFrom(src => src.factura_id))
+            .ForMember(dest => dest.movimiento_id, opt => opt.MapFrom(src => src.FK_movimiento_id))
+            .ForMember(dest => dest.total_bruto, opt => opt.MapFrom(src => src.total_bruto))
+            .ForMember(dest => dest.total_descuentos, opt => opt.MapFrom(src => src.total_descuentos))
+            .ForMember(dest => dest.total_neto, opt => opt.MapFrom(src => src.total_neto));
+
+        // DTO de creación a entidad
+        CreateMap<FacturaCreateDTO, Factura>()
+            .ForMember(dest => dest.FK_movimiento_id, opt => opt.MapFrom(src => src.movimiento_id))
+            .ForMember(dest => dest.total_bruto, opt => opt.MapFrom(src => src.total_bruto))
+            .ForMember(dest => dest.total_descuentos, opt => opt.MapFrom(src => src.total_descuentos))
+            .ForMember(dest => dest.total_neto, opt => opt.MapFrom(src => src.total_neto))
+            .ForMember(dest => dest.factura_id, opt => opt.Ignore()) // El ID se genera automáticamente
+            .ForMember(dest => dest.Movimiento, opt => opt.Ignore()) // Propiedades de navegación
+            .ForMember(dest => dest.DetallesFactura, opt => opt.Ignore())
+            .ForMember(dest => dest.PagosFactura, opt => opt.Ignore());
+
+        // DTO de actualización a entidad
+        CreateMap<FacturaUpdateDTO, Factura>()
+            .ForMember(dest => dest.factura_id, opt => opt.MapFrom(src => src.factura_id))
+            .ForMember(dest => dest.FK_movimiento_id, opt => opt.MapFrom(src => src.movimiento_id))
+            .ForMember(dest => dest.total_bruto, opt => opt.MapFrom(src => src.total_bruto))
+            .ForMember(dest => dest.total_descuentos, opt => opt.MapFrom(src => src.total_descuentos))
+            .ForMember(dest => dest.total_neto, opt => opt.MapFrom(src => src.total_neto))
+            .ForMember(dest => dest.Movimiento, opt => opt.Ignore()) // Propiedades de navegación
+            .ForMember(dest => dest.DetallesFactura, opt => opt.Ignore())
+            .ForMember(dest => dest.PagosFactura, opt => opt.Ignore());
+
+
+        // ===== MAPEOS PARA DETALLE_FACTURA =====
+        
+        // Entidad a DTO de lectura
+        CreateMap<Detalle_Factura, DetalleFacturaDTO>()
+            .ForMember(dest => dest.detalle_id, opt => opt.MapFrom(src => src.detalle_id))
+            .ForMember(dest => dest.factura_id, opt => opt.MapFrom(src => src.FK_factura_id))
+            .ForMember(dest => dest.producto_id, opt => opt.MapFrom(src => src.FK_producto_id))
+            .ForMember(dest => dest.cantidad, opt => opt.MapFrom(src => src.cantidad))
+            .ForMember(dest => dest.precio_unitario, opt => opt.MapFrom(src => src.precio_unitario))
+            .ForMember(dest => dest.descuento_porcentaje, opt => opt.MapFrom(src => src.descuento_porcentaje))
+            .ForMember(dest => dest.descuento_valor, opt => opt.MapFrom(src => src.descuento_valor))
+            .ForMember(dest => dest.subtotal, opt => opt.MapFrom(src => src.subtotal));
+
+        // DTO de creación a entidad
+        CreateMap<DetalleFacturaCreateDTO, Detalle_Factura>()
+            .ForMember(dest => dest.FK_factura_id, opt => opt.MapFrom(src => src.factura_id))
+            .ForMember(dest => dest.FK_producto_id, opt => opt.MapFrom(src => src.producto_id))
+            .ForMember(dest => dest.cantidad, opt => opt.MapFrom(src => src.cantidad))
+            .ForMember(dest => dest.precio_unitario, opt => opt.MapFrom(src => src.precio_unitario))
+            .ForMember(dest => dest.descuento_porcentaje, opt => opt.MapFrom(src => src.descuento_porcentaje))
+            .ForMember(dest => dest.descuento_valor, opt => opt.MapFrom(src => src.descuento_valor))
+            .ForMember(dest => dest.subtotal, opt => opt.MapFrom(src => src.subtotal))
+            .ForMember(dest => dest.detalle_id, opt => opt.Ignore()) // El ID se genera automáticamente
+            .ForMember(dest => dest.Factura, opt => opt.Ignore()) // Propiedades de navegación
+            .ForMember(dest => dest.Producto, opt => opt.Ignore());
+
+        // DTO de actualización a entidad
+        CreateMap<DetalleFacturaUpdateDTO, Detalle_Factura>()
+            .ForMember(dest => dest.detalle_id, opt => opt.MapFrom(src => src.detalle_id))
+            .ForMember(dest => dest.FK_factura_id, opt => opt.MapFrom(src => src.factura_id))
+            .ForMember(dest => dest.FK_producto_id, opt => opt.MapFrom(src => src.producto_id))
+            .ForMember(dest => dest.cantidad, opt => opt.MapFrom(src => src.cantidad))
+            .ForMember(dest => dest.precio_unitario, opt => opt.MapFrom(src => src.precio_unitario))
+            .ForMember(dest => dest.descuento_porcentaje, opt => opt.MapFrom(src => src.descuento_porcentaje))
+            .ForMember(dest => dest.descuento_valor, opt => opt.MapFrom(src => src.descuento_valor))
+            .ForMember(dest => dest.subtotal, opt => opt.MapFrom(src => src.subtotal))
+            .ForMember(dest => dest.Factura, opt => opt.Ignore()) // Propiedades de navegación
+            .ForMember(dest => dest.Producto, opt => opt.Ignore());
+
+
+        // ===== MAPEOS PARA METODOS_PAGO =====
+        
+        // Entidad a DTO de lectura
+        CreateMap<Metodos_Pago, MetodosPagoDTO>()
+            .ForMember(dest => dest.id_metodo_pago, opt => opt.MapFrom(src => src.id_metodo_pago))
+            .ForMember(dest => dest.metodo_pago, opt => opt.MapFrom(src => src.metodo_pago))
+            .ForMember(dest => dest.codigo_metpag, opt => opt.MapFrom(src => src.codigo_metpag))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.activo));
+
+        // DTO de creación a entidad
+        CreateMap<MetodosPagoCreateDTO, Metodos_Pago>()
+            .ForMember(dest => dest.metodo_pago, opt => opt.MapFrom(src => src.metodo_pago))
+            .ForMember(dest => dest.codigo_metpag, opt => opt.MapFrom(src => src.codigo_metpag))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.activo))
+            .ForMember(dest => dest.id_metodo_pago, opt => opt.Ignore()) // El ID se genera automáticamente
+            .ForMember(dest => dest.PagosFactura, opt => opt.Ignore()); // Propiedades de navegación
+
+        // DTO de actualización a entidad
+        CreateMap<MetodosPagoUpdateDTO, Metodos_Pago>()
+            .ForMember(dest => dest.id_metodo_pago, opt => opt.MapFrom(src => src.id_metodo_pago))
+            .ForMember(dest => dest.metodo_pago, opt => opt.MapFrom(src => src.metodo_pago))
+            .ForMember(dest => dest.codigo_metpag, opt => opt.MapFrom(src => src.codigo_metpag))
+            .ForMember(dest => dest.activo, opt => opt.MapFrom(src => src.activo))
+            .ForMember(dest => dest.PagosFactura, opt => opt.Ignore()); // Propiedades de navegación
+
+
+        // ===== MAPEOS PARA PAGO_FACTURA =====
+        
+        // Entidad a DTO de lectura
+        CreateMap<Pago_Factura, PagoFacturaDTO>()
+            .ForMember(dest => dest.pago_id, opt => opt.MapFrom(src => src.pago_id))
+            .ForMember(dest => dest.factura_id, opt => opt.MapFrom(src => src.FK_factura_id))
+            .ForMember(dest => dest.id_metodo_pago, opt => opt.MapFrom(src => src.FK_id_metodo_pago))
+            .ForMember(dest => dest.monto, opt => opt.MapFrom(src => src.monto))
+            .ForMember(dest => dest.referencia_pago, opt => opt.MapFrom(src => src.referencia_pago));
+
+        // DTO de creación a entidad
+        CreateMap<PagoFacturaCreateDTO, Pago_Factura>()
+            .ForMember(dest => dest.FK_factura_id, opt => opt.MapFrom(src => src.factura_id))
+            .ForMember(dest => dest.FK_id_metodo_pago, opt => opt.MapFrom(src => src.id_metodo_pago))
+            .ForMember(dest => dest.monto, opt => opt.MapFrom(src => src.monto))
+            .ForMember(dest => dest.referencia_pago, opt => opt.MapFrom(src => src.referencia_pago))
+            .ForMember(dest => dest.pago_id, opt => opt.Ignore()) // El ID se genera automáticamente
+            .ForMember(dest => dest.Factura, opt => opt.Ignore()) // Propiedades de navegación
+            .ForMember(dest => dest.MetodoPago, opt => opt.Ignore());
+
+        // DTO de actualización a entidad
+        CreateMap<PagoFacturaUpdateDTO, Pago_Factura>()
+            .ForMember(dest => dest.pago_id, opt => opt.MapFrom(src => src.pago_id))
+            .ForMember(dest => dest.FK_factura_id, opt => opt.MapFrom(src => src.factura_id))
+            .ForMember(dest => dest.FK_id_metodo_pago, opt => opt.MapFrom(src => src.id_metodo_pago))
+            .ForMember(dest => dest.monto, opt => opt.MapFrom(src => src.monto))
+            .ForMember(dest => dest.referencia_pago, opt => opt.MapFrom(src => src.referencia_pago))
+            .ForMember(dest => dest.Factura, opt => opt.Ignore()) // Propiedades de navegación
+            .ForMember(dest => dest.MetodoPago, opt => opt.Ignore());
+
     }
 
 

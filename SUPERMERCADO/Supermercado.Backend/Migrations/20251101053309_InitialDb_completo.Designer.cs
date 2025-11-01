@@ -12,8 +12,8 @@ using Supermercado.Backend.Data;
 namespace Supermercado.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251027011244_entidad_Tercero_again")]
-    partial class entidad_Tercero_again
+    [Migration("20251101053309_InitialDb_completo")]
+    partial class InitialDb_completo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,172 @@ namespace Supermercado.Backend.Migrations
                         .IsUnique();
 
                     b.ToTable("Categoria_Productos");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Consecutivo", b =>
+                {
+                    b.Property<int>("consecutivo_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("consecutivo_Id"));
+
+                    b.Property<int>("FK_codigo_tipodcto")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("afecta_inv")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("cod_consecut")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("consecutivo_actual")
+                        .HasColumnType("int");
+
+                    b.Property<int>("consecutivo_fin")
+                        .HasColumnType("int");
+
+                    b.Property<int>("consecutivo_ini")
+                        .HasColumnType("int");
+
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("es_entrada")
+                        .HasColumnType("bit");
+
+                    b.HasKey("consecutivo_Id");
+
+                    b.HasIndex("FK_codigo_tipodcto");
+
+                    b.HasIndex("cod_consecut")
+                        .IsUnique();
+
+                    b.ToTable("consecutivos");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Detalle_Factura", b =>
+                {
+                    b.Property<int>("detalle_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("detalle_id"));
+
+                    b.Property<int>("FK_factura_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FK_producto_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("descuento_porcentaje")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal>("descuento_valor")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("precio_unitario")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("subtotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("detalle_id");
+
+                    b.HasIndex("FK_factura_id");
+
+                    b.HasIndex("FK_producto_id");
+
+                    b.HasIndex("detalle_id")
+                        .IsUnique();
+
+                    b.ToTable("DetallesFactura");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Factura", b =>
+                {
+                    b.Property<int>("factura_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("factura_id"));
+
+                    b.Property<int>("FK_movimiento_id")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("total_bruto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("total_descuentos")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("total_neto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("factura_id");
+
+                    b.HasIndex("FK_movimiento_id");
+
+                    b.HasIndex("factura_id")
+                        .IsUnique();
+
+                    b.ToTable("Facturas");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Movimiento", b =>
+                {
+                    b.Property<int>("movimiento_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("movimiento_id"));
+
+                    b.Property<int>("FK_codigo_tipodoc")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FK_consecutivo_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FK_tercero_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FK_usuario_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("numero_documento")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("observaciones")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("movimiento_id");
+
+                    b.HasIndex("FK_codigo_tipodoc");
+
+                    b.HasIndex("FK_consecutivo_id");
+
+                    b.HasIndex("FK_tercero_id");
+
+                    b.HasIndex("FK_usuario_id");
+
+                    b.HasIndex("movimiento_id")
+                        .IsUnique();
+
+                    b.HasIndex("numero_documento")
+                        .IsUnique();
+
+                    b.ToTable("Movimientos");
                 });
 
             modelBuilder.Entity("Supermercado.Shared.Entities.Producto", b =>
@@ -235,6 +401,30 @@ namespace Supermercado.Backend.Migrations
                     b.ToTable("Terceros");
                 });
 
+            modelBuilder.Entity("Supermercado.Shared.Entities.TipoDcto", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Codigo")
+                        .IsUnique();
+
+                    b.ToTable("tipoDctos");
+                });
+
             modelBuilder.Entity("Supermercado.Shared.Entities.TiposIdentificacion", b =>
                 {
                     b.Property<int>("ID")
@@ -333,6 +523,82 @@ namespace Supermercado.Backend.Migrations
                     b.ToTable("Usuarios");
                 });
 
+            modelBuilder.Entity("Supermercado.Shared.Entities.Consecutivo", b =>
+                {
+                    b.HasOne("Supermercado.Shared.Entities.TipoDcto", "ID")
+                        .WithMany()
+                        .HasForeignKey("FK_codigo_tipodcto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ID");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Detalle_Factura", b =>
+                {
+                    b.HasOne("Supermercado.Shared.Entities.Factura", "Factura")
+                        .WithMany("DetallesFactura")
+                        .HasForeignKey("FK_factura_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Supermercado.Shared.Entities.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("FK_producto_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Factura");
+
+                    b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Factura", b =>
+                {
+                    b.HasOne("Supermercado.Shared.Entities.Movimiento", "Movimiento")
+                        .WithMany("Facturas")
+                        .HasForeignKey("FK_movimiento_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movimiento");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Movimiento", b =>
+                {
+                    b.HasOne("Supermercado.Shared.Entities.TipoDcto", "TipoDcto")
+                        .WithMany()
+                        .HasForeignKey("FK_codigo_tipodoc")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Supermercado.Shared.Entities.Consecutivo", "Consecutivo")
+                        .WithMany()
+                        .HasForeignKey("FK_consecutivo_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Supermercado.Shared.Entities.Tercero", "Tercero")
+                        .WithMany()
+                        .HasForeignKey("FK_tercero_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Supermercado.Shared.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("FK_usuario_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Consecutivo");
+
+                    b.Navigation("Tercero");
+
+                    b.Navigation("TipoDcto");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("Supermercado.Shared.Entities.Producto", b =>
                 {
                     b.HasOne("Supermercado.Shared.Entities.Categoria_Producto", "Categoria")
@@ -372,6 +638,16 @@ namespace Supermercado.Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Factura", b =>
+                {
+                    b.Navigation("DetallesFactura");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Movimiento", b =>
+                {
+                    b.Navigation("Facturas");
                 });
 #pragma warning restore 612, 618
         }

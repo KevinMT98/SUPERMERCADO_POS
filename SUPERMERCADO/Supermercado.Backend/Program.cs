@@ -60,7 +60,7 @@ options.AddSecurityRequirement(new OpenApiSecurityRequirement
     });
 });
 
-// Configurar Entity Framework con SQL Server
+// Configurar Entity Framework with SQL Server
 // Utiliza la cadena de conexión "DefaultConnection" del archivo appsettings.json
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -175,6 +175,26 @@ builder.Services.AddScoped<ITipoDctoUnitOfWork, TipoDctoUnitOfWork>();
 // Repositorios y units of work específicos para Consecutivos
 builder.Services.AddScoped<IConsecutivoRepository, ConsecutivoRepository>();
 builder.Services.AddScoped<IConsecutivoUnitOfWork, ConsecutivoUnitOfWork>();
+
+// Repositorios y units of work específicos para Movimientos
+builder.Services.AddScoped<IMovimientoRepository, MovimientoRepository>();
+builder.Services.AddScoped<IMovimientoUnitOfWork, MovimientoUnitOfWork>();
+
+// Repositorios y units of work específicos para Facturas
+builder.Services.AddScoped<IFacturaRepository, FacturaRepository>();
+builder.Services.AddScoped<IFacturaUnitOfWork, FacturaUnitOfWork>();
+
+// Repositorios y units of work específicos para Detalle de Factura
+builder.Services.AddScoped<IDetalleFacturaRepository, DetalleFacturaRepository>();
+builder.Services.AddScoped<IDetalleFacturaUnitOfWork, DetalleFacturaUnitOfWork>();
+
+// Repositorios y units of work específicos para Métodos de Pago
+builder.Services.AddScoped<IMetodosPagoRepository, MetodosPagoRepository>();
+builder.Services.AddScoped<IMetodosPagoUnitOfWork, MetodosPagoUnitOfWork>();
+
+// Repositorios y units of work específicos para Pago de Factura
+builder.Services.AddScoped<IPagoFacturaRepository, PagoFacturaRepository>();
+builder.Services.AddScoped<IPagoFacturaUnitOfWork, PagoFacturaUnitOfWork>();
 
 // Construir la aplicación con todas las configuraciones anteriores
 var app = builder.Build();
