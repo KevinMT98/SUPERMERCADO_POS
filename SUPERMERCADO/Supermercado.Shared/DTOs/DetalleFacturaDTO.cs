@@ -1,6 +1,8 @@
+using Supermercado.Shared.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace Supermercado.Shared.DTOs;
+
 
 /// <summary>
 /// DTO para lectura de detalles de factura
@@ -12,6 +14,7 @@ public class DetalleFacturaDTO
     public int producto_id { get; set; }
     public int cantidad { get; set; }
     public decimal precio_unitario { get; set; }
+    public decimal porcentaje_iva { get; set; }
     public decimal descuento_porcentaje { get; set; }
     public decimal descuento_valor { get; set; }
     public decimal subtotal { get; set; }

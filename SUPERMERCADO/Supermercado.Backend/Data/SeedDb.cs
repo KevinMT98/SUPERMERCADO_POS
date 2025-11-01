@@ -1,10 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Supermercado.Shared.Entities;
 
 namespace Supermercado.Backend.Data;
 
-/// <summary>
-/// Clase para crear la base de datos y poblar datos iniciales (seed data)
-/// </summary>
 public class SeedDb
 {
     private readonly DataContext _context;
@@ -14,26 +12,31 @@ public class SeedDb
         _context = context;
     }
 
-    /// <summary>
-    /// Ejecuta el proceso de poblaciÃ³n de datos iniciales
-    /// </summary>
     public async Task SeedAsync()
     {
         await _context.Database.EnsureCreatedAsync();
         await CheckRolsAsync();
+        await CheckTiposIdentificacionAsync();
         await CheckCategoria_ProductosAsync();
         await CheckTarifa_IVAsAsync();
-        await CheckUsuariosAsync();
-        await CheckProductosAsync();
         await CheckTipoDctoAsync();
         await CheckConsecutAsync();
+        await CheckMetodosPagoAsync();
+        await CheckUsuariosAsync();
+        await CheckTercerosAsync();
+        await CheckProductosAsync();
     }
 
+    private async Task CheckRolsAsync()
+    {
+        if (!_context.Rols.Any())
+        {
+            _context.Rols.Add(new Rol { nombre = "Admin", activo = true });
+            _context.Rols.Add(new Rol { nombre = "User", activo = true });
+            await _context.SaveChangesAsync();
+        }
+    }
 
-    /// <summary>
-    /// Verifica y crea categorÃ­as de productos iniciales
-    /// </summary>
-    /// 
     private async Task CheckCategoria_ProductosAsync()
     {
         if (!_context.Categoria_Productos.Any())
@@ -46,71 +49,75 @@ public class SeedDb
         }
     }
 
-    /// <summary>
-    /// Verifica y crea roles iniciales del sistema
-    /// </summary>
-    private async Task CheckRolsAsync()
+    private async Task CheckTarifa_IVAsAsync()
     {
-        if (!_context.Rols.Any())
+        if (!_context.Tarifa_IVAs.Any())
         {
-            _context.Rols.Add(new Rol { nombre = "Admin", activo = true});
-            _context.Rols.Add(new Rol { nombre = "User", activo = true });
+            _context.Tarifa_IVAs.Add(new Tarifa_IVA { codigo_Iva = "IVA0", descripcion = "Exento de IVA", porcentaje = 0m, estado = true });
+            _context.Tarifa_IVAs.Add(new Tarifa_IVA { codigo_Iva = "IVA5", descripcion = "IVA Reducido", porcentaje = 5m, estado = true });
+            _context.Tarifa_IVAs.Add(new Tarifa_IVA { codigo_Iva = "IVA19", descripcion = "IVA General", porcentaje = 19m, estado = true });
             await _context.SaveChangesAsync();
         }
     }
 
-    /// <summary>
-    /// Verifica y crea tipos de docuemntos iniciales del sistema
-    /// </summary>
     private async Task CheckTipoDctoAsync()
     {
         if (!_context.tipoDctos.Any())
         {
-            _context.tipoDctos.Add(new TipoDcto { Codigo = "FA", Descripcion = "Factura Venta"});
+            _context.tipoDctos.Add(new TipoDcto { Codigo = "FA", Descripcion = "Factura Venta" });
             _context.tipoDctos.Add(new TipoDcto { Codigo = "NC", Descripcion = "Nota Credito" });
-            _context.tipoDctos.Add(new TipoDcto { Codigo = "ND", Descripcion = "Nota Debito"});
-            _context.tipoDctos.Add(new TipoDcto { Codigo = "PD", Descripcion = "Pedidos"});
+            _context.tipoDctos.Add(new TipoDcto { Codigo = "ND", Descripcion = "Nota Debito" });
+            _context.tipoDctos.Add(new TipoDcto { Codigo = "PD", Descripcion = "Pedidos" });
             await _context.SaveChangesAsync();
         }
     }
-
-    /// <summary>
-    /// Verifica y crea consecutivos iniciales del sistema
-    /// </summary>
 
     private async Task CheckConsecutAsync()
     {
         if (!_context.consecutivos.Any())
         {
-            _context.consecutivos.Add(new Consecutivo
+            var tipoFA = _context.tipoDctos.FirstOrDefault(t => t.Codigo == "FA");
+            if (tipoFA != null)
             {
-                cod_consecut = "FA001",
-                descripcion = "Consecutivo para Facturas de Venta",
-                consecutivo_ini = 1,
-                consecutivo_fin = 100000,
-                consecutivo_actual = 0,
-                FK_codigo_tipodcto = _context.tipoDctos.FirstOrDefault(t => t.Codigo == "FA")!.ID,
-                afecta_inv = true,
-                es_entrada = true,
+                _context.consecutivos.Add(new Consecutivo
+                {
+                    cod_consecut = "FV",
+                    descripcion = "Consecutivo para Facturas de Venta",
+                    consecutivo_ini = 1,
+                    consecutivo_fin = 100000,
+                    consecutivo_actual = 0,
+                    FK_codigo_tipodcto = tipoFA.ID,
+                    afecta_inv = true,
+                    es_entrada = false
+                });
+                await _context.SaveChangesAsync();
+            }
+        }
+    }
 
-            });
+    private async Task CheckMetodosPagoAsync()
+    {
+        if (!_context.MetodosPago.Any())
+        {
+            _context.MetodosPago.Add(new Metodos_Pago { codigo_metpag = "EF", metodo_pago = "Efectivo", activo = true });
+            _context.MetodosPago.Add(new Metodos_Pago { codigo_metpag = "TC", metodo_pago = "Tarjeta de Crédito", activo = true });
+            _context.MetodosPago.Add(new Metodos_Pago { codigo_metpag = "TD", metodo_pago = "Tarjeta de Débito", activo = true });
+            _context.MetodosPago.Add(new Metodos_Pago { codigo_metpag = "TR", metodo_pago = "Transferencia Bancaria", activo = true });
+            _context.MetodosPago.Add(new Metodos_Pago { codigo_metpag = "NQ", metodo_pago = "Nequi", activo = true });
+            _context.MetodosPago.Add(new Metodos_Pago { codigo_metpag = "DV", metodo_pago = "Daviplata", activo = true });
             await _context.SaveChangesAsync();
         }
     }
-    /// <summary>
-    /// Verifica y crea usuarios iniciales del sistema
-    /// </summary>
+
     private async Task CheckUsuariosAsync()
     {
         if (!_context.Usuarios.Any())
         {
-            // Obtener los roles para asignar a los usuarios
             var rolAdmin = _context.Rols.FirstOrDefault(r => r.nombre == "Admin");
             var rolUser = _context.Rols.FirstOrDefault(r => r.nombre == "User");
 
             if (rolAdmin != null)
             {
-                // Crear usuario administrador principal
                 _context.Usuarios.Add(new Usuario
                 {
                     nombre_usuario = "admin",
@@ -123,7 +130,6 @@ public class SeedDb
                     fecha_creacion = DateTime.UtcNow
                 });
 
-                // Crear super administrador
                 _context.Usuarios.Add(new Usuario
                 {
                     nombre_usuario = "superadmin",
@@ -139,13 +145,12 @@ public class SeedDb
 
             if (rolUser != null)
             {
-                // Crear usuarios de prueba con rol User
                 _context.Usuarios.Add(new Usuario
                 {
                     nombre_usuario = "usuario1",
                     password_hash = BCrypt.Net.BCrypt.HashPassword("User123!"),
                     nombre = "Juan",
-                    apellido = "PÃ©rez",
+                    apellido = "Pérez",
                     email = "juan.perez@supermercado.com",
                     FK_rol_id = rolUser.rol_id,
                     activo = true,
@@ -156,15 +161,14 @@ public class SeedDb
                 {
                     nombre_usuario = "usuario2",
                     password_hash = BCrypt.Net.BCrypt.HashPassword("User123!"),
-                    nombre = "MarÃ­a",
-                    apellido = "GarcÃ­a",
+                    nombre = "María",
+                    apellido = "García",
                     email = "maria.garcia@supermercado.com",
                     FK_rol_id = rolUser.rol_id,
                     activo = true,
                     fecha_creacion = DateTime.UtcNow
                 });
 
-                // Usuario inactivo para pruebas de autenticaciÃ³n
                 _context.Usuarios.Add(new Usuario
                 {
                     nombre_usuario = "usuario_inactivo",
@@ -182,51 +186,15 @@ public class SeedDb
         }
     }
 
-    /// <summary>
-    /// Verifica y crea tarifas de IVA iniciales
-    /// </summary>
-    private async Task CheckTarifa_IVAsAsync()
-    {
-        if (!_context.Tarifa_IVAs.Any())
-        {
-            _context.Tarifa_IVAs.Add(new Tarifa_IVA 
-            { 
-                codigo_Iva = "IVA0", 
-                descripcion = "Exento de IVA", 
-                porcentaje = 0m, 
-                estado = true 
-            });
-            _context.Tarifa_IVAs.Add(new Tarifa_IVA 
-            { 
-                codigo_Iva = "IVA5", 
-                descripcion = "IVA Reducido", 
-                porcentaje = 5m, 
-                estado = true 
-            });
-            _context.Tarifa_IVAs.Add(new Tarifa_IVA 
-            { 
-                codigo_Iva = "IVA19", 
-                descripcion = "IVA General", 
-                porcentaje = 19m, 
-                estado = true 
-            });
-            await _context.SaveChangesAsync();
-        }
-    }
-
-    /// <summary>
-    /// Verifica y crea productos de prueba iniciales
-    /// </summary>
     private async Task CheckProductosAsync()
     {
         if (!_context.Productos.Any())
         {
-            // Obtener las categorÃ­as y tarifas de IVA para las relaciones
             var categoriaBebidas = _context.Categoria_Productos.FirstOrDefault(c => c.descripcion == "Bebidas");
             var categoriaLacteos = _context.Categoria_Productos.FirstOrDefault(c => c.descripcion == "Lacteos");
             var categoriaAseo = _context.Categoria_Productos.FirstOrDefault(c => c.descripcion == "Aseo");
             var categoriaComida = _context.Categoria_Productos.FirstOrDefault(c => c.descripcion == "Comida");
-            
+
             var iva19 = _context.Tarifa_IVAs.FirstOrDefault(i => i.codigo_Iva == "IVA19");
             var iva5 = _context.Tarifa_IVAs.FirstOrDefault(i => i.codigo_Iva == "IVA5");
             var iva0 = _context.Tarifa_IVAs.FirstOrDefault(i => i.codigo_Iva == "IVA0");
@@ -288,8 +256,8 @@ public class SeedDb
                 {
                     codigo_producto = "ASE001",
                     codigo_barras = "7702003234567",
-                    nombre = "JabÃ³n LÃ­quido 500ml",
-                    descripcion = "JabÃ³n lÃ­quido antibacterial",
+                    nombre = "Jabón Líquido 500ml",
+                    descripcion = "Jabón líquido antibacterial",
                     precio_unitario = 8500m,
                     FK_categoria_id = categoriaAseo.categoriaId,
                     FK_codigo_iva = iva19.tarifa_iva_id,
@@ -314,6 +282,144 @@ public class SeedDb
                     stock_actual = 60,
                     stock_minimo = 20,
                     stock_maximo = 150,
+                    activo = true
+                });
+            }
+
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    private async Task CheckTiposIdentificacionAsync()
+    {
+        if (!_context.TiposIdentificacions.Any())
+        {
+            _context.TiposIdentificacions.Add(new TiposIdentificacion
+            {
+                tipoDocumentoID = "CC",
+                descripcion = "Cédula de Ciudadanía",
+                activo = true
+            });
+
+            _context.TiposIdentificacions.Add(new TiposIdentificacion
+            {
+                tipoDocumentoID = "CE",
+                descripcion = "Cédula de Extranjería",
+                activo = true
+            });
+
+            _context.TiposIdentificacions.Add(new TiposIdentificacion
+            {
+                tipoDocumentoID = "NIT",
+                descripcion = "NIT",
+                activo = true
+            });
+
+            _context.TiposIdentificacions.Add(new TiposIdentificacion
+            {
+                tipoDocumentoID = "PAS",
+                descripcion = "Pasaporte",
+                activo = true
+            });
+
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    private async Task CheckTercerosAsync()
+    {
+        if (!_context.Terceros.Any())
+        {
+            var tipoCC = _context.TiposIdentificacions.FirstOrDefault(t => t.tipoDocumentoID == "CC");
+            var tipoNIT = _context.TiposIdentificacions.FirstOrDefault(t => t.tipoDocumentoID == "NIT");
+
+            if (tipoCC != null)
+            {
+                // Cliente 1
+                _context.Terceros.Add(new Tercero
+                {
+                    FK_codigo_ident = tipoCC.ID,
+                    numero_identificacion = "1234567890",
+                    nombre = "Carlos",
+                    nombre2 = "Alberto",
+                    apellido1 = "Gómez",
+                    apellido2 = "Pérez",
+                    email = "carlos.gomez@email.com",
+                    direccion = "Calle 123 #45-67",
+                    telefono = "3001234567",
+                    es_cliente = true,
+                    es_proveedor = false,
+                    activo = true
+                });
+
+                // Cliente 2
+                _context.Terceros.Add(new Tercero
+                {
+                    FK_codigo_ident = tipoCC.ID,
+                    numero_identificacion = "9876543210",
+                    nombre = "Ana",
+                    nombre2 = "María",
+                    apellido1 = "Rodríguez",
+                    apellido2 = "López",
+                    email = "ana.rodriguez@email.com",
+                    direccion = "Carrera 45 #12-34",
+                    telefono = "3109876543",
+                    es_cliente = true,
+                    es_proveedor = false,
+                    activo = true
+                });
+
+                // Cliente 3
+                _context.Terceros.Add(new Tercero
+                {
+                    FK_codigo_ident = tipoCC.ID,
+                    numero_identificacion = "5555555555",
+                    nombre = "Luis",
+                    nombre2 = "",
+                    apellido1 = "Martínez",
+                    apellido2 = "Castro",
+                    email = "luis.martinez@email.com",
+                    direccion = "Avenida 68 #100-25",
+                    telefono = "3205555555",
+                    es_cliente = true,
+                    es_proveedor = false,
+                    activo = true
+                });
+            }
+
+            if (tipoNIT != null)
+            {
+                // Proveedor 1
+                _context.Terceros.Add(new Tercero
+                {
+                    FK_codigo_ident = tipoNIT.ID,
+                    numero_identificacion = "900123456-1",
+                    nombre = "Distribuidora",
+                    nombre2 = "La",
+                    apellido1 = "Economía",
+                    apellido2 = "SAS",
+                    email = "ventas@laeconomia.com",
+                    direccion = "Calle 50 #20-30",
+                    telefono = "6012345678",
+                    es_cliente = false,
+                    es_proveedor = true,
+                    activo = true
+                });
+
+                // Cliente y Proveedor
+                _context.Terceros.Add(new Tercero
+                {
+                    FK_codigo_ident = tipoNIT.ID,
+                    numero_identificacion = "800987654-3",
+                    nombre = "Supermercados",
+                    nombre2 = "El",
+                    apellido1 = "Ahorro",
+                    apellido2 = "LTDA",
+                    email = "contacto@elahorro.com",
+                    direccion = "Carrera 7 #32-16",
+                    telefono = "6019876543",
+                    es_cliente = true,
+                    es_proveedor = true,
                     activo = true
                 });
             }

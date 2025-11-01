@@ -12,8 +12,8 @@ using Supermercado.Backend.Data;
 namespace Supermercado.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251101053309_InitialDb_completo")]
-    partial class InitialDb_completo
+    [Migration("20251101211631_DbContext")]
+    partial class DbContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,6 +151,9 @@ namespace Supermercado.Backend.Migrations
                     b.Property<decimal>("total_descuentos")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("total_impu")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("total_neto")
                         .HasColumnType("decimal(18,2)");
 
@@ -162,6 +165,38 @@ namespace Supermercado.Backend.Migrations
                         .IsUnique();
 
                     b.ToTable("Facturas");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Metodos_Pago", b =>
+                {
+                    b.Property<int>("id_metodo_pago")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_metodo_pago"));
+
+                    b.Property<bool>("activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("codigo_metpag")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("metodo_pago")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("id_metodo_pago");
+
+                    b.HasIndex("codigo_metpag")
+                        .IsUnique();
+
+                    b.HasIndex("id_metodo_pago")
+                        .IsUnique();
+
+                    b.ToTable("MetodosPago");
                 });
 
             modelBuilder.Entity("Supermercado.Shared.Entities.Movimiento", b =>
@@ -213,6 +248,39 @@ namespace Supermercado.Backend.Migrations
                         .IsUnique();
 
                     b.ToTable("Movimientos");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Pago_Factura", b =>
+                {
+                    b.Property<int>("pago_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("pago_id"));
+
+                    b.Property<int>("FK_factura_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FK_id_metodo_pago")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("monto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("referencia_pago")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("pago_id");
+
+                    b.HasIndex("FK_factura_id");
+
+                    b.HasIndex("FK_id_metodo_pago");
+
+                    b.HasIndex("pago_id")
+                        .IsUnique();
+
+                    b.ToTable("PagosFactura");
                 });
 
             modelBuilder.Entity("Supermercado.Shared.Entities.Producto", b =>
@@ -599,6 +667,25 @@ namespace Supermercado.Backend.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("Supermercado.Shared.Entities.Pago_Factura", b =>
+                {
+                    b.HasOne("Supermercado.Shared.Entities.Factura", "Factura")
+                        .WithMany("PagosFactura")
+                        .HasForeignKey("FK_factura_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Supermercado.Shared.Entities.Metodos_Pago", "MetodoPago")
+                        .WithMany("PagosFactura")
+                        .HasForeignKey("FK_id_metodo_pago")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Factura");
+
+                    b.Navigation("MetodoPago");
+                });
+
             modelBuilder.Entity("Supermercado.Shared.Entities.Producto", b =>
                 {
                     b.HasOne("Supermercado.Shared.Entities.Categoria_Producto", "Categoria")
@@ -643,6 +730,13 @@ namespace Supermercado.Backend.Migrations
             modelBuilder.Entity("Supermercado.Shared.Entities.Factura", b =>
                 {
                     b.Navigation("DetallesFactura");
+
+                    b.Navigation("PagosFactura");
+                });
+
+            modelBuilder.Entity("Supermercado.Shared.Entities.Metodos_Pago", b =>
+                {
+                    b.Navigation("PagosFactura");
                 });
 
             modelBuilder.Entity("Supermercado.Shared.Entities.Movimiento", b =>

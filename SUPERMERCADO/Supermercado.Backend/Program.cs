@@ -196,6 +196,10 @@ builder.Services.AddScoped<IMetodosPagoUnitOfWork, MetodosPagoUnitOfWork>();
 builder.Services.AddScoped<IPagoFacturaRepository, PagoFacturaRepository>();
 builder.Services.AddScoped<IPagoFacturaUnitOfWork, PagoFacturaUnitOfWork>();
 
+// Repositorios y units of work específicos para Facturación Completa
+builder.Services.AddScoped<IFacturacionRepository, FacturacionRepository>();
+builder.Services.AddScoped<IFacturacionUnitOfWork, FacturacionUnitOfWork>();
+
 // Construir la aplicación con todas las configuraciones anteriores
 var app = builder.Build();
 

@@ -33,6 +33,9 @@ public class Factura
     [Column(TypeName = "decimal(18,2)")]
     public decimal total_descuentos { get; set; } = 0;
 
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal total_impu {  get; set; } = 0;
+
     /// <summary>
     /// Total neto de la factura (después de descuentos)
     /// </summary>

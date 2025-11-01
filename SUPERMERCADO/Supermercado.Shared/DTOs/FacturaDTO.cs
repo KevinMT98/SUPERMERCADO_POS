@@ -11,7 +11,9 @@ public class FacturaDTO
     public int movimiento_id { get; set; }
     public decimal total_bruto { get; set; }
     public decimal total_descuentos { get; set; }
+    public decimal total_impu {  get; set; }
     public decimal total_neto { get; set; }
+
 }
 
 /// <summary>
@@ -28,6 +30,9 @@ public class FacturaCreateDTO
 
     [Range(0, double.MaxValue, ErrorMessage = "El {0} debe ser mayor o igual a 0")]
     public decimal total_descuentos { get; set; } = 0;
+
+    [Range(0, double.MaxValue, ErrorMessage = "El {0} debe ser mayor o igual a 0")]
+    public decimal total_impu { get; set; } = 0;
 
     [Required(ErrorMessage = "El campo {0} es obligatorio")]
     [Range(0, double.MaxValue, ErrorMessage = "El {0} debe ser mayor o igual a 0")]
@@ -51,6 +56,9 @@ public class FacturaUpdateDTO
 
     [Range(0, double.MaxValue, ErrorMessage = "El {0} debe ser mayor o igual a 0")]
     public decimal total_descuentos { get; set; } = 0;
+
+    [Range(0, double.MaxValue, ErrorMessage = "El {0} debe ser mayor o igual a 0")]
+    public decimal total_impu { get; set; } = 0;
 
     [Required(ErrorMessage = "El campo {0} es obligatorio")]
     [Range(0, double.MaxValue, ErrorMessage = "El {0} debe ser mayor o igual a 0")]

@@ -322,7 +322,8 @@ public class AutoMapperProfile : Profile
 
 
         // ===== MAPEOS PARA DETALLE_FACTURA =====
-        
+
+        // Entidad a DTO de lectura
         // Entidad a DTO de lectura
         CreateMap<Detalle_Factura, DetalleFacturaDTO>()
             .ForMember(dest => dest.detalle_id, opt => opt.MapFrom(src => src.detalle_id))
@@ -330,6 +331,7 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.producto_id, opt => opt.MapFrom(src => src.FK_producto_id))
             .ForMember(dest => dest.cantidad, opt => opt.MapFrom(src => src.cantidad))
             .ForMember(dest => dest.precio_unitario, opt => opt.MapFrom(src => src.precio_unitario))
+            .ForMember(dest => dest.porcentaje_iva, opt => opt.MapFrom(src => src.Producto != null && src.Producto.TarifaIVA != null ? src.Producto.TarifaIVA.porcentaje : 0))
             .ForMember(dest => dest.descuento_porcentaje, opt => opt.MapFrom(src => src.descuento_porcentaje))
             .ForMember(dest => dest.descuento_valor, opt => opt.MapFrom(src => src.descuento_valor))
             .ForMember(dest => dest.subtotal, opt => opt.MapFrom(src => src.subtotal));
@@ -415,6 +417,31 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.monto, opt => opt.MapFrom(src => src.monto))
             .ForMember(dest => dest.referencia_pago, opt => opt.MapFrom(src => src.referencia_pago))
             .ForMember(dest => dest.Factura, opt => opt.Ignore()) // Propiedades de navegación
+            .ForMember(dest => dest.MetodoPago, opt => opt.Ignore());
+
+        // ===== MAPEOS PARA FACTURACIÓN COMPLETA =====
+        
+        // Mapeo para items de detalle de facturación
+        CreateMap<DetalleFacturaItemDTO, Detalle_Factura>()
+            .ForMember(dest => dest.FK_producto_id, opt => opt.MapFrom(src => src.ProductoId))
+            .ForMember(dest => dest.cantidad, opt => opt.MapFrom(src => src.Cantidad))
+            .ForMember(dest => dest.precio_unitario, opt => opt.MapFrom(src => src.PrecioUnitario))
+            .ForMember(dest => dest.descuento_porcentaje, opt => opt.MapFrom(src => src.DescuentoPorcentaje))
+            .ForMember(dest => dest.descuento_valor, opt => opt.MapFrom(src => src.DescuentoValor))
+            .ForMember(dest => dest.detalle_id, opt => opt.Ignore())
+            .ForMember(dest => dest.FK_factura_id, opt => opt.Ignore())
+            .ForMember(dest => dest.subtotal, opt => opt.Ignore())
+            .ForMember(dest => dest.Factura, opt => opt.Ignore())
+            .ForMember(dest => dest.Producto, opt => opt.Ignore());
+
+        // Mapeo para items de pago de facturación
+        CreateMap<PagoFacturaItemDTO, Pago_Factura>()
+            .ForMember(dest => dest.FK_id_metodo_pago, opt => opt.MapFrom(src => src.MetodoPagoId))
+            .ForMember(dest => dest.monto, opt => opt.MapFrom(src => src.Monto))
+            .ForMember(dest => dest.referencia_pago, opt => opt.MapFrom(src => src.ReferenciaPago))
+            .ForMember(dest => dest.pago_id, opt => opt.Ignore())
+            .ForMember(dest => dest.FK_factura_id, opt => opt.Ignore())
+            .ForMember(dest => dest.Factura, opt => opt.Ignore())
             .ForMember(dest => dest.MetodoPago, opt => opt.Ignore());
 
     }

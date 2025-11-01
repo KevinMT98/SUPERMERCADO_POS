@@ -148,6 +148,9 @@ namespace Supermercado.Backend.Migrations
                     b.Property<decimal>("total_descuentos")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("total_impu")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("total_neto")
                         .HasColumnType("decimal(18,2)");
 
