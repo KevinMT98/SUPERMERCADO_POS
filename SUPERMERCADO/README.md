@@ -9,7 +9,7 @@
 
 **Sistema de Punto de Venta (POS) moderno y escalable desarrollado con .NET 9**
 
-[Características](#-características-principales) • [Tecnologías](#-tecnologías-utilizadas) • [Arquitectura](#-arquitectura-del-sistema) • [Instalación](#-instalación) • [Documentación](#-documentación)
+[Caracterï¿½sticas](#-caracterï¿½sticas-principales) ï¿½ [Tecnologï¿½as](#-tecnologï¿½as-utilizadas) ï¿½ [Arquitectura](#-arquitectura-del-sistema) ï¿½ [Instalaciï¿½n](#-instalaciï¿½n) ï¿½ [Documentaciï¿½n](#-documentaciï¿½n)
 
 </div>
 
@@ -17,77 +17,77 @@
 
 ## ?? Tabla de Contenidos
 
-- [Introducción](#-introducción)
+- [Introducciï¿½n](#-introducciï¿½n)
 - [Objetivo General](#-objetivo-general)
-- [Objetivos Específicos](#-objetivos-específicos)
+- [Objetivos Especï¿½ficos](#-objetivos-especï¿½ficos)
 - [Alcance del Proyecto](#-alcance-del-proyecto)
 - [Plan de Trabajo](#-plan-de-trabajo)
-- [Características Principales](#-características-principales)
-- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
+- [Caracterï¿½sticas Principales](#-caracterï¿½sticas-principales)
+- [Tecnologï¿½as Utilizadas](#-tecnologï¿½as-utilizadas)
 - [Arquitectura del Sistema](#-arquitectura-del-sistema)
 - [Diagrama de Clases](#-diagrama-de-clases)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
 - [Principios de Desarrollo](#-principios-de-desarrollo)
-- [Instalación](#-instalación)
-- [Documentación](#-documentación)
+- [Instalaciï¿½n](#-instalaciï¿½n)
+- [Documentaciï¿½n](#-documentaciï¿½n)
 - [Autores](#-autores)
 
 ---
 
-## ?? Introducción
+## ?? Introducciï¿½n
 
-El **Sistema POS para Supermercado** es una solución integral desarrollada para modernizar y optimizar las operaciones de venta en establecimientos comerciales. Este sistema implementa las mejores prácticas de desarrollo de software, utilizando .NET 9 y siguiendo una arquitectura limpia y escalable basada en los principios SOLID y patrones de diseño reconocidos en la industria.
+El **Sistema POS para Supermercado** es una soluciï¿½n integral desarrollada para modernizar y optimizar las operaciones de venta en establecimientos comerciales. Este sistema implementa las mejores prï¿½cticas de desarrollo de software, utilizando .NET 9 y siguiendo una arquitectura limpia y escalable basada en los principios SOLID y patrones de diseï¿½o reconocidos en la industria.
 
 El proyecto surge de la necesidad de contar con una herramienta robusta que permita:
-- **Gestión eficiente** de inventarios en tiempo real
-- **Facturación electrónica** con cálculos automáticos de impuestos y descuentos
+- **Gestiï¿½n eficiente** de inventarios en tiempo real
+- **Facturaciï¿½n electrï¿½nica** con cï¿½lculos automï¿½ticos de impuestos y descuentos
 - **Control de usuarios** y roles con seguridad incorporada
-- **Reportes y análisis** de ventas para la toma de decisiones
-- **Integración flexible** con diferentes métodos de pago
+- **Reportes y anï¿½lisis** de ventas para la toma de decisiones
+- **Integraciï¿½n flexible** con diferentes mï¿½todos de pago
 
-Este sistema está diseñado para ser **mantenible, escalable y fácil de extender**, permitiendo adaptarse a las necesidades cambiantes del negocio.
+Este sistema estï¿½ diseï¿½ado para ser **mantenible, escalable y fï¿½cil de extender**, permitiendo adaptarse a las necesidades cambiantes del negocio.
 
 ---
 
 ## ?? Objetivo General
 
-Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supermercados, que permita gestionar de manera eficiente las operaciones de ventas, inventario, facturación y control de usuarios, implementando las mejores prácticas de desarrollo de software con .NET 9, siguiendo los principios SOLID y una arquitectura limpia que garantice la mantenibilidad, escalabilidad y calidad del código.
+Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supermercados, que permita gestionar de manera eficiente las operaciones de ventas, inventario, facturaciï¿½n y control de usuarios, implementando las mejores prï¿½cticas de desarrollo de software con .NET 9, siguiendo los principios SOLID y una arquitectura limpia que garantice la mantenibilidad, escalabilidad y calidad del cï¿½digo.
 
 ---
 
-## ?? Objetivos Específicos
+## ?? Objetivos Especï¿½ficos
 
-### 1. ?? Implementar un Módulo de Gestión de Inventario
-- Desarrollar funcionalidades CRUD completas para productos, categorías y proveedores
-- Implementar control de stock con alertas de niveles mínimos y máximos
+### 1. ?? Implementar un Mï¿½dulo de Gestiï¿½n de Inventario
+- Desarrollar funcionalidades CRUD completas para productos, categorï¿½as y proveedores
+- Implementar control de stock con alertas de niveles mï¿½nimos y mï¿½ximos
 - Gestionar tarifas de IVA asociadas a cada producto
 - Proveer validaciones de negocio para garantizar la integridad de los datos
 
-### 2. ?? Desarrollar un Sistema de Facturación Integral
-- Implementar proceso de facturación con cálculos automáticos de:
+### 2. ?? Desarrollar un Sistema de Facturaciï¿½n Integral
+- Implementar proceso de facturaciï¿½n con cï¿½lculos automï¿½ticos de:
   - Descuentos (por porcentaje o valor fijo)
   - Impuestos (IVA) sobre base gravable
   - Totales y subtotales
-- Integrar múltiples métodos de pago (efectivo, tarjetas, transferencias)
-- Generar consecutivos automáticos de facturación
+- Integrar mï¿½ltiples mï¿½todos de pago (efectivo, tarjetas, transferencias)
+- Generar consecutivos automï¿½ticos de facturaciï¿½n
 - Validar disponibilidad de stock en tiempo real
 
-### 3. ?? Crear un Sistema de Gestión de Usuarios y Seguridad
-- Implementar autenticación y autorización basada en roles
+### 3. ?? Crear un Sistema de Gestiï¿½n de Usuarios y Seguridad
+- Implementar autenticaciï¿½n y autorizaciï¿½n basada en roles
 - Gestionar permisos granulares por funcionalidad
-- Registrar auditoría de operaciones críticas
-- Proteger contraseñas con algoritmos de hashing seguros (BCrypt)
+- Registrar auditorï¿½a de operaciones crï¿½ticas
+- Proteger contraseï¿½as con algoritmos de hashing seguros (BCrypt)
 
-### 4. ??? Establecer una Arquitectura Sólida y Escalable
+### 4. ??? Establecer una Arquitectura Sï¿½lida y Escalable
 - Aplicar arquitectura en capas (Repository Pattern, Unit of Work)
-- Implementar los 5 principios SOLID en todo el código
-- Utilizar inyección de dependencias para desacoplamiento
+- Implementar los 5 principios SOLID en todo el cï¿½digo
+- Utilizar inyecciï¿½n de dependencias para desacoplamiento
 - Implementar manejo centralizado de errores y validaciones
 
-### 5. ?? Desarrollar Módulo de Reportes y Análisis
-- Generar reportes de ventas por fecha, usuario y método de pago
+### 5. ?? Desarrollar Mï¿½dulo de Reportes y Anï¿½lisis
+- Generar reportes de ventas por fecha, usuario y mï¿½todo de pago
 - Implementar filtros avanzados para consultas de facturas
-- Proveer resúmenes de ventas diarias
+- Proveer resï¿½menes de ventas diarias
 - Identificar facturas pendientes de pago
 
 ---
@@ -96,181 +96,181 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 
 ### ? Incluido en el Alcance Inicial
 
-#### **Módulos Principales:**
-1. **Gestión de Productos**
-   - CRUD de productos con código de barras
-   - Gestión de categorías de productos
-   - Control de stock (actual, mínimo, máximo)
-   - Asociación de tarifas de IVA
+#### **Mï¿½dulos Principales:**
+1. **Gestiï¿½n de Productos**
+   - CRUD de productos con cï¿½digo de barras
+   - Gestiï¿½n de categorï¿½as de productos
+   - Control de stock (actual, mï¿½nimo, mï¿½ximo)
+   - Asociaciï¿½n de tarifas de IVA
 
-2. **Gestión de Terceros**
+2. **Gestiï¿½n de Terceros**
    - Registro de clientes y proveedores
-   - Tipos de identificación (CC, NIT, CE, Pasaporte)
-   - Información de contacto completa
+   - Tipos de identificaciï¿½n (CC, NIT, CE, Pasaporte)
+   - Informaciï¿½n de contacto completa
 
-3. **Sistema de Facturación**
-   - Creación de facturas de venta
+3. **Sistema de Facturaciï¿½n**
+   - Creaciï¿½n de facturas de venta
    - Detalles de factura con productos
-   - Múltiples métodos de pago por factura
-   - Cálculos automáticos (descuentos, IVA, totales)
-   - Anulación de facturas con auditoría
+   - Mï¿½ltiples mï¿½todos de pago por factura
+   - Cï¿½lculos automï¿½ticos (descuentos, IVA, totales)
+   - Anulaciï¿½n de facturas con auditorï¿½a
 
-4. **Gestión de Usuarios y Seguridad**
-   - Autenticación y autorización
+4. **Gestiï¿½n de Usuarios y Seguridad**
+   - Autenticaciï¿½n y autorizaciï¿½n
    - Roles (Admin, User)
-   - Cifrado de contraseñas
+   - Cifrado de contraseï¿½as
 
-5. **Configuración del Sistema**
+5. **Configuraciï¿½n del Sistema**
    - Tipos de documentos
-   - Consecutivos automáticos
-   - Métodos de pago
+   - Consecutivos automï¿½ticos
+   - Mï¿½todos de pago
    - Tarifas de IVA
 
-#### **Funcionalidades Técnicas:**
+#### **Funcionalidades Tï¿½cnicas:**
 - API RESTful completa
 - Validaciones de negocio exhaustivas
 - Transacciones de base de datos (ACID)
 - DTOs para transferencia de datos
 - AutoMapper para mapeo de objetos
-- Helpers para cálculos reutilizables
+- Helpers para cï¿½lculos reutilizables
 
 ### ? Fuera del Alcance Inicial
 
-- Interfaz gráfica de usuario (Frontend)
-- Integración con facturación electrónica DIAN
-- Sistema de compras y órdenes de compra
-- Gestión de empleados y nómina
-- Integración con terminales de punto de venta físicos
-- Reportes avanzados con gráficos
+- Interfaz grï¿½fica de usuario (Frontend)
+- Integraciï¿½n con facturaciï¿½n electrï¿½nica DIAN
+- Sistema de compras y ï¿½rdenes de compra
+- Gestiï¿½n de empleados y nï¿½mina
+- Integraciï¿½n con terminales de punto de venta fï¿½sicos
+- Reportes avanzados con grï¿½ficos
 - Sistema de CRM (Customer Relationship Management)
-- Aplicación móvil
+- Aplicaciï¿½n mï¿½vil
 
 ---
 
 ## ?? Plan de Trabajo
 
-### **Fase 1: Análisis y Diseño (2 semanas)**
-- ? Definición de requisitos funcionales y no funcionales
-- ? Diseño de la base de datos (diagrama ER)
-- ? Diseño de arquitectura del sistema
-- ? Definición de DTOs y contratos de API
-- ? Documentación de principios SOLID aplicados
+### **Fase 1: Anï¿½lisis y Diseï¿½o (2 semanas)**
+- ? Definiciï¿½n de requisitos funcionales y no funcionales
+- ? Diseï¿½o de la base de datos (diagrama ER)
+- ? Diseï¿½o de arquitectura del sistema
+- ? Definiciï¿½n de DTOs y contratos de API
+- ? Documentaciï¿½n de principios SOLID aplicados
 
-### **Fase 2: Configuración del Proyecto (1 semana)**
-- ? Creación de proyectos .NET 9
-- ? Configuración de Entity Framework Core
-- ? Configuración de AutoMapper
-- ? Configuración de inyección de dependencias
-- ? Configuración de Swagger/OpenAPI
+### **Fase 2: Configuraciï¿½n del Proyecto (1 semana)**
+- ? Creaciï¿½n de proyectos .NET 9
+- ? Configuraciï¿½n de Entity Framework Core
+- ? Configuraciï¿½n de AutoMapper
+- ? Configuraciï¿½n de inyecciï¿½n de dependencias
+- ? Configuraciï¿½n de Swagger/OpenAPI
 
-### **Fase 3: Desarrollo del Backend - Módulos Base (3 semanas)**
-- ? Implementación de entidades y DbContext
-- ? Implementación de Repository Pattern
-- ? Implementación de Unit of Work Pattern
-- ? Desarrollo de módulos:
-  - ? Gestión de Usuarios
-  - ? Gestión de Roles
-  - ? Gestión de Tipos de Identificación
-  - ? Gestión de Terceros
-  - ? Gestión de Categorías de Productos
+### **Fase 3: Desarrollo del Backend - Mï¿½dulos Base (3 semanas)**
+- ? Implementaciï¿½n de entidades y DbContext
+- ? Implementaciï¿½n de Repository Pattern
+- ? Implementaciï¿½n de Unit of Work Pattern
+- ? Desarrollo de mï¿½dulos:
+  - ? Gestiï¿½n de Usuarios
+  - ? Gestiï¿½n de Roles
+  - ? Gestiï¿½n de Tipos de Identificaciï¿½n
+  - ? Gestiï¿½n de Terceros
+  - ? Gestiï¿½n de Categorï¿½as de Productos
 
-### **Fase 4: Desarrollo del Backend - Módulos de Inventario (2 semanas)**
-- ? Gestión de Tarifas de IVA
-- ? Gestión de Productos
+### **Fase 4: Desarrollo del Backend - Mï¿½dulos de Inventario (2 semanas)**
+- ? Gestiï¿½n de Tarifas de IVA
+- ? Gestiï¿½n de Productos
 - ? Control de Stock
 - ? Validaciones de negocio
 
-### **Fase 5: Desarrollo del Backend - Sistema de Facturación (3 semanas)**
-- ? Gestión de Tipos de Documentos
-- ? Gestión de Consecutivos
-- ? Gestión de Métodos de Pago
-- ? Gestión de Movimientos
-- ? Gestión de Facturas
+### **Fase 5: Desarrollo del Backend - Sistema de Facturaciï¿½n (3 semanas)**
+- ? Gestiï¿½n de Tipos de Documentos
+- ? Gestiï¿½n de Consecutivos
+- ? Gestiï¿½n de Mï¿½todos de Pago
+- ? Gestiï¿½n de Movimientos
+- ? Gestiï¿½n de Facturas
 - ? Detalles de Factura
 - ? Pagos de Factura
 - ? **FacturacionRepository** (proceso completo)
-- ? Cálculos automáticos (descuentos, IVA, totales)
+- ? Cï¿½lculos automï¿½ticos (descuentos, IVA, totales)
 - ? Validaciones exhaustivas
-- ? Anulación de facturas
+- ? Anulaciï¿½n de facturas
 
 ### **Fase 6: Helpers y Utilidades (1 semana)**
-- ? FacturacionHelper para cálculos
-- ? Métodos de validación reutilizables
+- ? FacturacionHelper para cï¿½lculos
+- ? Mï¿½todos de validaciï¿½n reutilizables
 - ? Formateo de datos
 
-### **Fase 7: Pruebas y Validación (2 semanas)**
+### **Fase 7: Pruebas y Validaciï¿½n (2 semanas)**
 - ?? Pruebas unitarias de repositorios
-- ?? Pruebas de integración
-- ?? Validación de reglas de negocio
+- ?? Pruebas de integraciï¿½n
+- ?? Validaciï¿½n de reglas de negocio
 - ?? Pruebas de API con Postman/Swagger
 
-### **Fase 8: Documentación y Entrega (1 semana)**
-- ? Documentación de código (XML Comments)
-- ? Documentación de facturación
-- ? Documentación de principios SOLID
+### **Fase 8: Documentaciï¿½n y Entrega (1 semana)**
+- ? Documentaciï¿½n de cï¿½digo (XML Comments)
+- ? Documentaciï¿½n de facturaciï¿½n
+- ? Documentaciï¿½n de principios SOLID
 - ? README del proyecto
 - ?? Manual de usuario de API
 
-**Duración Total Estimada:** 15 semanas
+**Duraciï¿½n Total Estimada:** 15 semanas
 
 ---
 
-## ? Características Principales
+## ? Caracterï¿½sticas Principales
 
 ### ?? **Seguridad Robusta**
-- Autenticación basada en usuarios y roles
-- Cifrado de contraseñas con BCrypt
-- Validación de permisos a nivel de operación
-- Auditoría de operaciones críticas
+- Autenticaciï¿½n basada en usuarios y roles
+- Cifrado de contraseï¿½as con BCrypt
+- Validaciï¿½n de permisos a nivel de operaciï¿½n
+- Auditorï¿½a de operaciones crï¿½ticas
 
-### ?? **Gestión de Inventario Inteligente**
+### ?? **Gestiï¿½n de Inventario Inteligente**
 - Control de stock en tiempo real
-- Alertas de stock mínimo y máximo
-- Gestión de categorías de productos
-- Asociación de tarifas de IVA por producto
+- Alertas de stock mï¿½nimo y mï¿½ximo
+- Gestiï¿½n de categorï¿½as de productos
+- Asociaciï¿½n de tarifas de IVA por producto
 
-### ?? **Facturación Completa**
-- Cálculos automáticos de descuentos e impuestos
-- Soporte para múltiples métodos de pago
-- Consecutivos automáticos de facturación
-- Anulación de facturas con trazabilidad
-- Validación de stock antes de facturar
+### ?? **Facturaciï¿½n Completa**
+- Cï¿½lculos automï¿½ticos de descuentos e impuestos
+- Soporte para mï¿½ltiples mï¿½todos de pago
+- Consecutivos automï¿½ticos de facturaciï¿½n
+- Anulaciï¿½n de facturas con trazabilidad
+- Validaciï¿½n de stock antes de facturar
 
 ### ?? **Reportes y Consultas**
 - Resumen de ventas por fecha
 - Consultas con filtros avanzados
 - Facturas pendientes de pago
-- Ventas por método de pago
+- Ventas por mï¿½todo de pago
 
 ### ??? **Arquitectura Profesional**
-- Implementación de principios SOLID
+- Implementaciï¿½n de principios SOLID
 - Repository Pattern y Unit of Work
-- Inyección de dependencias
+- Inyecciï¿½n de dependencias
 - API RESTful bien documentada
 - Manejo centralizado de errores
 
 ---
 
-## ??? Tecnologías Utilizadas
+## ??? Tecnologï¿½as Utilizadas
 
 ### **Backend**
-| Tecnología | Versión | Propósito |
+| Tecnologï¿½a | Versiï¿½n | Propï¿½sito |
 |------------|---------|-----------|
 | **.NET** | 9.0 | Framework principal |
-| **C#** | 13.0 | Lenguaje de programación |
+| **C#** | 13.0 | Lenguaje de programaciï¿½n |
 | **Entity Framework Core** | 9.0 | ORM para acceso a datos |
 | **SQL Server** | 2022 | Base de datos |
 | **AutoMapper** | 13.0 | Mapeo de objetos |
-| **BCrypt.Net** | Latest | Hash de contraseñas |
-| **Swagger/OpenAPI** | Latest | Documentación de API |
+| **BCrypt.Net** | Latest | Hash de contraseï¿½as |
+| **Swagger/OpenAPI** | Latest | Documentaciï¿½n de API |
 
-### **Patrones y Prácticas**
-- ? **Repository Pattern** - Abstracción de acceso a datos
-- ? **Unit of Work Pattern** - Coordinación de transacciones
+### **Patrones y Prï¿½cticas**
+- ? **Repository Pattern** - Abstracciï¿½n de acceso a datos
+- ? **Unit of Work Pattern** - Coordinaciï¿½n de transacciones
 - ? **Dependency Injection** - Desacoplamiento de dependencias
 - ? **DTO Pattern** - Transferencia de datos
-- ? **SOLID Principles** - Código limpio y mantenible
-- ? **Clean Architecture** - Separación de responsabilidades
+- ? **SOLID Principles** - Cï¿½digo limpio y mantenible
+- ? **Clean Architecture** - Separaciï¿½n de responsabilidades
 
 ---
 
@@ -282,51 +282,51 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 ???????????????????????????????????????????????????????????????
 ?                      API Layer                              ?
 ?                    (Controllers)                            ?
-?  • FacturaController                                        ?
-?  • ProductoController                                       ?
-?  • UsuarioController                                        ?
-?  • TerceroController                                        ?
+?  ï¿½ FacturaController                                        ?
+?  ï¿½ ProductoController                                       ?
+?  ï¿½ UsuarioController                                        ?
+?  ï¿½ TerceroController                                        ?
 ???????????????????????????????????????????????????????????????
                          ?
                          ?
 ???????????????????????????????????????????????????????????????
 ?                  Business Logic Layer                       ?
 ?                   (Unit of Work)                            ?
-?  • FacturacionUnitOfWork                                    ?
-?  • ProductoUnitOfWork                                       ?
-?  • UsuarioUnitOfWork                                        ?
-?  • Validaciones de negocio                                  ?
+?  ï¿½ FacturacionUnitOfWork                                    ?
+?  ï¿½ ProductoUnitOfWork                                       ?
+?  ï¿½ UsuarioUnitOfWork                                        ?
+?  ï¿½ Validaciones de negocio                                  ?
 ???????????????????????????????????????????????????????????????
                          ?
                          ?
 ???????????????????????????????????????????????????????????????
 ?                  Data Access Layer                          ?
 ?                   (Repositories)                            ?
-?  • FacturacionRepository                                    ?
-?  • ProductoRepository                                       ?
-?  • UsuarioRepository                                        ?
-?  • GenericRepository<T>                                     ?
+?  ï¿½ FacturacionRepository                                    ?
+?  ï¿½ ProductoRepository                                       ?
+?  ï¿½ UsuarioRepository                                        ?
+?  ï¿½ GenericRepository<T>                                     ?
 ???????????????????????????????????????????????????????????????
                          ?
                          ?
 ???????????????????????????????????????????????????????????????
 ?                    Database Layer                           ?
 ?                  (Entity Framework Core)                    ?
-?  • DataContext                                              ?
-?  • Migrations                                               ?
-?  • SQL Server Database                                      ?
+?  ï¿½ DataContext                                              ?
+?  ï¿½ Migrations                                               ?
+?  ï¿½ SQL Server Database                                      ?
 ???????????????????????????????????????????????????????????????
 
 ???????????????????????????????????????????????????????????????
 ?                    Cross-Cutting Concerns                   ?
-?  • DTOs (Data Transfer Objects)                             ?
-?  • Entities                                                 ?
-?  • Helpers (FacturacionHelper)                              ?
-?  • AutoMapper Profiles                                      ?
+?  ï¿½ DTOs (Data Transfer Objects)                             ?
+?  ï¿½ Entities                                                 ?
+?  ï¿½ Helpers (FacturacionHelper)                              ?
+?  ï¿½ AutoMapper Profiles                                      ?
 ???????????????????????????????????????????????????????????????
 ```
 
-### **Flujo de una Operación de Facturación**
+### **Flujo de una Operaciï¿½n de Facturaciï¿½n**
 
 ```
 1. Cliente HTTP Request (JSON)
@@ -335,7 +335,7 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
           ?
 3. FacturacionUnitOfWork valida datos y reglas de negocio
           ?
-4. FacturacionRepository ejecuta la lógica de creación
+4. FacturacionRepository ejecuta la lï¿½gica de creaciï¿½n
           ?
 5. Transaction BEGIN
           ?
@@ -349,7 +349,7 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
           ?
 10. Crear Factura
           ?
-11. Crear Detalles de Factura (con cálculo de IVA)
+11. Crear Detalles de Factura (con cï¿½lculo de IVA)
           ?
 12. Crear Pagos de Factura
           ?
@@ -372,7 +372,7 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 
 ## ?? Diagrama de Clases
 
-### **Diagrama de Clases Principal - Módulo de Facturación**
+### **Diagrama de Clases Principal - Mï¿½dulo de Facturaciï¿½n**
 
 ```mermaid
 classDiagram
@@ -599,9 +599,9 @@ SUPERMERCADO/
 ?   ?   ??? SeedDb.cs                  # Datos iniciales
 ?   ?
 ?   ??? Helpers/                       # Clases auxiliares
-?   ?   ??? FacturacionHelper.cs       # Cálculos y validaciones
+?   ?   ??? FacturacionHelper.cs       # Cï¿½lculos y validaciones
 ?   ?
-?   ??? Mapping/                       # Configuración de AutoMapper
+?   ??? Mapping/                       # Configuraciï¿½n de AutoMapper
 ?   ?   ??? AutoMapperProfile.cs
 ?   ?
 ?   ??? Migrations/                    # Migraciones de EF Core
@@ -616,7 +616,7 @@ SUPERMERCADO/
 ?   ?       ??? FacturacionRepository.cs
 ?   ?       ??? ...
 ?   ?
-?   ??? UnitsOfWork/                   # Lógica de negocio
+?   ??? UnitsOfWork/                   # Lï¿½gica de negocio
 ?   ?   ??? Interfaces/
 ?   ?   ?   ??? IGenericUnitOfWork.cs
 ?   ?   ?   ??? IFacturacionUnitOfWork.cs
@@ -627,7 +627,7 @@ SUPERMERCADO/
 ?   ?       ??? ...
 ?   ?
 ?   ??? Program.cs                     # Punto de entrada
-?   ??? appsettings.json               # Configuración
+?   ??? appsettings.json               # Configuraciï¿½n
 ?
 ??? Supermercado.Shared/               # Proyecto compartido
 ?   ??? DTOs/                          # Data Transfer Objects
@@ -644,13 +644,13 @@ SUPERMERCADO/
 ?   ?   ??? Usuario.cs
 ?   ?   ??? ...
 ?   ?
-?   ??? Responses/                     # Respuestas estándar
+?   ??? Responses/                     # Respuestas estï¿½ndar
 ?       ??? ActionResponse.cs
 ?
-??? Documentacion/                     # Documentación del proyecto
+??? Documentacion/                     # Documentaciï¿½n del proyecto
 ?   ??? DOCUMENTACION_FACTURACION.md
 ?   ??? APLICACION_PRINCIPIOS_SOLID.md
-?   ??? DOCUMENTACION_PATRONES_DISEÑO.md
+?   ??? DOCUMENTACION_PATRONES_DISEï¿½O.md
 ?
 ??? README.md                          # Este archivo
 ```
@@ -661,12 +661,12 @@ SUPERMERCADO/
 
 ### **Principios SOLID Aplicados**
 
-#### **S - Single Responsibility Principle (Responsabilidad Única)**
-? Cada clase tiene una única responsabilidad bien definida:
+#### **S - Single Responsibility Principle (Responsabilidad ï¿½nica)**
+? Cada clase tiene una ï¿½nica responsabilidad bien definida:
 - `FacturaController`: Maneja peticiones HTTP
-- `FacturacionUnitOfWork`: Coordina lógica de negocio
+- `FacturacionUnitOfWork`: Coordina lï¿½gica de negocio
 - `FacturacionRepository`: Accede a la base de datos
-- `FacturacionHelper`: Provee utilidades de cálculo
+- `FacturacionHelper`: Provee utilidades de cï¿½lculo
 
 **Ejemplo:**
 ```csharp
@@ -683,7 +683,7 @@ public class FacturaController : ControllerBase
 ```
 
 #### **O - Open/Closed Principle (Abierto/Cerrado)**
-? Clases abiertas para extensión, cerradas para modificación:
+? Clases abiertas para extensiï¿½n, cerradas para modificaciï¿½n:
 - `GenericRepository<T>` es la base
 - `FacturacionRepository` extiende sin modificar la base
 
@@ -695,36 +695,36 @@ public class GenericRepository<T> : IGenericRepository<T>
     public async Task<T> AddAsync(T entity) { /* ... */ }
 }
 
-// Extendemos para funcionalidad específica
+// Extendemos para funcionalidad especï¿½fica
 public class FacturacionRepository : IFacturacionRepository
 {
-    // Métodos específicos de facturación
+    // Mï¿½todos especï¿½ficos de facturaciï¿½n
     public async Task<ActionResponse<FacturaCompletaDTO>> CrearFacturaCompletaAsync(...)
     {
-        // Lógica compleja de facturación
+        // Lï¿½gica compleja de facturaciï¿½n
     }
 }
 ```
 
-#### **L - Liskov Substitution Principle (Sustitución de Liskov)**
+#### **L - Liskov Substitution Principle (Sustituciï¿½n de Liskov)**
 ? Las interfaces permiten sustituir implementaciones:
 ```csharp
-// Cualquier implementación de IFacturacionRepository puede usarse
+// Cualquier implementaciï¿½n de IFacturacionRepository puede usarse
 IFacturacionRepository repository = new FacturacionRepository(context);
 ```
 
-#### **I - Interface Segregation Principle (Segregación de Interfaces)**
-? Interfaces específicas por responsabilidad:
-- `IFacturacionRepository` - Solo métodos de facturación
-- `IProductoRepository` - Solo métodos de productos
-- `IUsuarioRepository` - Solo métodos de usuarios
+#### **I - Interface Segregation Principle (Segregaciï¿½n de Interfaces)**
+? Interfaces especï¿½ficas por responsabilidad:
+- `IFacturacionRepository` - Solo mï¿½todos de facturaciï¿½n
+- `IProductoRepository` - Solo mï¿½todos de productos
+- `IUsuarioRepository` - Solo mï¿½todos de usuarios
 
-#### **D - Dependency Inversion Principle (Inversión de Dependencias)**
-? Dependencias a través de abstracciones (interfaces), no implementaciones:
+#### **D - Dependency Inversion Principle (Inversiï¿½n de Dependencias)**
+? Dependencias a travï¿½s de abstracciones (interfaces), no implementaciones:
 ```csharp
 public class FacturacionUnitOfWork
 {
-    // Dependemos de la interfaz, no de la implementación
+    // Dependemos de la interfaz, no de la implementaciï¿½n
     private readonly IFacturacionRepository _repository;
     
     public FacturacionUnitOfWork(IFacturacionRepository repository)
@@ -736,7 +736,7 @@ public class FacturacionUnitOfWork
 
 ---
 
-## ?? Instalación
+## ?? Instalaciï¿½n
 
 ### **Prerrequisitos**
 
@@ -745,7 +745,7 @@ public class FacturacionUnitOfWork
 - ? [Visual Studio 2022](https://visualstudio.microsoft.com/) o [VS Code](https://code.visualstudio.com/)
 - ? [Git](https://git-scm.com/)
 
-### **Pasos de Instalación**
+### **Pasos de Instalaciï¿½n**
 
 1. **Clonar el repositorio**
 ```bash
@@ -753,7 +753,7 @@ git clone https://github.com/KevinMT98/SUPERMERCADO_POS.git
 cd SUPERMERCADO_POS
 ```
 
-2. **Configurar la cadena de conexión**
+2. **Configurar la cadena de conexiï¿½n**
 
 Edita `Supermercado.Backend/appsettings.json`:
 ```json
@@ -797,19 +797,19 @@ El sistema incluye un `SeedDb` que carga datos iniciales:
 - Coca Cola 2L
 - Agua Cristal 600ml
 - Leche Entera 1L
-- Jabón Líquido 500ml
+- Jabï¿½n Lï¿½quido 500ml
 - Arroz Blanco 1Kg
 
 ---
 
-## ?? Documentación
+## ?? Documentaciï¿½n
 
-### **Documentación Disponible**
+### **Documentaciï¿½n Disponible**
 
-?? **Documentación Principal:**
-- [Documentación de Facturación](DOCUMENTACION_FACTURACION.md) - Proceso completo de facturación
-- [Aplicación de Principios SOLID](APLICACION_PRINCIPIOS_SOLID.md) - Implementación de SOLID
-- [Patrones de Diseño](DOCUMENTACION_PATRONES_DISEÑO.md) - Patrones utilizados
+?? **Documentaciï¿½n Principal:**
+- [Documentaciï¿½n de Facturaciï¿½n](DOCUMENTACION_FACTURACION.md) - Proceso completo de facturaciï¿½n
+- [Aplicaciï¿½n de Principios SOLID](APLICACION_PRINCIPIOS_SOLID.md) - Implementaciï¿½n de SOLID
+- [Patrones de Diseï¿½o](DOCUMENTACION_PATRONES_DISEï¿½O.md) - Patrones utilizados
 
 ### **Ejemplo de Uso - Crear una Factura**
 
@@ -846,7 +846,7 @@ Content-Type: application/json
   "facturaId": 1,
   "numeroDocumento": "FV000001",
   "fecha": "2025-01-15T10:30:00",
-  "nombreTercero": "Carlos Gómez",
+  "nombreTercero": "Carlos Gï¿½mez",
   "totalBruto": 30000,
   "totalDescuentos": 3000,
   "totalImpuestos": 5130,
@@ -871,13 +871,13 @@ Content-Type: application/json
 }
 ```
 
-### **Cálculos de la Factura**
+### **Cï¿½lculos de la Factura**
 
 ```
-Subtotal Bruto    = 2 × $15,000 = $30,000
-Descuento (10%)   = $30,000 × 10% = $3,000
+Subtotal Bruto    = 2 ï¿½ $15,000 = $30,000
+Descuento (10%)   = $30,000 ï¿½ 10% = $3,000
 Base Gravable     = $30,000 - $3,000 = $27,000
-IVA (19%)         = $27,000 × 19% = $5,130
+IVA (19%)         = $27,000 ï¿½ 19% = $5,130
 Total Neto        = $27,000 + $5,130 = $32,130
 ```
 
@@ -890,20 +890,23 @@ Total Neto        = $27,000 + $5,130 = $32,130
 | Nombre | Rol | GitHub |
 |--------|-----|--------|
 | **Angel Tovar** | Developer | - |
-| **Kevin Montaño** | Developer | [@KevinMT98](https://github.com/KevinMT98) |
+| **Kevin Montaï¿½o** | Developer | [@KevinMT98](https://github.com/KevinMT98) |
+| **Andres Felipe Yepes | Developer | - |
+| **Cristian Camilo Gutierrez | Developer | - |
 
-### **Información Académica**
 
-- **Universidad:** ITM (Instituto Tecnológico Metropolitano)
-- **Asignatura:** Tecnología en Desarrollo de Software
+### **Informaciï¿½n Acadï¿½mica**
+
+- **Universidad:** ITM (Instituto Tecnolï¿½gico Metropolitano)
+- **Asignatura:** Tecnologï¿½a en Desarrollo de Software
 - **Fecha:** Octubre 2025
-- **Versión:** 1.0
+- **Versiï¿½n:** 1.0
 
 ---
 
 ## ?? Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+Este proyecto estï¿½ bajo la Licencia MIT. Ver el archivo `LICENSE` para mï¿½s detalles.
 
 ---
 
@@ -929,7 +932,7 @@ Para preguntas o sugerencias, contacta a:
 
 <div align="center">
 
-**? Si este proyecto te fue útil, por favor dale una estrella ?**
+**? Si este proyecto te fue ï¿½til, por favor dale una estrella ?**
 
 Desarrollado con ?? usando .NET 9
 
