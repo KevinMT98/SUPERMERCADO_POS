@@ -1,6 +1,6 @@
 # 🛒 Sistema POS para Supermercado
 
-<div align="center">
+<p align="center">
 
 ![.NET Version](https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=dotnet)
 ![C# Version](https://img.shields.io/badge/C%23-13.0-239120?style=for-the-badge&logo=csharp)
@@ -11,68 +11,60 @@
 
 [Características](#-características-principales) • [Tecnologías](#️-tecnologías-utilizadas) • [Arquitectura](#-arquitectura-del-sistema) • [Instalación](#-instalación) • [Documentación](#-documentación)
 
-</div>
+</p>
 
 ---
 
 ## 📑 Tabla de Contenidos
 
 - [Introducción](#-introducción)
-- [Objetivos del Proyecto](#-objetivos-del-proyecto)
-  - [Objetivo General](#objetivo-general)
-  - [Objetivos Específicos](#objetivos-específicos)
+- [Objetivo General](#-objetivo-general)
+- [Objetivos Específicos](#-objetivos-específicos)
 - [Alcance del Proyecto](#-alcance-del-proyecto)
+- [Plan de Trabajo](#-plan-de-trabajo)
 - [Características Principales](#-características-principales)
 - [Tecnologías Utilizadas](#️-tecnologías-utilizadas)
 - [Arquitectura del Sistema](#-arquitectura-del-sistema)
-  - [Arquitectura en Capas](#arquitectura-en-capas)
-  - [ORM y Documentación de API](#-manejo-de-orm-y-documentación-de-api)
-  - [Diagrama de Clases](#-diagrama-de-clases)
+- [Diagrama de Clases](#-diagrama-de-clases)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
 - [Principios de Desarrollo](#-principios-de-desarrollo)
-- [Instalación y Configuración](#-instalación-y-configuración)
-- [Uso del Sistema](#-uso-del-sistema)
-- [Plan de Trabajo](#-plan-de-trabajo)
-- [Documentación Técnica](#-documentación-técnica)
-- [Contribuciones](#-contribuciones)
+- [Instalación](#-instalación)
+- [Documentación](#-documentación)
 - [Autores](#-autores)
-- [Licencia](#-licencia)
 
 ---
 
 ## 📖 Introducción
 
-El **Sistema POS para Supermercado** es una solución integral desarrollada para modernizar y optimizar las operaciones de venta en establecimientos comerciales. Este sistema implementa las mejores prácticas de desarrollo de software, utilizando .NET 9 y siguiendo una arquitectura limpia y escalable basada en los principios SOLID y patrones de diseño reconocidos en la industria.
-
-### ¿Por qué este sistema?
+El **Sistema POS para Supermercado** es una solución integral desarrollada para modernizar y optimizar las operaciones de venta en establecimientos comerciales. Este sistema implementa las mejores prácticas para la gestión de inventario, facturación y control de usuarios con seguridad avanzada.
 
 El proyecto surge de la necesidad de contar con una herramienta robusta que permita:
 
-- ✅ **Gestión eficiente** de inventarios en tiempo real
-- ✅ **Facturación completa** con cálculos automáticos de impuestos y descuentos
-- ✅ **Control de usuarios** y roles con seguridad incorporada
-- ✅ **Reportes y análisis** de ventas para la toma de decisiones
-- ✅ **Integración flexible** con diferentes métodos de pago
+- **Gestión eficiente** de inventarios en tiempo real
+- **Facturación electrónica** con cálculos automáticos de impuestos y descuentos
+- **Control de usuarios** y roles con seguridad incorporada
+- **Reportes y análisis** de ventas para la toma de decisiones
+- **Integración flexible** con diferentes métodos de pago
 
 Este sistema está diseñado para ser **mantenible, escalable y fácil de extender**, permitiendo adaptarse a las necesidades cambiantes del negocio.
 
 ---
 
-## 🎯 Objetivos del Proyecto
+## 🎯 Objetivo General
 
-### Objetivo General
+Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supermercados, que permita gestionar de manera eficiente las operaciones de ventas, inventario, facturación y control de usuarios.
 
-Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supermercados, que permita gestionar de manera eficiente las operaciones de ventas, inventario, facturación y control de usuarios, implementando las mejores prácticas de desarrollo de software con .NET 9, siguiendo los principios SOLID y una arquitectura limpia que garantice la mantenibilidad, escalabilidad y calidad del código.
+---
 
-### Objetivos Específicos
+## 🎯 Objetivos Específicos
 
-#### 1. 📦 Implementar un Módulo de Gestión de Inventario
+### 1. 📦 Implementar un Módulo de Gestión de Inventario
 - Desarrollar funcionalidades CRUD completas para productos, categorías y proveedores
 - Implementar control de stock con alertas de niveles mínimos y máximos
 - Gestionar tarifas de IVA asociadas a cada producto
 - Proveer validaciones de negocio para garantizar la integridad de los datos
 
-#### 2. 🧾 Desarrollar un Sistema de Facturación Integral
+### 2. 🧾 Desarrollar un Sistema de Facturación Integral
 - Implementar proceso de facturación con cálculos automáticos de:
   - Descuentos (por porcentaje o valor fijo)
   - Impuestos (IVA) sobre base gravable
@@ -81,19 +73,19 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 - Generar consecutivos automáticos de facturación
 - Validar disponibilidad de stock en tiempo real
 
-#### 3. 🔐 Crear un Sistema de Gestión de Usuarios y Seguridad
+### 3. 🔐 Crear un Sistema de Gestión de Usuarios y Seguridad
 - Implementar autenticación y autorización basada en roles
 - Gestionar permisos granulares por funcionalidad
 - Registrar auditoría de operaciones críticas
 - Proteger contraseñas con algoritmos de hashing seguros (BCrypt)
 
-#### 4. 🏗️ Establecer una Arquitectura Sólida y Escalable
+### 4. 🏗️ Establecer una Arquitectura Sólida y Escalable
 - Aplicar arquitectura en capas (Repository Pattern, Unit of Work)
 - Implementar los 5 principios SOLID en todo el código
 - Utilizar inyección de dependencias para desacoplamiento
 - Implementar manejo centralizado de errores y validaciones
 
-#### 5. 📊 Desarrollar Módulo de Reportes y Análisis
+### 5. 📊 Desarrollar Módulo de Reportes y Análisis
 - Generar reportes de ventas por fecha, usuario y método de pago
 - Implementar filtros avanzados para consultas de facturas
 - Proveer resúmenes de ventas diarias
@@ -105,7 +97,7 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 
 ### ✅ Incluido en el Alcance Inicial
 
-#### **Módulos Principales:**
+#### Módulos Principales:
 
 1. **Gestión de Productos**
    - CRUD de productos con código de barras
@@ -136,14 +128,14 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
    - Métodos de pago
    - Tarifas de IVA
 
-#### **Funcionalidades Técnicas:**
+#### Funcionalidades Técnicas:
 
-- ✅ API RESTful completa
-- ✅ Validaciones de negocio exhaustivas
-- ✅ Transacciones de base de datos (ACID)
-- ✅ DTOs para transferencia de datos
-- ✅ AutoMapper para mapeo de objetos
-- ✅ Helpers para cálculos reutilizables
+- API RESTful completa
+- Validaciones de negocio exhaustivas
+- Transacciones de base de datos (ACID)
+- DTOs para transferencia de datos
+- AutoMapper para mapeo de objetos
+- Helpers para cálculos reutilizables
 
 ### ❌ Fuera del Alcance Inicial
 
@@ -158,36 +150,102 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 
 ---
 
+## 🗓️ Plan de Trabajo
+
+### Fase 1: Análisis y Diseño (2 semanas)
+- Definición de requisitos funcionales y no funcionales
+- Diseño de la base de datos (diagrama ER)
+- Diseño de arquitectura del sistema
+- Definición de DTOs y contratos de API
+- Documentación de principios SOLID aplicados
+
+### Fase 2: Configuración del Proyecto (1 semana)
+- Creación de proyectos .NET 9
+- Configuración de Entity Framework Core
+- Configuración de AutoMapper
+- Configuración de inyección de dependencias
+- Configuración de Swagger/OpenAPI
+
+### Fase 3: Desarrollo del Backend - Módulos Base (3 semanas)
+- Implementación de entidades y DbContext
+- Implementación de Repository Pattern
+- Implementación de Unit of Work Pattern
+- Desarrollo de módulos:
+  - Gestión de Usuarios
+  - Gestión de Roles
+  - Gestión de Tipos de Identificación
+  - Gestión de Terceros
+  - Gestión de Categorías de Productos
+
+### Fase 4: Desarrollo del Backend - Módulos de Inventario (2 semanas)
+- Gestión de Tarifas de IVA
+- Gestión de Productos
+- Control de Stock
+- Validaciones de negocio
+
+### Fase 5: Desarrollo del Backend - Sistema de Facturación (3 semanas)
+- Gestión de Tipos de Documentos
+- Gestión de Consecutivos
+- Gestión de Métodos de Pago
+- Gestión de Movimientos
+- Gestión de Facturas
+- Detalles de Factura
+- Pagos de Factura
+- **FacturacionRepository** (proceso completo)
+- Cálculos automáticos (descuentos, IVA, totales)
+- Validaciones exhaustivas
+- Anulación de facturas
+
+### Fase 6: Helpers y Utilidades (1 semana)
+- **FacturacionHelper** para cálculos
+- Métodos de validación reutilizables
+- Formateo de datos
+
+### Fase 7: Pruebas y Validación (2 semanas)
+- Pruebas unitarias de repositorios
+- Pruebas de integración
+- Validación de reglas de negocio
+- Pruebas de API con Postman/Swagger
+
+### Fase 8: Documentación y Entrega (1 semana)
+- Documentación de código (XML Comments)
+- Documentación de facturación
+- Documentación de principios SOLID
+- README del proyecto
+- Manual de usuario de API
+
+**Duración Total Estimada:** 15 semanas
+
+---
+
 ## ⭐ Características Principales
 
-### 🔐 **Seguridad Robusta**
+### Seguridad Robusta
 - Autenticación basada en usuarios y roles
 - Cifrado de contraseñas con BCrypt
 - Validación de permisos a nivel de operación
 - Auditoría de operaciones críticas
 
-### 📦 **Gestión de Inventario Inteligente**
+### Gestión de Inventario Inteligente
 - Control de stock en tiempo real
 - Alertas de stock mínimo y máximo
 - Gestión de categorías de productos
 - Asociación de tarifas de IVA por producto
 
-### 🧾 **Facturación Completa**
-- Cálculos automáticos de descuentos e impuestos (IVA)
+### Facturación Completa
+- Cálculos automáticos de descuentos e impuestos
 - Soporte para múltiples métodos de pago
 - Consecutivos automáticos de facturación
 - Anulación de facturas con trazabilidad
 - Validación de stock antes de facturar
-- **Integración completa con Entity Framework ORM**
-- **Documentación interactiva con Swagger/OpenAPI**
 
-### 📊 **Reportes y Consultas**
+### Reportes y Consultas
 - Resumen de ventas por fecha
 - Consultas con filtros avanzados
 - Facturas pendientes de pago
 - Ventas por método de pago
 
-### 🏗️ **Arquitectura Profesional**
+### Arquitectura Profesional
 - Implementación de principios SOLID
 - Repository Pattern y Unit of Work
 - Inyección de dependencias
@@ -198,7 +256,7 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 
 ## 🛠️ Tecnologías Utilizadas
 
-### **Backend**
+### Backend
 
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
@@ -210,14 +268,14 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 | **BCrypt.Net** | Latest | Hash de contraseñas |
 | **Swagger/OpenAPI** | Latest | Documentación de API |
 
-### **Patrones y Prácticas**
+### Patrones y Prácticas
 
-- ✅ **Repository Pattern** - Abstracción de acceso a datos
-- ✅ **Unit of Work Pattern** - Coordinación de transacciones
-- ✅ **Dependency Injection** - Desacoplamiento de dependencias
-- ✅ **DTO Pattern** - Transferencia de datos
-- ✅ **SOLID Principles** - Código limpio y mantenible
-- ✅ **Clean Architecture** - Separación de responsabilidades
+- **Repository Pattern** - Abstracción de acceso a datos
+- **Unit of Work Pattern** - Coordinación de transacciones
+- **Dependency Injection** - Desacoplamiento de dependencias
+- **DTO Pattern** - Transferencia de datos
+- **SOLID Principles** - Código limpio y mantenible
+- **Clean Architecture** - Separación de responsabilidades
 
 ---
 
@@ -273,7 +331,7 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### **Flujo de una Operación de Facturación**
+### Flujo de una Operación de Facturación
 
 ```
 1. Cliente HTTP Request (JSON)
@@ -317,307 +375,9 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 
 ---
 
-## 🗄️ Manejo de ORM y Documentación de API
-
-### **Entity Framework Core - ORM**
-
-#### **Configuración del Contexto de Datos**
-
-El sistema utiliza **Entity Framework Core 9.0** como ORM principal para el manejo de la base de datos:
-
-```csharp
-public class DataContext : DbContext
-{
-    public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-
-    // DbSets para todas las entidades
-    public DbSet<Usuario> Usuarios { get; set; }
-    public DbSet<Tercero> Terceros { get; set; }
-    public DbSet<Producto> Productos { get; set; }
-    public DbSet<Factura> Facturas { get; set; }
-    public DbSet<Detalle_Factura> DetallesFactura { get; set; }
-    public DbSet<Pago_Factura> PagosFactura { get; set; }
-    public DbSet<Movimiento> Movimientos { get; set; }
-    // ... más entidades
-}
-```
-
-#### **Configuración de Conexión**
-
-```csharp
-// Program.cs - Configuración de Entity Framework
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-```
-
-#### **Características del ORM Implementadas**
-
-✅ **Mapeo de Entidades Completo**
-- 15+ entidades mapeadas con relaciones complejas
-- Configuración de claves foráneas y navegación
-- Validaciones a nivel de entidad con Data Annotations
-
-✅ **Relaciones y Navegación**
-
-```csharp
-// Ejemplo: Factura con navegación a detalles y pagos
-public class Factura
-{
-    [Key]
-    public int factura_id { get; set; }
-    
-    [ForeignKey(nameof(FK_movimiento_id))]
-    public Movimiento? Movimiento { get; set; }
-    
-    public ICollection<Detalle_Factura>? DetallesFactura { get; set; }
-    public ICollection<Pago_Factura>? PagosFactura { get; set; }
-}
-```
-
-✅ **Consultas Complejas con LINQ**
-
-```csharp
-// Consulta con múltiples includes para facturación
-var factura = await _context.Facturas
-    .Include(f => f.Movimiento)
-        .ThenInclude(m => m!.Tercero)
-    .Include(f => f.Movimiento)
-        .ThenInclude(m => m!.Usuario)
-    .Include(f => f.DetallesFactura)
-        .ThenInclude(d => d!.Producto)
-            .ThenInclude(p => p!.TarifaIVA)
-    .Include(f => f.PagosFactura)
-        .ThenInclude(p => p!.MetodoPago)
-    .FirstOrDefaultAsync(f => f.factura_id == facturaId);
-```
-
-✅ **Transacciones Atómicas**
-
-```csharp
-// Manejo de transacciones en operaciones complejas
-using var transaction = await _context.Database.BeginTransactionAsync();
-try
-{
-    // Múltiples operaciones
-    _context.Movimientos.Add(movimiento);
-    await _context.SaveChangesAsync();
-    
-    _context.Facturas.Add(factura);
-    await _context.SaveChangesAsync();
-    
-    await transaction.CommitAsync();
-}
-catch (Exception ex)
-{
-    await transaction.RollbackAsync();
-    throw;
-}
-```
-
-✅ **Migraciones y Seeding**
-- Configuración automática de base de datos
-- Datos iniciales (seed data) para desarrollo
-- Manejo de cambios de esquema
-
-#### **Ventajas del ORM en el Proyecto**
-
-| Ventaja | Implementación |
-|---------|----------------|
-| **Type Safety** | Consultas tipadas con LINQ |
-| **Lazy Loading** | Navegación automática entre entidades |
-| **Change Tracking** | Detección automática de cambios |
-| **Migrations** | Versionado de esquema de BD |
-| **Connection Pooling** | Optimización de conexiones |
-| **SQL Injection Prevention** | Consultas parametrizadas automáticas |
-
----
-
-### **Swagger/OpenAPI - Documentación de API**
-
-#### **Configuración de Swagger**
-
-```csharp
-// Program.cs - Configuración de Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "Supermercado POS API", 
-        Version = "v1",
-        Description = "API para Sistema de Punto de Venta",
-        Contact = new OpenApiContact
-        {
-            Name = "Equipo de Desarrollo",
-            Email = "desarrollo@supermercado.com"
-        }
-    });
-    
-    // Incluir comentarios XML
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
-    
-    // Configuración de JWT
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey
-    });
-});
-
-// Habilitar Swagger en desarrollo
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Supermercado POS API v1");
-        c.RoutePrefix = string.Empty; // Swagger en la raíz
-    });
-}
-```
-
-#### **Documentación de Endpoints**
-
-✅ **Comentarios XML Detallados**
-
-```csharp
-/// <summary>
-/// Crea una factura completa con detalles y pagos
-/// </summary>
-/// <param name="facturaDto">Datos de la factura a crear</param>
-/// <returns>Factura creada con todos sus detalles</returns>
-/// <response code="201">Factura creada exitosamente</response>
-/// <response code="400">Datos inválidos o error de validación</response>
-/// <response code="401">No autorizado</response>
-[HttpPost("crear-factura")]
-[ProducesResponseType(typeof(FacturaCompletaDTO), StatusCodes.Status201Created)]
-[ProducesResponseType(StatusCodes.Status400BadRequest)]
-[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-public async Task<IActionResult> CrearFacturaCompletaAsync([FromBody] FacturaCompletaCreateDTO facturaDto)
-```
-
-✅ **Esquemas de Datos Documentados**
-
-```csharp
-/// <summary>
-/// DTO para crear una factura completa con todos sus detalles y pagos
-/// </summary>
-public class FacturaCompletaCreateDTO
-{
-    /// <summary>
-    /// ID del tercero (cliente)
-    /// </summary>
-    /// <example>1</example>
-    [Required(ErrorMessage = "El tercero es obligatorio")]
-    public int TerceroId { get; set; }
-
-    /// <summary>
-    /// Lista de productos a facturar
-    /// </summary>
-    [Required(ErrorMessage = "Los detalles de la factura son obligatorios")]
-    [MinLength(1, ErrorMessage = "Debe incluir al menos un producto")]
-    public List<DetalleFacturaItemDTO> Detalles { get; set; } = new();
-}
-```
-
-#### **Características de Swagger Implementadas**
-
-✅ **Interfaz Interactiva Completa**
-- Pruebas en vivo de todos los endpoints
-- Validación de esquemas en tiempo real
-- Ejemplos de request/response automáticos
-
-✅ **Autenticación JWT Integrada**
-- Botón "Authorize" en la interfaz
-- Headers de autorización automáticos
-- Pruebas con tokens reales
-
-✅ **Documentación Automática**
-- Generación de esquemas desde DTOs
-- Validaciones mostradas en la UI
-- Códigos de respuesta documentados
-
-✅ **Agrupación por Controladores**
-
-```
-📁 Auth - Autenticación y autorización
-📁 Facturacion - Sistema completo de facturación
-📁 Producto - Gestión de productos
-📁 Tercero - Gestión de clientes/proveedores
-📁 Usuario - Administración de usuarios
-```
-
-#### **Beneficios de Swagger en el Proyecto**
-
-| Beneficio | Descripción |
-|-----------|-------------|
-| **Documentación Viva** | Se actualiza automáticamente con el código |
-| **Testing Integrado** | Pruebas directas desde la interfaz web |
-| **Validación Visual** | Esquemas y validaciones claramente mostrados |
-| **Colaboración** | Fácil compartir con frontend y QA |
-| **Estándares** | Cumple con especificación OpenAPI 3.0 |
-
-#### **Acceso a la Documentación**
-
-🌐 **URLs de Acceso:**
-- **Swagger UI:** `http://localhost:5000/`
-- **JSON Schema:** `http://localhost:5000/swagger/v1/swagger.json`
-- **Redoc (alternativo):** `http://localhost:5000/redoc`
-
-#### **Ejemplos de Uso desde Swagger**
-
-**1. Autenticación:**
-
-```json
-POST /api/auth/login
-{
-  "email": "admin@supermercado.com",
-  "password": "Admin123!"
-}
-```
-
-**2. Crear Factura:**
-
-```json
-POST /api/facturacion/crear-factura
-Authorization: Bearer {token}
-{
-  "terceroId": 1,
-  "detalles": [
-    {
-      "productoId": 1,
-      "cantidad": 2,
-      "precioUnitario": 15000,
-      "descuentoPorcentaje": 10
-    }
-  ],
-  "pagos": [
-    {
-      "metodoPagoId": 1,
-      "monto": 27000
-    }
-  ]
-}
-```
-
-**3. Consultar Productos:**
-
-```json
-GET /api/facturacion/productos-disponibles
-Authorization: Bearer {token}
-```
-
----
-
 ## 📊 Diagrama de Clases
 
-### **Diagrama de Clases Principal - Módulo de Facturación**
+### Diagrama de Clases Principal - Módulo de Facturación
 
 ```mermaid
 classDiagram
@@ -759,7 +519,7 @@ classDiagram
     Pago_Factura "*" --> "1" Metodos_Pago
 ```
 
-### **Diagrama de Clases - Arquitectura (Patrones)**
+### Diagrama de Clases - Arquitectura (Patrones)
 
 ```mermaid
 classDiagram
@@ -779,7 +539,6 @@ classDiagram
         +CalcularTotalesFacturaAsync()
         +ValidarStockProductosAsync()
         +ActualizarStockProductosAsync()
-        +AnularFacturaAsync()
         -CalcularValoresDetalle()
     }
 
@@ -904,17 +663,17 @@ SUPERMERCADO/
 
 ## 🔧 Principios de Desarrollo
 
-### **Principios SOLID Aplicados**
+### Principios SOLID Aplicados
 
-#### **S - Single Responsibility Principle (Responsabilidad Única)**
+#### S - Single Responsibility Principle (Responsabilidad Única)
 
-✅ Cada clase tiene una única responsabilidad bien definida:
+Cada clase tiene una única responsabilidad bien definida:
 - `FacturaController`: Maneja peticiones HTTP
 - `FacturacionUnitOfWork`: Coordina lógica de negocio
 - `FacturacionRepository`: Accede a la base de datos
 - `FacturacionHelper`: Provee utilidades de cálculo
 
-**Ejemplo:**
+Ejemplo:
 
 ```csharp
 // Controlador - Solo maneja HTTP
@@ -929,13 +688,13 @@ public class FacturaController : ControllerBase
 }
 ```
 
-#### **O - Open/Closed Principle (Abierto/Cerrado)**
+#### O - Open/Closed Principle (Abierto/Cerrado)
 
-✅ Clases abiertas para extensión, cerradas para modificación:
+Clases abiertas para extensión, cerradas para modificación:
 - `GenericRepository<T>` es la base
 - `FacturacionRepository` extiende sin modificar la base
 
-**Ejemplo:**
+Ejemplo:
 
 ```csharp
 // Clase base - NO SE MODIFICA
@@ -950,4 +709,243 @@ public class FacturacionRepository : IFacturacionRepository
     // Métodos específicos de facturación
     public async Task<ActionResponse<FacturaCompletaDTO>> CrearFacturaCompletaAsync(...)
     {
-        // Lógica compleja de facturaci
+        // Lógica compleja de facturación
+    }
+}
+```
+
+#### L - Liskov Substitution Principle (Sustitución de Liskov)
+
+Las interfaces permiten sustituir implementaciones:
+
+```csharp
+// Cualquier implementación de IFacturacionRepository puede usarse
+IFacturacionRepository repository = new FacturacionRepository(context);
+```
+
+#### I - Interface Segregation Principle (Segregación de Interfaces)
+
+Interfaces específicas por responsabilidad:
+- `IFacturacionRepository` - Solo métodos de facturación
+- `IProductoRepository` - Solo métodos de productos
+- `IUsuarioRepository` - Solo métodos de usuarios
+
+#### D - Dependency Inversion Principle (Inversión de Dependencias)
+
+Dependencias a través de abstracciones (interfaces), no implementaciones:
+
+```csharp
+public class FacturacionUnitOfWork
+{
+    // Dependemos de la interfaz, no de la implementación
+    private readonly IFacturacionRepository _repository;
+    
+    public FacturacionUnitOfWork(IFacturacionRepository repository)
+    {
+        _repository = repository;
+    }
+}
+```
+
+---
+
+## 🧩 Instalación
+
+### Prerrequisitos
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
+- [SQL Server 2022](https://www.microsoft.com/sql-server/sql-server-downloads) o superior
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) o [VS Code](https://code.visualstudio.com/)
+- [Git](https://git-scm.com/)
+
+### Pasos de Instalación
+
+1) Clonar el repositorio
+
+```bash
+git clone https://github.com/KevinMT98/SUPERMERCADO_POS.git
+cd SUPERMERCADO_POS
+```
+
+2) Configurar la cadena de conexión en `Supermercado.Backend/appsettings.json`
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=SupermercadoDB;Trusted_Connection=True;TrustServerCertificate=True;"
+  }
+}
+```
+
+3) Restaurar paquetes NuGet
+
+```bash
+cd SUPERMERCADO/Supermercado.Backend
+dotnet restore
+```
+
+4) Aplicar migraciones de base de datos
+
+```bash
+dotnet ef database update
+```
+
+5) Ejecutar el proyecto
+
+```bash
+dotnet run
+```
+
+6) Acceder a Swagger
+
+Abre tu navegador en: `https://localhost:7xxx/swagger`
+
+### Datos de Prueba
+
+El sistema incluye un `SeedDb` que carga datos iniciales:
+
+- Usuarios:
+  - Admin: `admin` / `Admin123!`
+  - SuperAdmin: `superadmin` / `Super123!`
+  - Usuario: `usuario1` / `User123!`
+
+- Productos de ejemplo:
+  - Coca Cola 2L
+  - Agua Cristal 600ml
+  - Leche Entera 1L
+  - Jabón Líquido 500ml
+  - Arroz Blanco 1Kg
+
+---
+
+## 📚 Documentación
+
+Documentación principal:
+
+- [Documentación de Facturación](DOCUMENTACION_FACTURACION.md) — Proceso completo de facturación
+- [Aplicación de Principios SOLID](APLICACION_PRINCIPIOS_SOLID.md) — Implementación de SOLID
+- [Patrones de Diseño](DOCUMENTACION_PATRONES_DISEÑO.md) — Patrones utilizados
+
+### Ejemplo de Uso — Crear una Factura
+
+Request:
+
+```json
+POST /api/facturacion
+Content-Type: application/json
+
+{
+  "terceroId": 1,
+  "usuarioId": 1,
+  "observaciones": "Venta mostrador",
+  "detalles": [
+    {
+      "productoId": 1,
+      "cantidad": 2,
+      "precioUnitario": 15000.00,
+      "descuentoPorcentaje": 10.0
+    }
+  ],
+  "pagos": [
+    {
+      "metodoPagoId": 1,
+      "monto": 27000.00,
+      "referenciaPago": "Efectivo"
+    }
+  ]
+}
+```
+
+Response:
+
+```json
+{
+  "facturaId": 1,
+  "numeroDocumento": "FV000001",
+  "fecha": "2025-01-15T10:30:00",
+  "nombreTercero": "Carlos Gómez",
+  "totalBruto": 30000,
+  "totalDescuentos": 3000,
+  "totalImpuestos": 5130,
+  "totalNeto": 32130,
+  "detalles": [
+    {
+      "nombreProducto": "Coca Cola 2L",
+      "cantidad": 2,
+      "precioUnitario": 15000,
+      "porcentajeIva": 19,
+      "descuentoPorcentaje": 10,
+      "descuentoValor": 3000,
+      "subtotal": 32130
+    }
+  ],
+  "pagos": [
+    {
+      "nombreMetodoPago": "Efectivo",
+      "monto": 32130
+    }
+  ]
+}
+```
+
+Cálculos de la factura:
+
+```
+Subtotal Bruto    = 2 × $15,000 = $30,000
+Descuento (10%)   = $30,000 × 10% = $3,000
+Base Gravable     = $30,000 - $3,000 = $27,000
+IVA (19%)         = $27,000 × 19% = $5,130
+Total Neto        = $27,000 + $5,130 = $32,130
+```
+
+---
+
+## 👤 Autores
+
+### Equipo de Desarrollo
+
+| Nombre | Rol | GitHub |
+|---|---|---|
+| **Angel Tovar** | Developer | - |
+| **Kevin Montaño** | Developer | [@KevinMT98](https://github.com/KevinMT98) |
+| **Andres Felipe Yepes** | Developer | - |
+| **Cristian Camilo Gutierrez** | Developer | - |
+
+### Información Académica
+
+- **Universidad:** ITM (Instituto Tecnológico Metropolitano)
+- **Asignatura:** Tecnología en Desarrollo de Software
+- **Fecha:** Octubre 2025
+- **Versión:** 1.0
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+---
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Por favor:
+
+1. Haz fork del proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit de tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+---
+
+## 📫 Contacto
+
+- GitHub: [@KevinMT98](https://github.com/KevinMT98)
+- Repositorio: [SUPERMERCADO_POS](https://github.com/KevinMT98/SUPERMERCADO_POS)
+
+---
+
+<p align="center">
+<strong>Si este proyecto te fue útil, por favor dale una estrella</strong><br/>
+Desarrollado con ❤️ usando .NET 9<br/>
+<em>Nota: Los diagramas Mermaid se conservan como bloques de código para su referencia en Word.</em>
+</p>
