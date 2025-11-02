@@ -24,6 +24,7 @@
 - [Plan de Trabajo](#-plan-de-trabajo)
 - [Caracter�sticas Principales](#-caracter�sticas-principales)
 - [Tecnolog�as Utilizadas](#-tecnolog�as-utilizadas)
+- [Manejo de ORM y Documentaci�n de API](#️-manejo-de-orm-y-documentaci�n-de-api)
 - [Arquitectura del Sistema](#-arquitectura-del-sistema)
 - [Diagrama de Clases](#-diagrama-de-clases)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
@@ -181,17 +182,19 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 - ? Validaciones de negocio
 
 ### **Fase 5: Desarrollo del Backend - Sistema de Facturaci�n (3 semanas)**
-- ? Gesti�n de Tipos de Documentos
-- ? Gesti�n de Consecutivos
-- ? Gesti�n de M�todos de Pago
-- ? Gesti�n de Movimientos
-- ? Gesti�n de Facturas
-- ? Detalles de Factura
-- ? Pagos de Factura
-- ? **FacturacionRepository** (proceso completo)
-- ? C�lculos autom�ticos (descuentos, IVA, totales)
-- ? Validaciones exhaustivas
-- ? Anulaci�n de facturas
+- ✅ Gesti�n de Tipos de Documentos
+- ✅ Gesti�n de Consecutivos
+- ✅ Gesti�n de M�todos de Pago
+- ✅ Gesti�n de Movimientos
+- ✅ Gesti�n de Facturas
+- ✅ Detalles de Factura
+- ✅ Pagos de Factura
+- ✅ **FacturacionRepository** (proceso completo)
+- ✅ C�lculos autom�ticos (descuentos, **IVA**, totales)
+- ✅ Validaciones exhaustivas
+- ✅ Anulaci�n de facturas
+- ✅ **Integraci�n completa con tarifas de IVA**
+- ✅ **Transacciones at�micas con Entity Framework**
 
 ### **Fase 6: Helpers y Utilidades (1 semana)**
 - ? FacturacionHelper para c�lculos
@@ -230,11 +233,13 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 - Asociaci�n de tarifas de IVA por producto
 
 ### ?? **Facturaci�n Completa**
-- C�lculos autom�ticos de descuentos e impuestos
+- C�lculos autom�ticos de descuentos e **impuestos (IVA)**
 - Soporte para m�ltiples m�todos de pago
 - Consecutivos autom�ticos de facturaci�n
 - Anulaci�n de facturas con trazabilidad
 - Validaci�n de stock antes de facturar
+- **Integraci�n completa con Entity Framework ORM**
+- **Documentaci�n interactiva con Swagger/OpenAPI**
 
 ### ?? **Reportes y Consultas**
 - Resumen de ventas por fecha
@@ -271,6 +276,292 @@ Desarrollar un **sistema de punto de venta (POS) robusto y escalable** para supe
 - ? **DTO Pattern** - Transferencia de datos
 - ? **SOLID Principles** - C�digo limpio y mantenible
 - ? **Clean Architecture** - Separaci�n de responsabilidades
+
+---
+
+## 🗄️ Manejo de ORM y Documentación de API
+
+### **Entity Framework Core - ORM**
+
+#### **Configuración del Contexto de Datos**
+El sistema utiliza **Entity Framework Core 9.0** como ORM principal para el manejo de la base de datos:
+
+```csharp
+public class DataContext : DbContext
+{
+    public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+
+    // DbSets para todas las entidades
+    public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Tercero> Terceros { get; set; }
+    public DbSet<Producto> Productos { get; set; }
+    public DbSet<Factura> Facturas { get; set; }
+    public DbSet<Detalle_Factura> DetallesFactura { get; set; }
+    public DbSet<Pago_Factura> PagosFactura { get; set; }
+    public DbSet<Movimiento> Movimientos { get; set; }
+    // ... más entidades
+}
+```
+
+#### **Configuración de Conexión**
+```csharp
+// Program.cs - Configuración de Entity Framework
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+```
+
+#### **Características del ORM Implementadas**
+
+✅ **Mapeo de Entidades Completo**
+- 15+ entidades mapeadas con relaciones complejas
+- Configuración de claves foráneas y navegación
+- Validaciones a nivel de entidad con Data Annotations
+
+✅ **Relaciones y Navegación**
+```csharp
+// Ejemplo: Factura con navegación a detalles y pagos
+public class Factura
+{
+    [Key]
+    public int factura_id { get; set; }
+    
+    [ForeignKey(nameof(FK_movimiento_id))]
+    public Movimiento? Movimiento { get; set; }
+    
+    public ICollection<Detalle_Factura>? DetallesFactura { get; set; }
+    public ICollection<Pago_Factura>? PagosFactura { get; set; }
+}
+```
+
+✅ **Consultas Complejas con LINQ**
+```csharp
+// Consulta con múltiples includes para facturación
+var factura = await _context.Facturas
+    .Include(f => f.Movimiento)
+        .ThenInclude(m => m!.Tercero)
+    .Include(f => f.Movimiento)
+        .ThenInclude(m => m!.Usuario)
+    .Include(f => f.DetallesFactura)
+        .ThenInclude(d => d!.Producto)
+            .ThenInclude(p => p!.TarifaIVA)
+    .Include(f => f.PagosFactura)
+        .ThenInclude(p => p!.MetodoPago)
+    .FirstOrDefaultAsync(f => f.factura_id == facturaId);
+```
+
+✅ **Transacciones Atómicas**
+```csharp
+// Manejo de transacciones en operaciones complejas
+using var transaction = await _context.Database.BeginTransactionAsync();
+try
+{
+    // Múltiples operaciones
+    _context.Movimientos.Add(movimiento);
+    await _context.SaveChangesAsync();
+    
+    _context.Facturas.Add(factura);
+    await _context.SaveChangesAsync();
+    
+    await transaction.CommitAsync();
+}
+catch (Exception ex)
+{
+    await transaction.RollbackAsync();
+    throw;
+}
+```
+
+✅ **Migraciones y Seeding**
+- Configuración automática de base de datos
+- Datos iniciales (seed data) para desarrollo
+- Manejo de cambios de esquema
+
+#### **Ventajas del ORM en el Proyecto**
+
+| Ventaja | Implementación |
+|---------|----------------|
+| **Type Safety** | Consultas tipadas con LINQ |
+| **Lazy Loading** | Navegación automática entre entidades |
+| **Change Tracking** | Detección automática de cambios |
+| **Migrations** | Versionado de esquema de BD |
+| **Connection Pooling** | Optimización de conexiones |
+| **SQL Injection Prevention** | Consultas parametrizadas automáticas |
+
+---
+
+### **Swagger/OpenAPI - Documentación de API**
+
+#### **Configuración de Swagger**
+```csharp
+// Program.cs - Configuración de Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "Supermercado POS API", 
+        Version = "v1",
+        Description = "API para Sistema de Punto de Venta",
+        Contact = new OpenApiContact
+        {
+            Name = "Equipo de Desarrollo",
+            Email = "desarrollo@supermercado.com"
+        }
+    });
+    
+    // Incluir comentarios XML
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+    
+    // Configuración de JWT
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey
+    });
+});
+
+// Habilitar Swagger en desarrollo
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Supermercado POS API v1");
+        c.RoutePrefix = string.Empty; // Swagger en la raíz
+    });
+}
+```
+
+#### **Documentación de Endpoints**
+
+✅ **Comentarios XML Detallados**
+```csharp
+/// <summary>
+/// Crea una factura completa con detalles y pagos
+/// </summary>
+/// <param name="facturaDto">Datos de la factura a crear</param>
+/// <returns>Factura creada con todos sus detalles</returns>
+/// <response code="201">Factura creada exitosamente</response>
+/// <response code="400">Datos inválidos o error de validación</response>
+/// <response code="401">No autorizado</response>
+[HttpPost("crear-factura")]
+[ProducesResponseType(typeof(FacturaCompletaDTO), StatusCodes.Status201Created)]
+[ProducesResponseType(StatusCodes.Status400BadRequest)]
+[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+public async Task<IActionResult> CrearFacturaCompletaAsync([FromBody] FacturaCompletaCreateDTO facturaDto)
+```
+
+✅ **Esquemas de Datos Documentados**
+```csharp
+/// <summary>
+/// DTO para crear una factura completa con todos sus detalles y pagos
+/// </summary>
+public class FacturaCompletaCreateDTO
+{
+    /// <summary>
+    /// ID del tercero (cliente)
+    /// </summary>
+    /// <example>1</example>
+    [Required(ErrorMessage = "El tercero es obligatorio")]
+    public int TerceroId { get; set; }
+
+    /// <summary>
+    /// Lista de productos a facturar
+    /// </summary>
+    [Required(ErrorMessage = "Los detalles de la factura son obligatorios")]
+    [MinLength(1, ErrorMessage = "Debe incluir al menos un producto")]
+    public List<DetalleFacturaItemDTO> Detalles { get; set; } = new();
+}
+```
+
+#### **Características de Swagger Implementadas**
+
+✅ **Interfaz Interactiva Completa**
+- Pruebas en vivo de todos los endpoints
+- Validación de esquemas en tiempo real
+- Ejemplos de request/response automáticos
+
+✅ **Autenticación JWT Integrada**
+- Botón "Authorize" en la interfaz
+- Headers de autorización automáticos
+- Pruebas con tokens reales
+
+✅ **Documentación Automática**
+- Generación de esquemas desde DTOs
+- Validaciones mostradas en la UI
+- Códigos de respuesta documentados
+
+✅ **Agrupación por Controladores**
+```
+📁 Auth - Autenticación y autorización
+📁 Facturacion - Sistema completo de facturación
+📁 Producto - Gestión de productos
+📁 Tercero - Gestión de clientes/proveedores
+📁 Usuario - Administración de usuarios
+```
+
+#### **Beneficios de Swagger en el Proyecto**
+
+| Beneficio | Descripción |
+|-----------|-------------|
+| **Documentación Viva** | Se actualiza automáticamente con el código |
+| **Testing Integrado** | Pruebas directas desde la interfaz web |
+| **Validación Visual** | Esquemas y validaciones claramente mostrados |
+| **Colaboración** | Fácil compartir con frontend y QA |
+| **Estándares** | Cumple con especificación OpenAPI 3.0 |
+
+#### **Acceso a la Documentación**
+
+🌐 **URLs de Acceso:**
+- **Swagger UI:** `http://localhost:5000/`
+- **JSON Schema:** `http://localhost:5000/swagger/v1/swagger.json`
+- **Redoc (alternativo):** `http://localhost:5000/redoc`
+
+#### **Ejemplos de Uso desde Swagger**
+
+**1. Autenticación:**
+```json
+POST /api/auth/login
+{
+  "email": "admin@supermercado.com",
+  "password": "Admin123!"
+}
+```
+
+**2. Crear Factura:**
+```json
+POST /api/facturacion/crear-factura
+Authorization: Bearer {token}
+{
+  "terceroId": 1,
+  "detalles": [
+    {
+      "productoId": 1,
+      "cantidad": 2,
+      "precioUnitario": 15000,
+      "descuentoPorcentaje": 10
+    }
+  ],
+  "pagos": [
+    {
+      "metodoPagoId": 1,
+      "monto": 27000
+    }
+  ]
+}
+```
+
+**3. Consultar Productos:**
+```json
+GET /api/facturacion/productos-disponibles
+Authorization: Bearer {token}
+```
 
 ---
 
