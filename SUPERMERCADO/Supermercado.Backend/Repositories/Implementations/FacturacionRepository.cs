@@ -604,7 +604,7 @@ public class FacturacionRepository : IFacturacionRepository
             var facturas = await _context.Facturas
                 .Include(f => f.Movimiento)
                 .Include(f => f.PagosFactura)
-                    .ThenInclude(p => p!.MetodoPago)
+                .ThenInclude(p => p!.MetodoPago)
                 .Where(f => f.Movimiento!.fecha.Date == fecha.Date)
                 .ToListAsync();
 
