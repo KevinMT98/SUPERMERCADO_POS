@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturación - Sistema POS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <style>
+        :root {
+            --color-azul-kevan: #1a237e;
+            --color-amarillo-kevan: #ffc627;
+            --color-azul-claro-kevan: #1976d2;
+        }
+
+        body {
+            background: #f7f9fc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: var(--color-azul-kevan);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .main-container {
+            padding: 2rem 0;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--color-azul-kevan), var(--color-azul-claro-kevan));
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1.5rem;
+        }
+
+        .btn-primary {
+            background: var(--color-azul-kevan);
+            border-color: var(--color-azul-kevan);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-azul-claro-kevan);
+            border-color: var(--color-azul-claro-kevan);
+            transform: translateY(-1px);
+        }
+
+        .btn-warning {
+            background: var(--color-amarillo-kevan);
+            border-color: var(--color-amarillo-kevan);
+            color: #000;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--color-azul-claro-kevan);
+            box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+        }
+
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .table thead th {
+            background: var(--color-azul-kevan);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        .producto-item {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .producto-item:hover {
+            border-color: var(--color-azul-claro-kevan);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .totales-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 2px solid var(--color-azul-claro-kevan);
+        }
+
+        .total-final {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-azul-kevan);
+        }
+
+        .badge-custom {
+            background: var(--color-amarillo-kevan);
+            color: #000;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 0.75rem;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f3f4;
+            transition: all 0.3s ease;
+        }
+
+        .search-result-item:hover {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            transform: translateX(5px);
+            border-left: 4px solid var(--color-azul-claro-kevan);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .metodo-pago-item {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: white;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem 0;
+            }
+            
+            .card-header {
+                padding: 1rem;
+            }
+            
+            .producto-item {
+                padding: 0.75rem;
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* Estilos específicos para el modal de productos */
+        #productosModal .table th {
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        #productosModal .table td {
+            vertical-align: middle;
+            padding: 0.75rem 0.5rem;
+        }
+
+        #productosModal .table tbody tr:hover {
+            background-color: rgba(13, 110, 253, 0.05);
+            transform: scale(1.005);
+            transition: all 0.2s ease;
+        }
+
+        #productosModal .btn-primary {
+            background: linear-gradient(135deg, var(--color-azul-kevan), var(--color-azul-claro-kevan));
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        #productosModal .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3);
+        }
+
+        #productosModal .badge {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+        }
+
+        #productosModal .input-group-text {
+            background: var(--color-azul-claro-kevan);
+            color: white;
+            border-color: var(--color-azul-claro-kevan);
+        }
+
+        #productosModal .form-control:focus {
+            border-color: var(--color-azul-claro-kevan);
+            box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+        }
+
+        /* Estilos para botones de acciones rápidas */
+        .btn-outline-primary, .btn-outline-success {
+            transition: all 0.3s ease;
+            border-width: 1px;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--color-azul-kevan);
+            border-color: var(--color-azul-kevan);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.2);
+        }
+
+        .btn-outline-success:hover {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+        }
+
+        /* Estilos para las tarjetas de productos */
+        .producto-card {
+            border: 1px solid #e3e6f0;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .producto-card:hover {
+            border-color: var(--color-azul-claro-kevan);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+        .producto-card .card-header {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        /* Campo IVA readonly */
+        .producto-card .form-control[readonly] {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+            color: #6c757d;
+        }
+
+        /* Campo total línea con estilo destacado */
+        .producto-card .text-success {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .producto-card .form-control {
+            border-width: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .producto-card .form-control:focus {
+            border-color: var(--color-azul-claro-kevan);
+            box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+        }
+
+        .producto-card .badge {
+            font-size: 0.75rem;
+            padding: 0.375rem 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="dashboard.html">
+                <i class="bi bi-shop"></i> Sistema POS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="bi bi-house"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="facturacion.html">
+                            <i class="bi bi-receipt"></i> Facturas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="mostrarAyuda()">
+                            <i class="bi bi-question-circle"></i> Ayuda
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> <span id="userEmail">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="authService.logout()">
+                                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2 mb-0">Procesando factura...</p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container-fluid main-container">
+        <div class="row">
+            <!-- Formulario de Facturación -->
+            <div class="col-lg-8">
+                <div class="card animate-fade-in">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="bi bi-receipt"></i> Nueva Factura
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="formFacturacion">
+                            <!-- Información del Cliente -->
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Cliente *</label>
+                                    <select class="form-select" id="clienteSelect" required>
+                                        <option value="">Seleccione un cliente...</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Observaciones</label>
+                                    <input type="text" class="form-control" id="observaciones" placeholder="Observaciones adicionales">
+                                </div>
+                            </div>
+
+                            <!-- Búsqueda y Agregado de Productos -->
+                            <div class="row mb-3">
+                                <div class="col-md-8">
+                                    <label class="form-label fw-bold">Buscar Producto</label>
+                                    <div class="search-container">
+                                        <input type="text" class="form-control" id="buscarProducto" 
+                                               placeholder="Buscar por código o nombre del producto...">
+                                        <div class="search-results" id="searchResults"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Acciones Rápidas</label>
+                                    <div class="d-flex justify-content-center gap-3 mt-2">
+                                        <button type="button" class="btn btn-outline-primary" 
+                                                onclick="mostrarTodosLosProductos()" 
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-placement="top" 
+                                                title="Ver Todos los Productos">
+                                            <i class="bi bi-list"></i> Ver Productos
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success" 
+                                                onclick="agregarProductoManual()" 
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-placement="top" 
+                                                title="Agregar Producto Manual">
+                                            <i class="bi bi-plus-circle"></i> Agregar Manual
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Lista de Productos Agregados -->
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0">Productos en la Factura</h5>
+                                    <span class="badge badge-custom" id="contadorProductos">0 productos</span>
+                                </div>
+                                <div id="productosContainer">
+                                    <div class="text-center text-muted py-4">
+                                        <i class="bi bi-cart-x fs-1"></i>
+                                        <p class="mt-2">No hay productos agregados</p>
+                                        <small>Use el buscador para agregar productos a la factura</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Métodos de Pago -->
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0">Métodos de Pago</h5>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="agregarMetodoPago()">
+                                        <i class="bi bi-plus"></i> Agregar Pago
+                                    </button>
+                                </div>
+                                <div id="metodsPagoContainer">
+                                    <div class="text-center text-muted py-3">
+                                        <i class="bi bi-credit-card fs-1"></i>
+                                        <p class="mt-2">No hay métodos de pago agregados</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Botones de Acción -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-outline-secondary w-100" onclick="limpiarFactura()">
+                                        <i class="bi bi-arrow-clockwise"></i> Limpiar
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary w-100" id="btnGuardarFactura">
+                                        <i class="bi bi-save"></i> Guardar Factura
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Totales y Resumen -->
+            <div class="col-lg-4">
+                <div class="card animate-slide-up">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-calculator"></i> Totales
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="totales-section">
+                            <div class="row mb-2">
+                                <div class="col-6">Subtotal:</div>
+                                <div class="col-6 text-end fw-bold" id="subtotalFactura">$0</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-6">Descuentos:</div>
+                                <div class="col-6 text-end fw-bold text-success" id="descuentosFactura">$0</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-6">IVA:</div>
+                                <div class="col-6 text-end fw-bold" id="ivaFactura">$0</div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Total:</strong>
+                                </div>
+                                <div class="col-6 text-end total-final" id="totalFactura">$0</div>
+                            </div>
+                        </div>
+
+                        <!-- Información de Pagos -->
+                        <div class="mt-4">
+                            <h6 class="fw-bold">Resumen de Pagos</h6>
+                            <div class="row mb-2">
+                                <div class="col-6">Total Pagos:</div>
+                                <div class="col-6 text-end fw-bold" id="totalPagos">$0</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-6">Diferencia:</div>
+                                <div class="col-6 text-end fw-bold" id="diferenciaPagos">$0</div>
+                            </div>
+                        </div>
+
+                        <!-- Estado de la Factura -->
+                        <div class="mt-4">
+                            <div class="alert alert-secondary" id="estadoFactura">
+                                <i class="bi bi-info-circle"></i>
+                                <strong>Estado:</strong> Factura en proceso
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acciones Rápidas -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="bi bi-lightning"></i> Acciones Rápidas
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-outline-info btn-sm w-100 mb-2" onclick="verFacturasHoy()">
+                            <i class="bi bi-calendar-day"></i> Facturas de Hoy
+                        </button>
+                        <button type="button" class="btn btn-outline-warning btn-sm w-100 mb-2" onclick="verEstadisticas()">
+                            <i class="bi bi-graph-up"></i> Estadísticas
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100" onclick="buscarFacturas()">
+                            <i class="bi bi-search"></i> Buscar Facturas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Seleccionar Productos -->
+    <div class="modal fade" id="productosModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <div>
+                        <h5 class="modal-title mb-0">
+                            <i class="bi bi-box-seam"></i> Catálogo de Productos
+                        </h5>
+                        <small class="opacity-75">Seleccione los productos para agregar a la factura</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <!-- Barra de búsqueda -->
+                    <div class="p-3 bg-light border-bottom">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-search"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="buscarProductoModal" 
+                                           placeholder="Buscar por código o nombre del producto...">
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-info" id="contadorProductosModal">
+                                    <i class="bi bi-box"></i> Cargando...
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tabla de productos -->
+                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                        <table class="table table-hover table-striped mb-0">
+                            <thead class="table-dark sticky-top">
+                                <tr>
+                                    <th style="width: 12%;">
+                                        <i class="bi bi-upc-scan"></i> Código
+                                    </th>
+                                    <th style="width: 30%;">
+                                        <i class="bi bi-box"></i> Producto
+                                    </th>
+                                    <th style="width: 12%;" class="text-center">
+                                        <i class="bi bi-stack"></i> Stock
+                                    </th>
+                                    <th style="width: 16%;" class="text-end">
+                                        <i class="bi bi-currency-dollar"></i> Precio
+                                    </th>
+                                    <th style="width: 12%;" class="text-center">
+                                        <i class="bi bi-percent"></i> IVA
+                                    </th>
+                                    <th style="width: 18%;" class="text-center">
+                                        <i class="bi bi-plus-circle"></i> Acción
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaProductosModal">
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-5">
+                                        <div class="spinner-border text-primary me-2"></div>
+                                        <strong>Cargando productos...</strong>
+                                        <br>
+                                        <small>Por favor espere mientras se cargan los productos disponibles</small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <div class="d-flex justify-content-between w-100 align-items-center">
+                        <div>
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle"></i>
+                                Haga clic en "Agregar" para incluir productos en la factura
+                            </small>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                <i class="bi bi-x"></i> Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar Producto Manual -->
+    <div class="modal fade" id="productoManualModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Agregar Producto Manual</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formProductoManual">
+                        <div class="mb-3">
+                            <label class="form-label">Producto *</label>
+                            <select class="form-select" id="productoManualSelect" required>
+                                <option value="">Seleccione un producto...</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Cantidad *</label>
+                                <input type="number" class="form-control" id="cantidadManual" min="1" value="1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Precio Unitario *</label>
+                                <input type="number" class="form-control" id="precioManual" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Descuento %</label>
+                                <input type="number" class="form-control" id="descuentoPorcentajeManual" step="0.01" min="0" max="100" value="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">IVA % (del maestro)</label>
+                                <input type="number" class="form-control bg-light" id="ivaManual" step="0.01" min="0" value="0" readonly>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label">Total Línea</label>
+                            <div class="form-control bg-light fw-bold text-success" id="totalLineaManual">$0</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="confirmarProductoManual()">Agregar Producto</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar Método de Pago -->
+    <div class="modal fade" id="metodoPagoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Agregar Método de Pago</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formMetodoPago">
+                        <div class="mb-3">
+                            <label class="form-label">Método de Pago *</label>
+                            <select class="form-select" id="metodoPagoSelect" required>
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Monto *</label>
+                            <input type="number" class="form-control" id="montoPago" step="0.01" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Referencia</label>
+                            <input type="text" class="form-control" id="referenciaPago" placeholder="Número de transacción, cheque, etc.">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmarMetodoPago()">Agregar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Buscar Facturas -->
+    <div class="modal fade" id="buscarFacturasModal" tabindex="-1" aria-labelledby="buscarFacturasModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="buscarFacturasModalLabel">
+                        <i class="bi bi-search"></i> Buscar Facturas
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Filtros de búsqueda -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <label class="form-label">Número de Factura</label>
+                            <input type="text" class="form-control" id="filtroNumeroFactura" placeholder="Ej: FAC-001">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Cliente</label>
+                            <select class="form-select" id="filtroCliente">
+                                <option value="">Todos los clientes</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Fecha Desde</label>
+                            <input type="date" class="form-control" id="filtroFechaDesde">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Fecha Hasta</label>
+                            <input type="date" class="form-control" id="filtroFechaHasta">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" id="filtroEstado">
+                                <option value="">Todos</option>
+                                <option value="activa">Activa</option>
+                                <option value="anulada">Anulada</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Botones de acción -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary" onclick="buscarFacturasConFiltros()">
+                                <i class="bi bi-search"></i> Buscar
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="limpiarFiltrosFacturas()">
+                                <i class="bi bi-arrow-clockwise"></i> Limpiar
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="exportarFacturas()">
+                                <i class="bi bi-file-excel"></i> Exportar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tabla de resultados -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="tablaFacturas">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTablaFacturas">
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">
+                                        <i class="bi bi-search fs-2"></i>
+                                        <br>
+                                        <strong>Realice una búsqueda para ver las facturas</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Paginación -->
+                    <nav aria-label="Paginación de facturas">
+                        <ul class="pagination justify-content-center" id="paginacionFacturas">
+                            <!-- Se genera dinámicamente -->
+                        </ul>
+                    </nav>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Facturas de Hoy -->
+    <div class="modal fade" id="facturasHoyModal" tabindex="-1" aria-labelledby="facturasHoyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="facturasHoyModalLabel">
+                        <i class="bi bi-calendar-day"></i> Facturas de Hoy
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Mensaje informativo -->
+                    <div class="alert alert-success" id="mensajeFacturasHoy">
+                        <i class="bi bi-calendar-day"></i>
+                        <strong>Facturas de Hoy:</strong> Cargando facturas del día actual...
+                    </div>
+                    
+                    <!-- Tabla de resultados -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="tablaFacturasHoy">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Fecha/Hora</th>
+                                    <th>Cliente</th>
+                                    <th>Descuentos</th>
+                                    <th>IVA</th>
+                                    <th>Total</th>
+                                    <th>Usuario</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTablaFacturasHoy">
+                                <tr>
+                                    <td colspan="8" class="text-center py-4">
+                                        <div class="spinner-border text-success me-2"></div>
+                                        <strong>Cargando facturas de hoy...</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Resumen de totales -->
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title">Resumen del Día</h6>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <strong>Total Facturas:</strong> <span id="resumenCantidad">0</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <strong>Total Bruto:</strong> <span id="resumenBruto">$0</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <strong>Descuentos:</strong> <span class="text-warning" id="resumenDescuentos">$0</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <strong>IVA:</strong> <span class="text-info" id="resumenIVA">$0</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong class="text-success">Total Neto:</strong> <span class="text-success fw-bold fs-5" id="resumenTotal">$0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="exportarFacturasHoy()">
+                        <i class="bi bi-file-excel"></i> Exportar
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/utils/validators.js"></script>
+    <script src="js/utils/facturacionHelpers.js"></script>
+    <script src="js/api/apiClient.js"></script>
+    <script src="js/services/authService.js"></script>
+    <script src="js/services/facturacionService.js"></script>
+    
+    <script src="js/pages/facturacion.js"></script>
+</body>
+</html>

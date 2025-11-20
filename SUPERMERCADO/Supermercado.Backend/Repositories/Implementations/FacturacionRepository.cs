@@ -330,15 +330,13 @@ public class FacturacionRepository : IFacturacionRepository
             var facturasDto = facturas.Select(f => new FacturaCompletaDTO
             {
                 FacturaId = f.factura_id,
-                //MovimientoId = f.FK_movimiento_id,
                 NumeroDocumento = f.Movimiento!.numero_documento,
                 Fecha = f.Movimiento.fecha,
-                //TerceroId = f.Movimiento.FK_tercero_id,
                 NombreTercero = $"{f.Movimiento.Tercero!.nombre} {f.Movimiento.Tercero.apellido1}",
-                //UsuarioId = f.Movimiento.FK_usuario_id,
                 NombreUsuario = f.Movimiento.Usuario!.nombre_usuario,
                 Observaciones = f.Movimiento.observaciones,
                 TotalBruto = f.total_bruto,
+                TotalImpu = f.total_impu,  // ✅ AGREGADO: Incluir impuestos
                 TotalDescuentos = f.total_descuentos,
                 TotalNeto = f.total_neto
             });
@@ -517,19 +515,25 @@ public class FacturacionRepository : IFacturacionRepository
         // 2. Calcular el descuento_valor si solo se proporcionó el porcentaje
         if (descuentoValor == 0 && descuentoPorcentaje > 0)
         {
-            descuentoValor = subtotalBruto * (descuentoPorcentaje / 100m);
+            descuentoValor = Math.Round(subtotalBruto * (descuentoPorcentaje / 100m), 2);
         }
 
         // 3. Calcular base gravable (subtotal bruto - descuentos)
         var baseGravable = subtotalBruto - descuentoValor;
 
         // 4. Calcular el valor del IVA sobre la base gravable
-        var valorIva = baseGravable * (porcentajeIva / 100m);
+        var valorIva = Math.Round(baseGravable * (porcentajeIva / 100m), 2);
 
         // 5. Calcular subtotal final (base gravable + IVA)
         var subtotal = baseGravable + valorIva;
 
-        return (subtotalBruto, descuentoValor, baseGravable, valorIva, subtotal);
+        return (
+            Math.Round(subtotalBruto, 2),
+            Math.Round(descuentoValor, 2),
+            Math.Round(baseGravable, 2),
+            Math.Round(valorIva, 2),
+            Math.Round(subtotal, 2)
+        );
     }
 
     public async Task<ActionResponse<bool>> AnularFacturaAsync(int facturaId, int usuarioId, string motivo)
