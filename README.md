@@ -2,7 +2,7 @@
 
 # Supermercado POS
 
-Este proyecto es un sistema de punto de venta (POS) para un supermercado, desarrollado con .NET 9 y Blazor, siguiendo principios de Clean Architecture para lograr un código desacoplado, mantenible y escalable.
+Este proyecto es un sistema de punto de venta (POS) para un supermercado, desarrollado con .NET 9, siguiendo principios de Clean Architecture para lograr un código desacoplado, mantenible y escalable.
 
 ## Estructura del Proyecto
 
@@ -45,14 +45,13 @@ Este proyecto es un sistema de punto de venta (POS) para un supermercado, desarr
 
 - .NET 9
 - ASP.NET Core Web API
-- Blazor
 - Entity Framework Core
 - SQL Server
 - Swagger
 
 ## Estado actual
 
-- CRUD funcional para roles y categorías de productos.
+- CRUD funcional para roles y categorías de productos y proceso de facturación.
 - Arquitectura desacoplada y lista para escalar a nuevas entidades y funcionalidades.
 - Base para agregar autenticación, autorización, ventas, inventario y más módulos.
 
