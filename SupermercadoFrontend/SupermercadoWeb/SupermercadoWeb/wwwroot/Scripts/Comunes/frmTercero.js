@@ -36,10 +36,19 @@ async function cargarTiposIdentificacion() {
         
         const selectTipo = document.getElementById('codigoIdent');
         selectTipo.innerHTML = '<option value="">Seleccione...</option>';
+        
         tiposIdentificacion.forEach(tipo => {
-            selectTipo.innerHTML += `<option value="${tipo.ID}">${tipo.tipoDocumentoID} - ${tipo.descripcion}</option>`;
+            // El backend puede usar diferentes nombres de campo: ID, id, tipoIdentificacionId, etc.
+            const id = tipo.ID || tipo.id || tipo.tipoIdentificacionId || tipo.codigo_ident;
+            const tipoDoc = tipo.tipoDocumentoID || tipo.tipoDocumento || tipo.codigo || '';
+            const desc = tipo.descripcion || '';
+            
+            console.log('Agregando tipo:', { id, tipoDoc, desc });
+            selectTipo.innerHTML += `<option value="${id}">${tipoDoc} - ${desc}</option>`;
         });
+        
         console.log('Select poblado con opciones:', selectTipo.innerHTML);
+        console.log('Total de opciones:', selectTipo.options.length);
     } catch (error) {
         console.error('Error al cargar tipos de identificación:', error);
         Helpers.showToast('Error al cargar tipos de identificación', 'error');
@@ -69,7 +78,12 @@ function inicializarDataTable() {
     }
     
     const data = terceros.map(tercero => {
-        const tipoIdent = tiposIdentificacion.find(t => t.ID === tercero.codigo_ident);
+        // Buscar el tipo de identificación usando el mismo campo que usamos para poblar el select
+        const tipoIdent = tiposIdentificacion.find(t => {
+            const id = t.ID || t.id || t.tipoIdentificacionId || t.codigo_ident;
+            return id === tercero.codigo_ident;
+        });
+        
         const nombreCompleto = `${tercero.nombre} ${tercero.nombre2 || ''} ${tercero.apellido1} ${tercero.apellido2 || ''}`.trim();
         
         // Determinar tipo de tercero
@@ -86,9 +100,11 @@ function inicializarDataTable() {
             badgeClass = 'badge-cliente';
         }
         
+        const tipoDocumento = tipoIdent ? (tipoIdent.tipoDocumentoID || tipoIdent.tipoDocumento || tipoIdent.codigo || 'N/A') : 'N/A';
+        
         return [
             tercero.tercero_id,
-            `<span class="badge bg-secondary">${tipoIdent ? tipoIdent.tipoDocumentoID : 'N/A'}</span><br><strong>${tercero.numero_identificacion}</strong>`,
+            `<span class="badge bg-secondary">${tipoDocumento}</span><br><strong>${tercero.numero_identificacion}</strong>`,
             nombreCompleto,
             tercero.email,
             tercero.telefono || 'N/A',
