@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Terceros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <style>
+        :root {
+            --color-azul-kevan: #1a237e;
+            --color-amarillo-kevan: #ffc627;
+            --color-azul-claro-kevan: #1976d2;
+        }
+
+        body {
+            background: #f7f9fc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: var(--color-azul-kevan);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .navbar-brand {
+            color: #fff !important;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .btn-volver {
+            background: var(--color-amarillo-kevan);
+            color: var(--color-azul-kevan);
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-volver:hover {
+            background: #ffb300;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--color-azul-kevan) 0%, var(--color-azul-claro-kevan) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .page-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: var(--color-azul-kevan);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 1rem;
+        }
+
+        .table tbody tr {
+            transition: all 0.2s;
+        }
+
+        .table tbody tr:hover {
+            background: #f0f4ff;
+            transform: scale(1.01);
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: var(--color-azul-kevan);
+            border: none;
+            font-weight: 600;
+            padding: 0.6rem 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-azul-claro-kevan);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.875rem;
+        }
+
+        .modal-header {
+            background: var(--color-azul-kevan);
+            color: white;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--color-azul-kevan);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--color-azul-claro-kevan);
+            box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+        }
+
+        .badge-activo {
+            background: #28a745;
+        }
+
+        .badge-inactivo {
+            background: #dc3545;
+        }
+
+        .badge-cliente {
+            background: #007bff;
+        }
+
+        .badge-proveedor {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .badge-ambos {
+            background: #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-shop"></i> SUPERMERCADO POS
+            </a>
+            <div class="ms-auto user-info">
+                <i class="bi bi-person-circle"></i>
+                <span id="userEmail">admin@supermercado.com</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container-fluid mt-4">
+        <!-- Header -->
+        <div class="page-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1><i class="bi bi-people"></i> Gestión de Terceros</h1>
+                    <p>Administra clientes y proveedores del supermercado</p>
+                </div>
+                <button class="btn btn-volver" onclick="window.location.href='dashboard.html'">
+                    <i class="bi bi-arrow-left"></i> Volver al Dashboard
+                </button>
+            </div>
+        </div>
+
+        <!-- Botón Nuevo Tercero -->
+        <div class="mb-3">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#terceroModal" onclick="abrirModalNuevo()">
+                <i class="bi bi-plus-circle"></i> Nuevo Tercero
+            </button>
+        </div>
+
+        <!-- Filtros -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">Filtrar por Tipo</label>
+                        <select class="form-select" id="filtroTipo">
+                            <option value="">Todos</option>
+                            <option value="Cliente">Cliente</option>
+                            <option value="Proveedor">Proveedor</option>
+                            <option value="Ambos">Cliente y Proveedor</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Filtrar por Estado</label>
+                        <select class="form-select" id="filtroEstado">
+                            <option value="">Todos</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button class="btn btn-secondary w-100" onclick="limpiarFiltros()">
+                            <i class="bi bi-x-circle"></i> Limpiar Filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Terceros -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tablaTerceros" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Identificación</th>
+                                <th>Nombre Completo</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tercero -->
+    <div class="modal fade" id="terceroModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitulo">Nuevo Tercero</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="formTercero" novalidate>
+                    <div class="modal-body">
+                        <input type="hidden" id="terceroId">
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tipo de Identificación *</label>
+                                <select class="form-select" id="codigoIdent" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Debe seleccionar un tipo de identificación
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Número de Identificación *</label>
+                                <input type="text" class="form-control" id="numeroIdentificacion" required maxlength="20">
+                                <div class="invalid-feedback">
+                                    El número de identificación es obligatorio
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Primer Nombre *</label>
+                                <input type="text" class="form-control" id="nombre" required maxlength="50">
+                                <div class="invalid-feedback">
+                                    El primer nombre es obligatorio
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Segundo Nombre</label>
+                                <input type="text" class="form-control" id="nombre2" maxlength="50">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Primer Apellido *</label>
+                                <input type="text" class="form-control" id="apellido1" required maxlength="50">
+                                <div class="invalid-feedback">
+                                    El primer apellido es obligatorio
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Segundo Apellido</label>
+                                <input type="text" class="form-control" id="apellido2" maxlength="50">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="email" required maxlength="100">
+                                <div class="invalid-feedback">
+                                    Ingrese un email válido
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono" maxlength="15">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Dirección</label>
+                            <textarea class="form-control" id="direccion" rows="2" maxlength="200"></textarea>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="esCliente" checked>
+                                    <label class="form-check-label" for="esCliente">
+                                        <i class="bi bi-person"></i> Es Cliente
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="esProveedor">
+                                    <label class="form-check-label" for="esProveedor">
+                                        <i class="bi bi-truck"></i> Es Proveedor
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="activo" checked>
+                            <label class="form-check-label" for="activo">
+                                Activo
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/migration.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/utils/validators.js"></script>
+    <script src="js/api/apiClient.js"></script>
+    <script src="js/services/authService.js"></script>
+    
+    <script src="Scripts/Comunes/frmTercero.js"></script>
+</body>
+</html>
